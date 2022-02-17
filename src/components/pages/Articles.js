@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import ArticleInfo from "../forms/Article";
+import validator from "validator";
+
+import Article from "../forms/Article";
 
 function MultipleArticle({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [error, setError] = useState(false);
 
   const [articleInfo, setArticleInfo] = useState({
     articleURL: "",
@@ -20,16 +24,23 @@ function MultipleArticle({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.articles.push(articleInfo);
+    if (validator.isEmpty(articleInfo.articleURL)) {
+      // Failing validation
+      setError(true);
+    } else {
+      // Passing validation
+      formData.articles.push(articleInfo);
 
-    setArticleInfo({
-      articleURL: "",
-      articleDOI: "",
-      articleEmbargo: false,
-      articleLicence: "",
-    });
+      setArticleInfo({
+        articleURL: "",
+        articleDOI: "",
+        articleEmbargo: false,
+        articleLicence: "",
+      });
 
-    setDisplay(!display);
+      setError(false);
+      setDisplay(!display);
+    }
   };
 
   const handleDelete = (e, article) => {
@@ -61,12 +72,13 @@ function MultipleArticle({ formData, setFormData }) {
         </button>
       </div>
 
-      <ArticleInfo
+      <Article
         show={display}
         formData={articleInfo}
         setFormData={setArticleInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        error={error}
       />
     </div>
   );

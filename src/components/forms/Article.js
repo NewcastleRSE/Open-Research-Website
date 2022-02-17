@@ -5,13 +5,14 @@ import TextInput from "../formElements/TextInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
 
-function ArticleInfo({
+const ArticleInfo = ({
   show,
   formData,
   setFormData,
   setDisplay,
   handleSubmit,
-}) {
+  error,
+}) => {
   if (show) {
     return (
       <div className="modal-container" onClick={() => setDisplay(!show)}>
@@ -29,6 +30,7 @@ function ArticleInfo({
             onChange={(event) => {
               setFormData({ ...formData, articleURL: event.target.value });
             }}
+            error={error}
           />
           <TextInput
             name="articleDOI"
@@ -63,6 +65,6 @@ function ArticleInfo({
   } else {
     return null;
   }
-}
+};
 
 export default ArticleInfo;
