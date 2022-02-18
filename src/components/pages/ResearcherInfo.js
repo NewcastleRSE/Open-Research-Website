@@ -4,7 +4,7 @@ import DropDown from "../formElements/DropDown";
 import DropDownOther from "../formElements/DropDownOther";
 import TextInput from "../formElements/TextInput";
 
-function ResearcherInfo({ formData, setFormData }) {
+function ResearcherInfo({ formData, setFormData, errors }) {
   return (
     <div className="step">
       <h2>Researcher</h2>
@@ -16,6 +16,7 @@ function ResearcherInfo({ formData, setFormData }) {
         onChange={(event) =>
           setFormData({ ...formData, fullName: event.target.value })
         }
+        error={errors.fullName}
       />
       <DropDown
         name="faculty"
@@ -25,6 +26,7 @@ function ResearcherInfo({ formData, setFormData }) {
         onChange={(event) => {
           setFormData({ ...formData, faculty: event.target.value });
         }}
+        error={errors.faculty}
       />
       <DropDownOther
         name="school"
@@ -42,6 +44,7 @@ function ResearcherInfo({ formData, setFormData }) {
         otherOnChange={(event) => {
           setFormData({ ...formData, otherSchool: event.target.value });
         }}
+        error={errors.school}
       />
       <DropDown
         name="careerStage"
@@ -57,6 +60,7 @@ function ResearcherInfo({ formData, setFormData }) {
         onChange={(event) => {
           setFormData({ ...formData, careerStage: event.target.value });
         }}
+        error={errors.careerStage}
       />
     </div>
   );

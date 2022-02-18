@@ -20,8 +20,14 @@ import PreRegs from "./pages/PreRegs";
 import RegReports from "./pages/RegReports";
 import Theses from "./pages/Theses";
 
+import validateResearcher from "../validationRules/ResearcherVR";
+import validateProject from "../validationRules/ProjectVR";
+import validateBuilder from "../validationRules/BuilderVR";
+
 function App() {
   const [page, setPage] = useState(0);
+
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -150,14 +156,22 @@ function App() {
       case 0: {
         return (
           <div>
-            <ResearcherInfo formData={formData} setFormData={setFormData} />
+            <ResearcherInfo
+              formData={formData}
+              setFormData={setFormData}
+              errors={errors}
+            />
           </div>
         );
       }
       case 1: {
         return (
           <div>
-            <ProjectInfo formData={formData} setFormData={setFormData} />
+            <ProjectInfo
+              formData={formData}
+              setFormData={setFormData}
+              errors={errors}
+            />
           </div>
         );
       }
@@ -168,6 +182,7 @@ function App() {
               formBuilder={formBuilder}
               setFormBuilder={setFormBuilder}
               formData={formData}
+              error={errors}
             />
           </div>
         );
@@ -250,6 +265,47 @@ function App() {
     }
   };
 
+  const handleNext = (e) => {
+    e.preventDefault();
+
+    switch (page) {
+      case 0: {
+        let newErrors = validateResearcher(formData);
+        setErrors(newErrors);
+
+        if (Object.keys(newErrors).length === 0) {
+          setErrors({});
+          setPage((currentPage) => currentPage + 1);
+        }
+        break;
+      }
+      case 1: {
+        let newErrors = validateProject(formData);
+        setErrors(newErrors);
+
+        if (Object.keys(newErrors).length === 0) {
+          setErrors({});
+          setPage((currentPage) => currentPage + 1);
+        }
+        break;
+      }
+      case 2: {
+        let newErrors = validateBuilder(formBuilder);
+        setErrors(newErrors);
+
+        if (Object.keys(newErrors).length === 0) {
+          setErrors({});
+          setPage((currentPage) => currentPage + 1);
+        }
+        break;
+      }
+      default: {
+        setPage((currentPage) => currentPage + 1);
+        break;
+      }
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -260,8 +316,6 @@ function App() {
     if (formData.funder === "other" && formData.otherFunder !== "") {
       formData.funder = formData.otherFunder;
     }
-
-    console.log(formData);
 
     alert("Submitted");
   };
@@ -310,9 +364,7 @@ function App() {
                     name="forward"
                     className="forward"
                     disabled={page === form.length + 3}
-                    onClick={() => {
-                      setPage((currentPage) => currentPage + 1);
-                    }}
+                    onClick={(e) => handleNext(e)}
                   >
                     Next
                   </button>

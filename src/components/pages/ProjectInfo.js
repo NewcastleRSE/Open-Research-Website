@@ -4,7 +4,7 @@ import TextInput from "../formElements/TextInput";
 import DropDownOther from "../formElements/DropDownOther";
 import NumberInput from "../formElements/NumberInput";
 
-function ProjectInfo({ formData, setFormData }) {
+function ProjectInfo({ formData, setFormData, errors }) {
   return (
     <div className="step">
       <h2>Project</h2>
@@ -12,12 +12,13 @@ function ProjectInfo({ formData, setFormData }) {
         Please fill with your details about your project
       </h3>
       <TextInput
-        name="projectArea"
+        name="researchArea"
         placeholder="Research Area"
         value={formData.researchArea}
         onChange={(event) =>
           setFormData({ ...formData, researchArea: event.target.value })
         }
+        error={errors.researchArea}
       />
       <TextInput
         name="projectName"
@@ -26,6 +27,7 @@ function ProjectInfo({ formData, setFormData }) {
         onChange={(event) =>
           setFormData({ ...formData, projectName: event.target.value })
         }
+        error={errors.projectName}
       />
       <DropDownOther
         name="funder"
@@ -39,6 +41,7 @@ function ProjectInfo({ formData, setFormData }) {
         otherOnChange={(event) => {
           setFormData({ ...formData, otherFunder: event.target.value });
         }}
+        error={errors.funder}
       />
       <div className="row">
         <NumberInput
@@ -48,6 +51,7 @@ function ProjectInfo({ formData, setFormData }) {
           onChange={(event) =>
             setFormData({ ...formData, length: event.target.value })
           }
+          error={errors.length}
         />
       </div>
     </div>
