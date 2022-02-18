@@ -49,6 +49,20 @@ function MultipleArticle({ formData, setFormData }) {
     }
   };
 
+  const handleCancel = (e) => {
+    e.preventDefault();
+
+    setArticleInfo({
+      articleURL: "",
+      articleDOI: "",
+      articleEmbargo: false,
+      articleLicence: "",
+    });
+
+    setErrors({});
+    setDisplay(!display);
+  };
+
   const handleDelete = (e, article) => {
     e.preventDefault();
 
@@ -84,6 +98,7 @@ function MultipleArticle({ formData, setFormData }) {
         setFormData={setArticleInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
         errors={errors}
       />
     </div>

@@ -10,6 +10,7 @@ const ArticleInfo = ({
   formData,
   setFormData,
   setDisplay,
+  handleCancel,
   handleSubmit,
   errors,
 }) => {
@@ -61,7 +62,10 @@ const ArticleInfo = ({
             }}
             error={errors.embargo}
           />
-          <ModalButtons setDisplay={setDisplay} handleSubmit={handleSubmit} />
+          <ModalButtons
+            handleSubmit={handleSubmit}
+            handleCancel={handleCancel}
+          />
         </div>
       </div>
     );
