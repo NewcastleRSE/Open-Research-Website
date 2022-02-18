@@ -3,11 +3,13 @@ import React from "react";
 const BooleanInput = (props) => {
   return (
     <div>
-      <label>{props.label}</label>
-
       <div class="form-group radio_input">
+        <label>{props.label}</label>
         <label class="container_radio">
           {props.a}
+          <span className={`error ${!props.error ? "hidden" : ""}`}>
+            {props.error}
+          </span>
           <input
             type="radio"
             name={props.name}

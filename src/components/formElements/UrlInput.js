@@ -4,12 +4,12 @@ const UrlInput = (props) => {
   return (
     <div className="form-group">
       <span className={`error ${!props.error ? "hidden" : ""}`}>
-        URL is required
+        {props.error}
       </span>
       <input
         type="url"
         name={props.name}
-        className="form-control required"
+        className={`form-control ${props.error ? "red-outline" : ""}`}
         placeholder={props.placeholder}
         value={props.value}
         onChange={props.onChange}

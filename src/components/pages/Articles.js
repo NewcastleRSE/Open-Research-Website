@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import validator from "validator";
 
 import Article from "../forms/Article";
+import validate from "../../validationRules/ArticleVR";
 
 function MultipleArticle({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
 
-  const [error, setError] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const [articleInfo, setArticleInfo] = useState({
     articleURL: "",
@@ -24,10 +25,15 @@ function MultipleArticle({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (validator.isEmpty(articleInfo.articleURL)) {
-      // Failing validation
-      setError(true);
-    } else {
+    let newErrors = validate(articleInfo);
+    setErrors(newErrors);
+
+    if (
+      !newErrors.URL &&
+      !newErrors.DOI &&
+      !newErrors.licence &&
+      !newErrors.embargo
+    ) {
       // Passing validation
       formData.articles.push(articleInfo);
 
@@ -38,7 +44,7 @@ function MultipleArticle({ formData, setFormData }) {
         articleLicence: "",
       });
 
-      setError(false);
+      setErrors({});
       setDisplay(!display);
     }
   };
@@ -78,7 +84,7 @@ function MultipleArticle({ formData, setFormData }) {
         setFormData={setArticleInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
-        error={error}
+        errors={errors}
       />
     </div>
   );

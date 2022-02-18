@@ -11,7 +11,7 @@ const ArticleInfo = ({
   setFormData,
   setDisplay,
   handleSubmit,
-  error,
+  errors,
 }) => {
   if (show) {
     return (
@@ -30,7 +30,7 @@ const ArticleInfo = ({
             onChange={(event) => {
               setFormData({ ...formData, articleURL: event.target.value });
             }}
-            error={error}
+            error={errors.URL}
           />
           <TextInput
             name="articleDOI"
@@ -39,6 +39,7 @@ const ArticleInfo = ({
             onChange={(event) => {
               setFormData({ ...formData, articleDOI: event.target.value });
             }}
+            error={errors.DOI}
           />
           <TextInput
             name="articleLicence"
@@ -47,6 +48,7 @@ const ArticleInfo = ({
             onChange={(event) => {
               setFormData({ ...formData, articleLicence: event.target.value });
             }}
+            error={errors.licence}
           />
           <BooleanInput
             name="articleEmargo"
@@ -57,6 +59,7 @@ const ArticleInfo = ({
             onChange={(event) => {
               setFormData({ ...formData, articleEmbargo: event.target.value });
             }}
+            error={errors.embargo}
           />
           <ModalButtons setDisplay={setDisplay} handleSubmit={handleSubmit} />
         </div>
