@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
 import Dataset from "../forms/Dataset";
+import validate from "../../validationRules/DataVR";
 
 function Datasets({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [datasetInfo, setDatasetInfo] = useState({
     dataURL: "",
@@ -21,7 +24,31 @@ function Datasets({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.datasets.push(datasetInfo);
+    let newErrors = validate(datasetInfo);
+    setErrors(newErrors);
+
+    if (
+      !newErrors.URL &&
+      !newErrors.DOI &&
+      !newErrors.licence &&
+      !newErrors.format
+    ) {
+      formData.datasets.push(datasetInfo);
+
+      setDatasetInfo({
+        dataURL: "",
+        dataDOI: "",
+        format: "",
+        dataLicence: "",
+      });
+
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setDatasetInfo({
       dataURL: "",
@@ -30,6 +57,7 @@ function Datasets({ formData, setFormData }) {
       dataLicence: "",
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
@@ -67,6 +95,8 @@ function Datasets({ formData, setFormData }) {
         setFormData={setDatasetInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );

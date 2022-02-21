@@ -28,6 +28,8 @@ function MultipleArticle({ formData, setFormData }) {
     let newErrors = validate(articleInfo);
     setErrors(newErrors);
 
+    console.log(newErrors);
+
     if (
       !newErrors.URL &&
       !newErrors.DOI &&
@@ -100,6 +102,7 @@ function MultipleArticle({ formData, setFormData }) {
         handleSubmit={handleSubmit}
         handleCancel={handleCancel}
         errors={errors}
+        setErrors={setErrors}
       />
     </div>
   );

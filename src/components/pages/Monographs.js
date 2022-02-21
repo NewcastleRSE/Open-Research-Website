@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
 import Monograph from "../forms/Monograph";
+import validate from "../../validationRules/MonoVR";
 
 function Monographs({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [monographInfo, setMonographInfo] = useState({
     monographURL: "",
@@ -21,7 +24,31 @@ function Monographs({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.monographs.push(monographInfo);
+    let newErrors = validate(monographInfo);
+    setErrors(newErrors);
+
+    if (
+      !newErrors.URL &&
+      !newErrors.DOI &&
+      !newErrors.licence &&
+      !newErrors.embargo
+    ) {
+      formData.monographs.push(monographInfo);
+
+      setMonographInfo({
+        monographURL: "",
+        monographDOI: "",
+        monographEmbargo: false,
+        monographLicence: "",
+      });
+
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setMonographInfo({
       monographURL: "",
@@ -30,6 +57,7 @@ function Monographs({ formData, setFormData }) {
       monographLicence: "",
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
@@ -69,6 +97,8 @@ function Monographs({ formData, setFormData }) {
         setFormData={setMonographInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );
