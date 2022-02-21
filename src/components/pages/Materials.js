@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
 import Material from "../forms/Material";
+import validate from "../../validationRules/MaterialVR";
 
 function Materials({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [materialInfo, setMaterialInfo] = useState({
     materialURL: "",
@@ -20,7 +23,28 @@ function Materials({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.materials.push(materialInfo);
+    let newErrors = validate(materialInfo);
+    setErrors(newErrors);
+
+    if (
+      !newErrors.URL &&
+      !newErrors.materialReproduction &&
+      !newErrors.materialRelease
+    ) {
+      formData.materials.push(materialInfo);
+
+      setMaterialInfo({
+        materialURL: "",
+        materialReproduction: false,
+        materialRelease: false,
+      });
+
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setMaterialInfo({
       materialURL: "",
@@ -28,6 +52,7 @@ function Materials({ formData, setFormData }) {
       materialRelease: false,
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
@@ -65,6 +90,8 @@ function Materials({ formData, setFormData }) {
         setFormData={setMaterialInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );

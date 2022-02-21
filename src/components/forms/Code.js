@@ -5,7 +5,7 @@ import TextInput from "../formElements/TextInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
 
-const DisplayLicence = ({ formData, setFormData }) => {
+const DisplayLicence = ({ formData, setFormData, errors }) => {
   if (formData.openSource === "Yes") {
     return (
       <TextInput
@@ -15,6 +15,7 @@ const DisplayLicence = ({ formData, setFormData }) => {
         onChange={(event) =>
           setFormData({ ...formData, codeLicence: event.target.value })
         }
+        error={errors.licence}
       />
     );
   } else {
@@ -22,7 +23,15 @@ const DisplayLicence = ({ formData, setFormData }) => {
   }
 };
 
-function CodeInfo({ show, formData, setFormData, setDisplay, handleSubmit }) {
+function CodeInfo({
+  show,
+  formData,
+  setFormData,
+  setDisplay,
+  handleCancel,
+  handleSubmit,
+  errors,
+}) {
   if (show) {
     return (
       <div className="modal-container" onClick={() => setDisplay(!show)}>
@@ -41,6 +50,7 @@ function CodeInfo({ show, formData, setFormData, setDisplay, handleSubmit }) {
             onChange={(event) =>
               setFormData({ ...formData, codeURL: event.target.value })
             }
+            error={errors.URL}
           />
           <TextInput
             name="codeDOI"
@@ -49,6 +59,7 @@ function CodeInfo({ show, formData, setFormData, setDisplay, handleSubmit }) {
             onChange={(event) =>
               setFormData({ ...formData, codeDOI: event.target.value })
             }
+            error={errors.DOI}
           />
           <BooleanInput
             name="openSource"
@@ -59,9 +70,13 @@ function CodeInfo({ show, formData, setFormData, setDisplay, handleSubmit }) {
             onChange={(event) => {
               setFormData({ ...formData, openSource: event.target.value });
             }}
+            error={errors.openSource}
           />
-          {DisplayLicence({ formData, setFormData })}
-          <ModalButtons setDisplay={setDisplay} handleSubmit={handleSubmit} />
+          {DisplayLicence({ formData, setFormData, errors })}
+          <ModalButtons
+            handleSubmit={handleSubmit}
+            handleCancel={handleCancel}
+          />
         </div>
       </div>
     );

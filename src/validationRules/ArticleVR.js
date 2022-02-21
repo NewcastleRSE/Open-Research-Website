@@ -5,8 +5,6 @@ import validateLicence from "../fieldValidation/Licence";
 export default function validate(values) {
   let errors = {};
 
-  console.log(values);
-
   errors = validateURL(errors, values.articleURL);
 
   errors = validateDOI(errors, values.articleDOI);

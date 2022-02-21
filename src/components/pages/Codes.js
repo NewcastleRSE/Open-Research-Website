@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
 import Code from "../forms/Code";
+import validate from "../../validationRules/CodeVR";
 
 function Codes({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [codeInfo, setCodeInfo] = useState({
     codeURL: "",
@@ -21,7 +24,30 @@ function Codes({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.codes.push(codeInfo);
+    let newErrors = validate(codeInfo);
+    setErrors(newErrors);
+
+    if (
+      !newErrors.URL &&
+      !newErrors.DOI &&
+      !newErrors.licence &&
+      !newErrors.openSource
+    ) {
+      formData.codes.push(codeInfo);
+
+      setCodeInfo({
+        codeURL: "",
+        codeDOI: "",
+        openSource: false,
+        codeLicence: "",
+      });
+
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setCodeInfo({
       codeURL: "",
@@ -30,6 +56,7 @@ function Codes({ formData, setFormData }) {
       codeLicence: "",
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
@@ -67,6 +94,8 @@ function Codes({ formData, setFormData }) {
         setFormData={setCodeInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );

@@ -1,10 +1,18 @@
 import React from "react";
+
+import UrlInput from "../formElements/UrlInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
 
-import UrlInput from "../formElements/UrlInput";
-
-function Material({ show, formData, setFormData, setDisplay, handleSubmit }) {
+function Material({
+  show,
+  formData,
+  setFormData,
+  setDisplay,
+  handleCancel,
+  handleSubmit,
+  errors,
+}) {
   if (show) {
     return (
       <div className="modal-container" onClick={() => setDisplay(!show)}>
@@ -23,6 +31,7 @@ function Material({ show, formData, setFormData, setDisplay, handleSubmit }) {
             onChange={(event) => {
               setFormData({ ...formData, materialURL: event.target.value });
             }}
+            error={errors.URL}
           />
           <BooleanInput
             name="materialReproduction"
@@ -36,6 +45,7 @@ function Material({ show, formData, setFormData, setDisplay, handleSubmit }) {
                 materialReproduction: event.target.value,
               });
             }}
+            error={errors.materialReproduction}
           />
           <BooleanInput
             name="materialRelease"
@@ -46,8 +56,12 @@ function Material({ show, formData, setFormData, setDisplay, handleSubmit }) {
             onChange={(event) => {
               setFormData({ ...formData, materialRelease: event.target.value });
             }}
+            error={errors.materialRelease}
           />
-          <ModalButtons setDisplay={setDisplay} handleSubmit={handleSubmit} />
+          <ModalButtons
+            handleSubmit={handleSubmit}
+            handleCancel={handleCancel}
+          />
         </div>
       </div>
     );
