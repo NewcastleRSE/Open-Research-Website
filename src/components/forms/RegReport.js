@@ -4,7 +4,15 @@ import UrlInput from "../formElements/UrlInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
 
-function RegReport({ show, formData, setFormData, setDisplay, handleSubmit }) {
+function RegReport({
+  show,
+  formData,
+  setFormData,
+  setDisplay,
+  handleCancel,
+  handleSubmit,
+  errors,
+}) {
   if (show) {
     return (
       <div className="modal-container" onClick={() => setDisplay(!show)}>
@@ -21,6 +29,7 @@ function RegReport({ show, formData, setFormData, setDisplay, handleSubmit }) {
             onChange={(event) => {
               setFormData({ ...formData, regReportURL: event.target.value });
             }}
+            error={errors.URL}
           />
           <BooleanInput
             name="regReportFunding"
@@ -35,6 +44,7 @@ function RegReport({ show, formData, setFormData, setDisplay, handleSubmit }) {
                 regReportFunding: event.target.value,
               });
             }}
+            error={errors.regReportFunding}
           />
           <BooleanInput
             name="regReportPeerRev"
@@ -49,6 +59,7 @@ function RegReport({ show, formData, setFormData, setDisplay, handleSubmit }) {
                 regReportPeerRev: event.target.value,
               });
             }}
+            error={errors.regReportPeerRev}
           />
           <BooleanInput
             name="regReportChanges"
@@ -63,8 +74,12 @@ function RegReport({ show, formData, setFormData, setDisplay, handleSubmit }) {
                 regReportChanges: event.target.value,
               });
             }}
+            error={errors.regReportChanges}
           />
-          <ModalButtons setDisplay={setDisplay} handleSubmit={handleSubmit} />
+          <ModalButtons
+            handleSubmit={handleSubmit}
+            handleCancel={handleCancel}
+          />
         </div>
       </div>
     );

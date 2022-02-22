@@ -9,7 +9,7 @@ export default function validate(values) {
   errors = validateLicence(errors, values.dsLicence);
 
   if (!values.dsEmbargo) {
-    errors.format = "Required";
+    errors.embargo = "Required";
   }
 
   return errors;

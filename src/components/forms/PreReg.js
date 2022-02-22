@@ -4,7 +4,15 @@ import UrlInput from "../formElements/UrlInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
 
-function PreReg({ show, formData, setFormData, setDisplay, handleSubmit }) {
+function PreReg({
+  show,
+  formData,
+  setFormData,
+  setDisplay,
+  handleCancel,
+  handleSubmit,
+  errors,
+}) {
   if (show) {
     return (
       <div className="modal-container" onClick={() => setDisplay(!show)}>
@@ -24,6 +32,7 @@ function PreReg({ show, formData, setFormData, setDisplay, handleSubmit }) {
             onChange={(event) => {
               setFormData({ ...formData, preRegURL: event.target.value });
             }}
+            error={errors.URL}
           />
           <BooleanInput
             name="preRegDistinction"
@@ -37,8 +46,12 @@ function PreReg({ show, formData, setFormData, setDisplay, handleSubmit }) {
                 preRegDistinction: event.target.value,
               });
             }}
+            error={errors.preRegDistinction}
           />
-          <ModalButtons setDisplay={setDisplay} handleSubmit={handleSubmit} />
+          <ModalButtons
+            handleSubmit={handleSubmit}
+            handleCancel={handleCancel}
+          />
         </div>
       </div>
     );

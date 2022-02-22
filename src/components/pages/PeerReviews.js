@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
 import PeerReview from "../forms/PeerReview";
+import validate from "../../validationRules/PeerReviewVR";
 
 function PeerReviews({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [peerRevInfo, setPeerRevInfo] = useState({
     peerRevURL: "",
@@ -19,13 +22,31 @@ function PeerReviews({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.peerRevs.push(peerRevInfo);
+    let newErrors = validate(peerRevInfo);
+    setErrors(newErrors);
+
+    if (!newErrors.URL && !newErrors.peerRevResponse) {
+      formData.peerRevs.push(peerRevInfo);
+
+      setPeerRevInfo({
+        peerRevURL: "",
+        peerRevResponse: false,
+      });
+
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setPeerRevInfo({
       peerRevURL: "",
       peerRevResponse: false,
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
@@ -63,6 +84,8 @@ function PeerReviews({ formData, setFormData }) {
         setFormData={setPeerRevInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );

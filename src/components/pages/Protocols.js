@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
 import Protocol from "../forms/Protocol";
+import validate from "../../validationRules/ProtocolVR";
 
 function Protocols({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [protocolInfo, setProtocolInfo] = useState({
     protocolURL: "",
@@ -19,13 +22,31 @@ function Protocols({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.protocols.push(protocolInfo);
+    let newErrors = validate(protocolInfo);
+    setErrors(newErrors);
+
+    if (!newErrors.URL && !newErrors.protocolSharing) {
+      formData.protocols.push(protocolInfo);
+
+      setProtocolInfo({
+        protocolURL: "",
+        protocolSharing: "",
+      });
+
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setProtocolInfo({
       protocolURL: "",
       protocolSharing: "",
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
@@ -63,6 +84,8 @@ function Protocols({ formData, setFormData }) {
         setFormData={setProtocolInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );

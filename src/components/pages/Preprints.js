@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
 import Preprint from "../forms/Preprint";
+import validate from "../../validationRules/PreprintsVR";
 
 function Preprints({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [preprintInfo, setPreprintInfo] = useState({
     preprintURL: "",
@@ -20,7 +23,27 @@ function Preprints({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.preprints.push(preprintInfo);
+    let newErrors = validate(preprintInfo);
+    setErrors(newErrors);
+
+    console.log(newErrors);
+
+    if (!newErrors.URL && !newErrors.DOI && !newErrors.preprintRelease) {
+      formData.preprints.push(preprintInfo);
+
+      setPreprintInfo({
+        preprintURL: "",
+        preprintDOI: "",
+        preprintRelease: false,
+      });
+
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setPreprintInfo({
       preprintURL: "",
@@ -28,6 +51,7 @@ function Preprints({ formData, setFormData }) {
       preprintRelease: false,
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
@@ -65,6 +89,8 @@ function Preprints({ formData, setFormData }) {
         setFormData={setPreprintInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );

@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
 import RegReport from "../forms/RegReport";
+import validate from "../../validationRules/RegReportVR";
 
 function RegReports({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [regReportInfo, setRegReportInfo] = useState({
     regReportURL: "",
@@ -21,7 +24,31 @@ function RegReports({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.regReports.push(regReportInfo);
+    let newErrors = validate(regReportInfo);
+    setErrors(newErrors);
+
+    if (
+      !newErrors.URL &&
+      !newErrors.regReportFunding &&
+      !newErrors.regReportPeerRev &&
+      !newErrors.regReportChanges
+    ) {
+      formData.regReports.push(regReportInfo);
+
+      setRegReportInfo({
+        regReportURL: "",
+        regReportFunding: false,
+        regReportPeerRev: false,
+        regReportChanges: false,
+      });
+
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setRegReportInfo({
       regReportURL: "",
@@ -30,6 +57,7 @@ function RegReports({ formData, setFormData }) {
       regReportChanges: false,
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
@@ -69,6 +97,8 @@ function RegReports({ formData, setFormData }) {
         setFormData={setRegReportInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );

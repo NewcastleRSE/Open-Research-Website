@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
 import DigitalScholarship from "../forms/DigitalScholarship";
+import validate from "../../validationRules/DigitalScholarshipVR";
 
 function DigitalScholarships({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [dsInfo, setDSInfo] = useState({
     dsURL: "",
@@ -20,7 +23,25 @@ function DigitalScholarships({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.digitalScholarships.push(dsInfo);
+    let newErrors = validate(dsInfo);
+    setErrors(newErrors);
+
+    if (!newErrors.URL && !newErrors.embargo && !newErrors.licence) {
+      formData.digitalScholarships.push(dsInfo);
+
+      setDSInfo({
+        dsURL: "",
+        dsEmbargo: false,
+        dsLicence: "",
+      });
+
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setDSInfo({
       dsURL: "",
@@ -28,6 +49,7 @@ function DigitalScholarships({ formData, setFormData }) {
       dsLicence: "",
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
@@ -67,6 +89,8 @@ function DigitalScholarships({ formData, setFormData }) {
         setFormData={setDSInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );

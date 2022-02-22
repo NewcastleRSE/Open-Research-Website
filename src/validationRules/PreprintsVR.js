@@ -9,7 +9,7 @@ export default function validate(values) {
   errors = validateDOI(errors, values.preprintDOI);
 
   if (!values.preprintRelease) {
-    errors.format = "Required";
+    errors.preprintRelease = "Required";
   }
 
   return errors;

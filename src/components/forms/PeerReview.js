@@ -4,7 +4,15 @@ import UrlInput from "../formElements/UrlInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
 
-function PeerReview({ show, formData, setFormData, setDisplay, handleSubmit }) {
+function PeerReview({
+  show,
+  formData,
+  setFormData,
+  setDisplay,
+  handleCancel,
+  handleSubmit,
+  errors,
+}) {
   if (show) {
     return (
       <div className="modal-container" onClick={() => setDisplay(!show)}>
@@ -23,6 +31,7 @@ function PeerReview({ show, formData, setFormData, setDisplay, handleSubmit }) {
             onChange={(event) => {
               setFormData({ ...formData, peerRevURL: event.target.value });
             }}
+            error={errors.URL}
           />
           <BooleanInput
             name="peerRevResponse"
@@ -33,8 +42,12 @@ function PeerReview({ show, formData, setFormData, setDisplay, handleSubmit }) {
             onChange={(event) => {
               setFormData({ ...formData, peerRevResponse: event.target.value });
             }}
+            error={errors.peerRevResponse}
           />
-          <ModalButtons setDisplay={setDisplay} handleSubmit={handleSubmit} />
+          <ModalButtons
+            handleSubmit={handleSubmit}
+            handleCancel={handleCancel}
+          />
         </div>
       </div>
     );

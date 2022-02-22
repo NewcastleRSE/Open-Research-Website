@@ -12,7 +12,7 @@ export default function validate(values) {
   errors = validateLicence(errors, values.thesisLicence);
 
   if (!values.thesisEmbargo) {
-    errors.format = "Required";
+    errors.embargo = "Required";
   }
 
   return errors;

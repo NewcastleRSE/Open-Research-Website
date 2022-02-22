@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
 import PreReg from "../forms/PreReg";
+import validate from "../../validationRules/PreRegVR";
 
 function PreRegs({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [preRegInfo, setPreRegInfo] = useState({
     preRegURL: "",
@@ -19,13 +22,31 @@ function PreRegs({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.preRegs.push(preRegInfo);
+    let newErrors = validate(preRegInfo);
+    setErrors(newErrors);
+
+    if (!newErrors.URL && !newErrors.preRegDistinction) {
+      formData.preRegs.push(preRegInfo);
+
+      setPreRegInfo({
+        preRegURL: "",
+        preRegDistinction: false,
+      });
+
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setPreRegInfo({
       preRegURL: "",
       preRegDistinction: false,
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
@@ -63,6 +84,8 @@ function PreRegs({ formData, setFormData }) {
         setFormData={setPreRegInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );

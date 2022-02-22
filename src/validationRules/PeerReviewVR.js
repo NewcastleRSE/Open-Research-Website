@@ -6,7 +6,7 @@ export default function validate(values) {
   errors = validateURL(errors, values.peerRevURL);
 
   if (!values.peerRevResponse) {
-    errors.format = "Required";
+    errors.peerRevResponse = "Required";
   }
 
   return errors;
