@@ -17,6 +17,10 @@ export default function validateResearcher({
 
   if (!school) {
     errors.school = "Required";
+  } else if (school === "other") {
+    if (!otherSchool) {
+      errors.otherSchool = "Required";
+    }
   }
 
   if (!careerStage) {

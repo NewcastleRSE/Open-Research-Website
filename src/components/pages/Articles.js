@@ -100,7 +100,6 @@ function MultipleArticle({ formData, setFormData }) {
         handleSubmit={handleSubmit}
         handleCancel={handleCancel}
         errors={errors}
-        setErrors={setErrors}
       />
     </div>
   );

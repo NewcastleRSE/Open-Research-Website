@@ -42,6 +42,7 @@ function ProjectInfo({ formData, setFormData, errors }) {
           setFormData({ ...formData, otherFunder: event.target.value });
         }}
         error={errors.funder}
+        otherError={errors.otherFunder}
       />
       <div className="row">
         <NumberInput

@@ -45,6 +45,7 @@ function ResearcherInfo({ formData, setFormData, errors }) {
           setFormData({ ...formData, otherSchool: event.target.value });
         }}
         error={errors.school}
+        otherError={errors.otherSchool}
       />
       <DropDown
         name="careerStage"

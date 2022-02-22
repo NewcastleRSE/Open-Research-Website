@@ -19,6 +19,7 @@ const DisplayOther = (props) => {
         placeholder={"Other " + props.placeholder}
         value={props.otherValue}
         onChange={props.otherOnChange}
+        error={props.otherError}
       />
     );
   }

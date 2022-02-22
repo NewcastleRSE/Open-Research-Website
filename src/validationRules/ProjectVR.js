@@ -17,6 +17,10 @@ export default function validateProject({
 
   if (!funder) {
     errors.funder = "Required";
+  } else if (funder === "other") {
+    if (!otherFunder) {
+      errors.otherFunder = "Required";
+    }
   }
 
   if (!length) {

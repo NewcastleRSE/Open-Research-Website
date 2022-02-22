@@ -4,7 +4,6 @@ import UrlInput from "../formElements/UrlInput";
 import TextInput from "../formElements/TextInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
-import validate from "../../validationRules/ArticleVR";
 
 const ArticleInfo = ({
   show,
@@ -14,7 +13,6 @@ const ArticleInfo = ({
   handleCancel,
   handleSubmit,
   errors,
-  setErrors,
 }) => {
   if (show) {
     return (
@@ -32,8 +30,6 @@ const ArticleInfo = ({
             value={formData.articleURL}
             onChange={(event) => {
               setFormData({ ...formData, articleURL: event.target.value });
-              let newErrors = validate(formData);
-              setErrors(newErrors);
             }}
             error={errors.URL}
           />
