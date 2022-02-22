@@ -3,10 +3,10 @@ import validateURL from "../fieldValidation/URL";
 export default function validate(values) {
   let errors = {};
 
-  errors = validateURL(errors, values.protocolURL);
+  errors = validateURL(errors, values.preRegURL);
 
-  if (!values.protocolSharing) {
-    errors.protocolSharing = "Required";
+  if (!values.preRegDistinction) {
+    errors.preRegDistinction = "Required";
   }
 
   return errors;
