@@ -61,7 +61,7 @@ function PreRegs({ formData, setFormData }) {
     <div>
       <div>
         <h2>Pre-registration Analysis Plans</h2>
-        {formData.preRegs.map((preReg) => (
+        {formData.PreRegAnalysis.map((preReg) => (
           <div className="output-type row">
             <h4 className="output-title col">{preReg.preRegURL}</h4>
             <span className="output-delete">

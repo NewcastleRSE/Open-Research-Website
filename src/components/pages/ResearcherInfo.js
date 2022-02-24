@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import DropDown from "../formElements/DropDown";
 import DropDownOther from "../formElements/DropDownOther";
@@ -21,7 +21,7 @@ function ResearcherInfo({ formData, setFormData, errors }) {
       <DropDown
         name="faculty"
         placeholder="Faculty"
-        options={[{ value: "SAGE" }, { value: "HASS" }, { value: "FMS" }]}
+        options={[{ value: "SAgE" }, { value: "HaSS" }, { value: "FMS" }]}
         value={formData.faculty}
         onChange={(event) => {
           setFormData({ ...formData, faculty: event.target.value });
@@ -42,7 +42,10 @@ function ResearcherInfo({ formData, setFormData, errors }) {
         }}
         otherValue={formData.otherSchool}
         otherOnChange={(event) => {
-          setFormData({ ...formData, otherSchool: event.target.value });
+          setFormData({
+            ...formData,
+            otherSchool: event.target.value,
+          });
         }}
         error={errors.school}
         otherError={errors.otherSchool}
@@ -59,7 +62,10 @@ function ResearcherInfo({ formData, setFormData, errors }) {
         ]}
         value={formData.careerStage}
         onChange={(event) => {
-          setFormData({ ...formData, careerStage: event.target.value });
+          setFormData({
+            ...formData,
+            careerStage: event.target.value,
+          });
         }}
         error={errors.careerStage}
       />

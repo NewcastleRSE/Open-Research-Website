@@ -71,7 +71,7 @@ function Codes({ formData, setFormData }) {
     <div>
       <div>
         <h2>Code</h2>
-        {formData.codes.map((code) => (
+        {formData.Code.map((code) => (
           <div className="output-type row">
             <h4 className="output-title col">{code.codeURL}</h4>
             <span className="output-delete">

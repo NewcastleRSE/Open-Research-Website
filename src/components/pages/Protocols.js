@@ -61,7 +61,7 @@ function Protocols({ formData, setFormData }) {
     <div>
       <div>
         <h2>Protocols</h2>
-        {formData.protocols.map((protocol) => (
+        {formData.Protocol.map((protocol) => (
           <div className="output-type row">
             <h4 className="output-title col">{protocol.protocolURL}</h4>
             <span className="output-delete">

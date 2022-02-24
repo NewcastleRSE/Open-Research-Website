@@ -74,7 +74,7 @@ function Monographs({ formData, setFormData }) {
     <div>
       <div>
         <h2>Monographs</h2>
-        {formData.monographs.map((monograph) => (
+        {formData.Monograph.map((monograph) => (
           <div className="output-type row">
             <h4 className="output-title col">{monograph.monographURL}</h4>
             <span className="output-delete">

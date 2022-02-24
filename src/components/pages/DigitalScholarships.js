@@ -66,7 +66,7 @@ function DigitalScholarships({ formData, setFormData }) {
     <div>
       <div>
         <h2>Digital Scholarships</h2>
-        {formData.digitalScholarships.map((ds) => (
+        {formData.DigitalScholarship.map((ds) => (
           <div className="output-type row">
             <h4 className="output-title col">{ds.dsURL}</h4>
             <span className="output-delete">

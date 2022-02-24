@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import validator from "validator";
 
 import Article from "../forms/Article";
 import validate from "../../validationRules/ArticleVR";
@@ -35,7 +34,7 @@ function MultipleArticle({ formData, setFormData }) {
       !newErrors.embargo
     ) {
       // Passing validation
-      formData.articles.push(articleInfo);
+      formData.Article.push(articleInfo);
 
       setArticleInfo({
         articleURL: "",
@@ -75,7 +74,7 @@ function MultipleArticle({ formData, setFormData }) {
     <div>
       <div>
         <h2>Articles</h2>
-        {formData.articles.map((article) => (
+        {formData.Article.map((article) => (
           <div className="output-type row">
             <h4 className="output-title col">{article.articleURL}</h4>
             <span className="output-delete">

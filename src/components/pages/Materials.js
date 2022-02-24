@@ -67,7 +67,7 @@ function Materials({ formData, setFormData }) {
     <div>
       <div>
         <h2>Research Materials</h2>
-        {formData.materials.map((material) => (
+        {formData.Material.map((material) => (
           <div className="output-type row">
             <h4 className="output-title col">{material.materialURL}</h4>
             <span className="output-delete">

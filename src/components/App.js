@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
+import FormData from "form-data";
 
 import ResearcherInfo from "./pages/ResearcherInfo";
 import ProjectInfo from "./pages/ProjectInfo";
@@ -29,31 +32,53 @@ function App() {
 
   const [errors, setErrors] = useState({});
 
-  const [formData, setFormData] = useState({
+  const [researcherInfo, setResearcherInfo] = useState({
     fullName: "",
     faculty: "",
     school: "",
     otherSchool: "",
     careerStage: "",
+  });
 
+  const [projectInfo, setProjectInfo] = useState({
     projectName: "",
     researchArea: "",
     funder: "",
     otherFunder: "",
     length: 0,
+  });
 
-    articles: [],
-    monographs: [],
-    datasets: [],
-    codes: [],
-    materials: [],
-    protocols: [],
-    digitalScholarships: [],
-    preprints: [],
-    peerRevs: [],
-    preRegs: [],
-    regReports: [],
-    theses: [],
+  const [formData, setFormData] = useState({
+    uuid: "",
+
+    Researcher: {
+      fullName: "",
+      faculty: "",
+      school: "",
+      otherSchool: "",
+      careerStage: "",
+    },
+
+    Project: {
+      projectName: "",
+      researchArea: "",
+      funder: "",
+      otherFunder: "",
+      length: 0,
+    },
+
+    Article: [],
+    Monograph: [],
+    Dataset: [],
+    Code: [],
+    Material: [],
+    Protocol: [],
+    DigitalScholarship: [],
+    Preprint: [],
+    PeerRev: [],
+    PreRegAnalysis: [],
+    RegReport: [],
+    Thesis: [],
   });
 
   const [formBuilder, setFormBuilder] = useState({
@@ -157,8 +182,8 @@ function App() {
         return (
           <div>
             <ResearcherInfo
-              formData={formData}
-              setFormData={setFormData}
+              formData={researcherInfo}
+              setFormData={setResearcherInfo}
               errors={errors}
             />
           </div>
@@ -168,8 +193,8 @@ function App() {
         return (
           <div>
             <ProjectInfo
-              formData={formData}
-              setFormData={setFormData}
+              formData={projectInfo}
+              setFormData={setProjectInfo}
               errors={errors}
             />
           </div>
@@ -270,20 +295,24 @@ function App() {
 
     switch (page) {
       case 0: {
-        let newErrors = validateResearcher(formData);
+        let newErrors = validateResearcher(researcherInfo);
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length === 0) {
+          formData.Researcher = researcherInfo;
+
           setErrors({});
           setPage((currentPage) => currentPage + 1);
         }
         break;
       }
       case 1: {
-        let newErrors = validateProject(formData);
+        let newErrors = validateProject(projectInfo);
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length === 0) {
+          formData.Project = projectInfo;
+
           setErrors({});
           setPage((currentPage) => currentPage + 1);
         }
@@ -306,8 +335,10 @@ function App() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    formData.uuid = uuidv4();
 
     if (formData.school === "other" && formData.otherSchool !== "") {
       formData.school = formData.otherSchool;
@@ -316,6 +347,24 @@ function App() {
     if (formData.funder === "other" && formData.otherFunder !== "") {
       formData.funder = formData.otherFunder;
     }
+
+    let data = new FormData();
+    data.append("data", JSON.stringify(formData));
+
+    let config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+
+    axios
+      .post("http://localhost:1337/api/submissions", data, config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 
     alert("Submitted");
   };

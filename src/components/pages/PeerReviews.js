@@ -61,7 +61,7 @@ function PeerReviews({ formData, setFormData }) {
     <div>
       <div>
         <h2>Open Peer Reviews</h2>
-        {formData.peerRevs.map((peerRev) => (
+        {formData.PeerRev.map((peerRev) => (
           <div className="output-type row">
             <h4 className="output-title col">{peerRev.peerRevURL}</h4>
             <span className="output-delete">

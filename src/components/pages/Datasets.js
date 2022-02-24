@@ -72,7 +72,7 @@ function Datasets({ formData, setFormData }) {
     <div>
       <div>
         <h2>Datasets</h2>
-        {formData.datasets.map((dataset) => (
+        {formData.Dataset.map((dataset) => (
           <div className="output-type row">
             <h4 className="output-title col">{dataset.dataURL}</h4>
             <span className="output-delete">

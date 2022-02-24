@@ -74,7 +74,7 @@ function RegReports({ formData, setFormData }) {
     <div>
       <div>
         <h2>Registered Reports</h2>
-        {formData.regReports.map((regReport) => (
+        {formData.RegReport.map((regReport) => (
           <div className="output-type row">
             <h4 className="output-title col">{regReport.regReportURL}</h4>
             <span className="output-delete">

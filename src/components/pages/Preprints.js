@@ -66,7 +66,7 @@ function Preprints({ formData, setFormData }) {
     <div>
       <div>
         <h2>Preprints</h2>
-        {formData.preprints.map((preprint) => (
+        {formData.Preprint.map((preprint) => (
           <div className="output-type row">
             <h4 className="output-title col">{preprint.preprintURL}</h4>
             <span className="output-delete">

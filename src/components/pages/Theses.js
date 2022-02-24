@@ -72,7 +72,7 @@ function Theses({ formData, setFormData }) {
     <div>
       <div>
         <h2>Theses and Dissertation</h2>
-        {formData.theses.map((theses) => (
+        {formData.ThesIs.map((theses) => (
           <div className="output-type row">
             <h4 className="output-title col">{theses.thesisURL}</h4>
             <span className="output-delete">
