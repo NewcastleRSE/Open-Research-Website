@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import PeerReview from "../forms/PeerReview";
 import validate from "../../validationRules/PeerReviewVR";
+import str2bool from "../../util/str2bool";
 
 function PeerReviews({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
@@ -26,7 +27,9 @@ function PeerReviews({ formData, setFormData }) {
     setErrors(newErrors);
 
     if (!newErrors.URL && !newErrors.peerRevResponse) {
-      formData.peerRevs.push(peerRevInfo);
+      peerRevInfo.peerRevResponse = str2bool(peerRevInfo.peerRevResponse);
+
+      formData.PeerRev.push(peerRevInfo);
 
       setPeerRevInfo({
         peerRevURL: "",
@@ -53,8 +56,8 @@ function PeerReviews({ formData, setFormData }) {
   const handleDelete = (e, peerRev) => {
     e.preventDefault();
 
-    let filteredArray = formData.peerRevs.filter((item) => item !== peerRev);
-    setFormData({ ...formData, peerRevs: filteredArray });
+    let filteredArray = formData.PeerRev.filter((item) => item !== peerRev);
+    setFormData({ ...formData, PeerRev: filteredArray });
   };
 
   return (

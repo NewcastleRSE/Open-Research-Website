@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import Preprint from "../forms/Preprint";
 import validate from "../../validationRules/PreprintsVR";
+import str2bool from "../../util/str2bool";
 
 function Preprints({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
@@ -26,10 +27,10 @@ function Preprints({ formData, setFormData }) {
     let newErrors = validate(preprintInfo);
     setErrors(newErrors);
 
-    console.log(newErrors);
-
     if (!newErrors.URL && !newErrors.DOI && !newErrors.preprintRelease) {
-      formData.preprints.push(preprintInfo);
+      preprintInfo.preprintRelease = str2bool(preprintInfo.preprintRelease);
+
+      formData.Preprint.push(preprintInfo);
 
       setPreprintInfo({
         preprintURL: "",
@@ -58,8 +59,8 @@ function Preprints({ formData, setFormData }) {
   const handleDelete = (e, preprint) => {
     e.preventDefault();
 
-    let filteredArray = formData.preprints.filter((item) => item !== preprint);
-    setFormData({ ...formData, preprints: filteredArray });
+    let filteredArray = formData.Preprint.filter((item) => item !== preprint);
+    setFormData({ ...formData, Preprint: filteredArray });
   };
 
   return (

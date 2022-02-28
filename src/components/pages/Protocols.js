@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import Protocol from "../forms/Protocol";
 import validate from "../../validationRules/ProtocolVR";
+import str2bool from "../../util/str2bool";
 
 function Protocols({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
@@ -26,7 +27,9 @@ function Protocols({ formData, setFormData }) {
     setErrors(newErrors);
 
     if (!newErrors.URL && !newErrors.protocolSharing) {
-      formData.protocols.push(protocolInfo);
+      protocolInfo.protocolSharing = str2bool(protocolInfo.protocolSharing);
+
+      formData.Protocol.push(protocolInfo);
 
       setProtocolInfo({
         protocolURL: "",
@@ -53,8 +56,8 @@ function Protocols({ formData, setFormData }) {
   const handleDelete = (e, protocol) => {
     e.preventDefault();
 
-    let filteredArray = formData.protocols.filter((item) => item !== protocol);
-    setFormData({ ...formData, protocols: filteredArray });
+    let filteredArray = formData.Protocol.filter((item) => item !== protocol);
+    setFormData({ ...formData, Protocol: filteredArray });
   };
 
   return (

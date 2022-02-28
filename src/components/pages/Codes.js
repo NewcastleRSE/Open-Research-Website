@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import Code from "../forms/Code";
 import validate from "../../validationRules/CodeVR";
+import str2bool from "../../util/str2bool";
 
 function Codes({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
@@ -33,7 +34,9 @@ function Codes({ formData, setFormData }) {
       !newErrors.license &&
       !newErrors.openSource
     ) {
-      formData.codes.push(codeInfo);
+      codeInfo.openSource = str2bool(codeInfo.openSource);
+
+      formData.Code.push(codeInfo);
 
       setCodeInfo({
         codeURL: "",
@@ -63,8 +66,8 @@ function Codes({ formData, setFormData }) {
   const handleDelete = (e, code) => {
     e.preventDefault();
 
-    let filteredArray = formData.codes.filter((item) => item !== code);
-    setFormData({ ...formData, codes: filteredArray });
+    let filteredArray = formData.Code.filter((item) => item !== code);
+    setFormData({ ...formData, Code: filteredArray });
   };
 
   return (

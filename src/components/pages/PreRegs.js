@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import PreReg from "../forms/PreReg";
 import validate from "../../validationRules/PreRegVR";
+import str2bool from "../../util/str2bool";
 
 function PreRegs({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
@@ -26,7 +27,9 @@ function PreRegs({ formData, setFormData }) {
     setErrors(newErrors);
 
     if (!newErrors.URL && !newErrors.preRegDistinction) {
-      formData.preRegs.push(preRegInfo);
+      preRegInfo.preRegDistinction = str2bool(preRegInfo.preRegDistinction);
+
+      formData.PreRegAnalysis.push(preRegInfo);
 
       setPreRegInfo({
         preRegURL: "",
@@ -53,8 +56,10 @@ function PreRegs({ formData, setFormData }) {
   const handleDelete = (e, preReg) => {
     e.preventDefault();
 
-    let filteredArray = formData.preRegs.filter((item) => item !== preReg);
-    setFormData({ ...formData, preRegs: filteredArray });
+    let filteredArray = formData.PreRegAnalysis.filter(
+      (item) => item !== preReg
+    );
+    setFormData({ ...formData, PreRegAnalysis: filteredArray });
   };
 
   return (

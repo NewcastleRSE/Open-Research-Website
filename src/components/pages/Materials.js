@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import Material from "../forms/Material";
 import validate from "../../validationRules/MaterialVR";
+import str2bool from "../../util/str2bool";
 
 function Materials({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
@@ -31,7 +32,12 @@ function Materials({ formData, setFormData }) {
       !newErrors.materialReproduction &&
       !newErrors.materialRelease
     ) {
-      formData.materials.push(materialInfo);
+      materialInfo.materialRelease = str2bool(materialInfo.materialRelease);
+      materialInfo.materialReproduction = str2bool(
+        materialInfo.materialReproduction
+      );
+
+      formData.Material.push(materialInfo);
 
       setMaterialInfo({
         materialURL: "",
@@ -59,8 +65,8 @@ function Materials({ formData, setFormData }) {
   const handleDelete = (e, material) => {
     e.preventDefault();
 
-    let filteredArray = formData.materials.filter((item) => item !== material);
-    setFormData({ ...formData, materials: filteredArray });
+    let filteredArray = formData.Material.filter((item) => item !== material);
+    setFormData({ ...formData, Material: filteredArray });
   };
 
   return (

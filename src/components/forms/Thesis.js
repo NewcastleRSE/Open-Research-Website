@@ -42,13 +42,13 @@ function Thesis({
             error={errors.DOI}
           />
           <TextInput
-            name="thesisLicence"
-            placeholder="Licence"
-            value={formData.thesisLicence}
+            name="thesisLicense"
+            placeholder="License"
+            value={formData.thesisLicense}
             onChange={(event) => {
-              setFormData({ ...formData, thesisLicence: event.target.value });
+              setFormData({ ...formData, thesisLicense: event.target.value });
             }}
-            error={errors.licence}
+            error={errors.license}
           />
           <BooleanInput
             name="thesisEmargo"

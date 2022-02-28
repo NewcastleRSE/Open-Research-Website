@@ -33,7 +33,7 @@ function Datasets({ formData, setFormData }) {
       !newErrors.license &&
       !newErrors.format
     ) {
-      formData.datasets.push(datasetInfo);
+      formData.Dataset.push(datasetInfo);
 
       setDatasetInfo({
         dataURL: "",
@@ -64,8 +64,8 @@ function Datasets({ formData, setFormData }) {
   const handleDelete = (e, dataset) => {
     e.preventDefault();
 
-    let filteredArray = formData.datasets.filter((item) => item !== dataset);
-    setFormData({ ...formData, datasets: filteredArray });
+    let filteredArray = formData.Dataset.filter((item) => item !== dataset);
+    setFormData({ ...formData, Dataset: filteredArray });
   };
 
   return (

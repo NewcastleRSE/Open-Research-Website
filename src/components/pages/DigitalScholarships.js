@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import DigitalScholarship from "../forms/DigitalScholarship";
 import validate from "../../validationRules/DigitalScholarshipVR";
+import str2bool from "../../util/str2bool";
 
 function DigitalScholarships({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
@@ -27,7 +28,9 @@ function DigitalScholarships({ formData, setFormData }) {
     setErrors(newErrors);
 
     if (!newErrors.URL && !newErrors.embargo && !newErrors.license) {
-      formData.digitalScholarships.push(dsInfo);
+      dsInfo.dsEmbargo = str2bool(dsInfo.dsEmbargo);
+
+      formData.DigitalScholarship.push(dsInfo);
 
       setDSInfo({
         dsURL: "",
@@ -56,10 +59,10 @@ function DigitalScholarships({ formData, setFormData }) {
   const handleDelete = (e, ds) => {
     e.preventDefault();
 
-    let filteredArray = formData.digitalScholarships.filter(
+    let filteredArray = formData.DigitalScholarship.filter(
       (item) => item !== ds
     );
-    setFormData({ ...formData, digitalScholarships: filteredArray });
+    setFormData({ ...formData, DigitalScholarship: filteredArray });
   };
 
   return (

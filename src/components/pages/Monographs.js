@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import Monograph from "../forms/Monograph";
 import validate from "../../validationRules/MonoVR";
+import str2bool from "../../util/str2bool";
 
 function Monographs({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
@@ -33,6 +34,8 @@ function Monographs({ formData, setFormData }) {
       !newErrors.licence &&
       !newErrors.embargo
     ) {
+      monographInfo.monographEmbargo = str2bool(monographInfo.monographEmbargo);
+
       formData.Monograph.push(monographInfo);
 
       setMonographInfo({

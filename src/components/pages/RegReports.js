@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import RegReport from "../forms/RegReport";
 import validate from "../../validationRules/RegReportVR";
+import str2bool from "../../util/str2bool";
 
 function RegReports({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
@@ -33,7 +34,11 @@ function RegReports({ formData, setFormData }) {
       !newErrors.regReportPeerRev &&
       !newErrors.regReportChanges
     ) {
-      formData.regReports.push(regReportInfo);
+      regReportInfo.regReportChanges = str2bool(regReportInfo.regReportChanges);
+      regReportInfo.regReportFunding = str2bool(regReportInfo.regReportFunding);
+      regReportInfo.regReportPeerRev = str2bool(regReportInfo.regReportPeerRev);
+
+      formData.RegReport.push(regReportInfo);
 
       setRegReportInfo({
         regReportURL: "",
@@ -64,10 +69,8 @@ function RegReports({ formData, setFormData }) {
   const handleDelete = (e, regReport) => {
     e.preventDefault();
 
-    let filteredArray = formData.regReports.filter(
-      (item) => item !== regReport
-    );
-    setFormData({ ...formData, regReports: filteredArray });
+    let filteredArray = formData.RegReport.filter((item) => item !== regReport);
+    setFormData({ ...formData, RegReport: filteredArray });
   };
 
   return (
