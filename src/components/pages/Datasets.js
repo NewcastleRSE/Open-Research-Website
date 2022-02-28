@@ -12,7 +12,7 @@ function Datasets({ formData, setFormData }) {
     dataURL: "",
     dataDOI: "",
     format: "",
-    dataLicence: "",
+    dataLicense: "",
   });
 
   const handleClick = (e) => {
@@ -30,7 +30,7 @@ function Datasets({ formData, setFormData }) {
     if (
       !newErrors.URL &&
       !newErrors.DOI &&
-      !newErrors.licence &&
+      !newErrors.license &&
       !newErrors.format
     ) {
       formData.datasets.push(datasetInfo);
@@ -39,7 +39,7 @@ function Datasets({ formData, setFormData }) {
         dataURL: "",
         dataDOI: "",
         format: "",
-        dataLicence: "",
+        dataLicense: "",
       });
 
       setErrors({});
@@ -54,7 +54,7 @@ function Datasets({ formData, setFormData }) {
       dataURL: "",
       dataDOI: "",
       format: "",
-      dataLicence: "",
+      dataLicense: "",
     });
 
     setErrors({});

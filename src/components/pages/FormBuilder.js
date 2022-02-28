@@ -3,7 +3,7 @@ import React from "react";
 import Checkbox from "../formElements/Checkbox";
 
 const displayDissertation = ({ formBuilder, setFormBuilder, formData }) => {
-  if (formData.careerStage === "PhD") {
+  if (formData.Researcher.careerStage === "PhD") {
     return (
       <div className="col">
         <Checkbox

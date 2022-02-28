@@ -54,13 +54,13 @@ function Dataset({
             error={errors.format}
           />
           <TextInput
-            name="dataLicence"
-            placeholder="Data Licence"
-            value={formData.dataLicence}
+            name="dataLicense"
+            placeholder="Data License"
+            value={formData.dataLicense}
             onChange={(event) => {
-              setFormData({ ...formData, dataLicence: event.target.value });
+              setFormData({ ...formData, dataLicense: event.target.value });
             }}
-            error={errors.licence}
+            error={errors.license}
           />
           <ModalButtons
             handleSubmit={handleSubmit}

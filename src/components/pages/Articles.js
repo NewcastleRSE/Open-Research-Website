@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import Article from "../forms/Article";
 import validate from "../../validationRules/ArticleVR";
+import str2bool from "../../util/str2bool";
 
 function MultipleArticle({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
@@ -12,7 +13,7 @@ function MultipleArticle({ formData, setFormData }) {
     articleURL: "",
     articleDOI: "",
     articleEmbargo: false,
-    articleLicence: "",
+    articleLicense: "",
   });
 
   const handleClick = (e) => {
@@ -30,17 +31,19 @@ function MultipleArticle({ formData, setFormData }) {
     if (
       !newErrors.URL &&
       !newErrors.DOI &&
-      !newErrors.licence &&
+      !newErrors.license &&
       !newErrors.embargo
     ) {
       // Passing validation
+      articleInfo.articleEmbargo = str2bool(articleInfo.articleEmbargo);
+
       formData.Article.push(articleInfo);
 
       setArticleInfo({
         articleURL: "",
         articleDOI: "",
         articleEmbargo: false,
-        articleLicence: "",
+        articleLicense: "",
       });
 
       setErrors({});
@@ -55,7 +58,7 @@ function MultipleArticle({ formData, setFormData }) {
       articleURL: "",
       articleDOI: "",
       articleEmbargo: false,
-      articleLicence: "",
+      articleLicense: "",
     });
 
     setErrors({});
@@ -65,9 +68,9 @@ function MultipleArticle({ formData, setFormData }) {
   const handleDelete = (e, article) => {
     e.preventDefault();
 
-    let filteredArray = formData.articles.filter((item) => item !== article);
+    let filteredArray = formData.Article.filter((item) => item !== article);
 
-    setFormData({ ...formData, articles: filteredArray });
+    setFormData({ ...formData, Article: filteredArray });
   };
 
   return (

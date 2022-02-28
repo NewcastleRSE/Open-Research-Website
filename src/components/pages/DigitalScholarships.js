@@ -11,7 +11,7 @@ function DigitalScholarships({ formData, setFormData }) {
   const [dsInfo, setDSInfo] = useState({
     dsURL: "",
     dsEmbargo: false,
-    dsLicence: "",
+    dsLicense: "",
   });
 
   const handleClick = (e) => {
@@ -26,13 +26,13 @@ function DigitalScholarships({ formData, setFormData }) {
     let newErrors = validate(dsInfo);
     setErrors(newErrors);
 
-    if (!newErrors.URL && !newErrors.embargo && !newErrors.licence) {
+    if (!newErrors.URL && !newErrors.embargo && !newErrors.license) {
       formData.digitalScholarships.push(dsInfo);
 
       setDSInfo({
         dsURL: "",
         dsEmbargo: false,
-        dsLicence: "",
+        dsLicense: "",
       });
 
       setErrors({});
@@ -46,7 +46,7 @@ function DigitalScholarships({ formData, setFormData }) {
     setDSInfo({
       dsURL: "",
       dsEmbargo: false,
-      dsLicence: "",
+      dsLicense: "",
     });
 
     setErrors({});

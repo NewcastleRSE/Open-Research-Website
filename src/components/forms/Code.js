@@ -5,17 +5,17 @@ import TextInput from "../formElements/TextInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
 
-const DisplayLicence = ({ formData, setFormData, errors }) => {
+const DisplayLicense = ({ formData, setFormData, errors }) => {
   if (formData.openSource === "Yes") {
     return (
       <TextInput
-        name="licence"
-        placeholder="Licence"
-        value={formData.codeLicence}
+        name="license"
+        placeholder="License"
+        value={formData.codeLicense}
         onChange={(event) =>
-          setFormData({ ...formData, codeLicence: event.target.value })
+          setFormData({ ...formData, codeLicense: event.target.value })
         }
-        error={errors.licence}
+        error={errors.license}
       />
     );
   } else {
@@ -72,7 +72,7 @@ function CodeInfo({
             }}
             error={errors.openSource}
           />
-          {DisplayLicence({ formData, setFormData, errors })}
+          {DisplayLicense({ formData, setFormData, errors })}
           <ModalButtons
             handleSubmit={handleSubmit}
             handleCancel={handleCancel}

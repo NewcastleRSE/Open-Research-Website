@@ -12,7 +12,7 @@ function Codes({ formData, setFormData }) {
     codeURL: "",
     codeDOI: "",
     openSource: false,
-    codeLicence: "",
+    codeLicense: "",
   });
 
   const handleClick = (e) => {
@@ -30,7 +30,7 @@ function Codes({ formData, setFormData }) {
     if (
       !newErrors.URL &&
       !newErrors.DOI &&
-      !newErrors.licence &&
+      !newErrors.license &&
       !newErrors.openSource
     ) {
       formData.codes.push(codeInfo);
@@ -39,7 +39,7 @@ function Codes({ formData, setFormData }) {
         codeURL: "",
         codeDOI: "",
         openSource: false,
-        codeLicence: "",
+        codeLicense: "",
       });
 
       setDisplay(!display);
@@ -53,7 +53,7 @@ function Codes({ formData, setFormData }) {
       codeURL: "",
       codeDOI: "",
       openSource: false,
-      codeLicence: "",
+      codeLicense: "",
     });
 
     setErrors({});

@@ -33,7 +33,7 @@ function Monographs({ formData, setFormData }) {
       !newErrors.licence &&
       !newErrors.embargo
     ) {
-      formData.monographs.push(monographInfo);
+      formData.Monograph.push(monographInfo);
 
       setMonographInfo({
         monographURL: "",
@@ -64,10 +64,8 @@ function Monographs({ formData, setFormData }) {
   const handleDelete = (e, monograph) => {
     e.preventDefault();
 
-    let filteredArray = formData.monographs.filter(
-      (item) => item !== monograph
-    );
-    setFormData({ ...formData, monographs: filteredArray });
+    let filteredArray = formData.Monograph.filter((item) => item !== monograph);
+    setFormData({ ...formData, Monograph: filteredArray });
   };
 
   return (

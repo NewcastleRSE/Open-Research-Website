@@ -35,13 +35,13 @@ function DigitalScholarship({
             error={errors.URL}
           />
           <TextInput
-            name="dsLicence"
-            placeholder="Licence"
-            value={formData.dsLicence}
+            name="dsLicense"
+            placeholder="License"
+            value={formData.dsLicense}
             onChange={(event) => {
-              setFormData({ ...formData, dsLicence: event.target.value });
+              setFormData({ ...formData, dsLicense: event.target.value });
             }}
-            error={errors.licence}
+            error={errors.license}
           />
           <BooleanInput
             name="dsEmargo"

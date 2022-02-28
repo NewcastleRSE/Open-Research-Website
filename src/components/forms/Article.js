@@ -43,13 +43,13 @@ const ArticleInfo = ({
             error={errors.DOI}
           />
           <TextInput
-            name="articleLicence"
-            placeholder="Licence"
-            value={formData.articleLicence}
+            name="articleLicense"
+            placeholder="License"
+            value={formData.articleLicense}
             onChange={(event) => {
-              setFormData({ ...formData, articleLicence: event.target.value });
+              setFormData({ ...formData, articleLicense: event.target.value });
             }}
-            error={errors.licence}
+            error={errors.license}
           />
           <BooleanInput
             name="articleEmargo"
