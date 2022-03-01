@@ -26,7 +26,7 @@ function PeerReviews({ formData, setFormData }) {
     let newErrors = validate(peerRevInfo);
     setErrors(newErrors);
 
-    if (!newErrors.URL && !newErrors.peerRevResponse) {
+    if (Object.keys(newErrors).length === 0) {
       peerRevInfo.peerRevResponse = str2bool(peerRevInfo.peerRevResponse);
 
       formData.PeerRev.push(peerRevInfo);

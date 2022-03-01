@@ -28,12 +28,7 @@ function Theses({ formData, setFormData }) {
     let newErrors = validate(thesesInfo);
     setErrors(newErrors);
 
-    if (
-      !newErrors.URL &&
-      !newErrors.DOI &&
-      !newErrors.license &&
-      !newErrors.embargo
-    ) {
+    if (Object.keys(newErrors).length === 0) {
       thesesInfo.thesisEmbargo = str2bool(thesesInfo.thesisEmbargo);
 
       formData.Thesis.push(thesesInfo);

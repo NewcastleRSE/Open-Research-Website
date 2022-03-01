@@ -27,12 +27,7 @@ function Datasets({ formData, setFormData }) {
     let newErrors = validate(datasetInfo);
     setErrors(newErrors);
 
-    if (
-      !newErrors.URL &&
-      !newErrors.DOI &&
-      !newErrors.license &&
-      !newErrors.format
-    ) {
+    if (Object.keys(newErrors).length === 0) {
       formData.Dataset.push(datasetInfo);
 
       setDatasetInfo({

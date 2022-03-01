@@ -1,12 +1,12 @@
 import validateURL from "../fieldValidation/URL";
-import validateLicence from "../fieldValidation/Licence";
+import validateLicense from "../fieldValidation/License";
 
 export default function validate(values) {
   let errors = {};
 
   errors = validateURL(errors, values.dsURL);
 
-  errors = validateLicence(errors, values.dsLicence);
+  errors = validateLicense(errors, values.dsLicense);
 
   if (!values.dsEmbargo) {
     errors.embargo = "Required";

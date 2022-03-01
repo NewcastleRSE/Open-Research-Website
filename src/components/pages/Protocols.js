@@ -26,7 +26,7 @@ function Protocols({ formData, setFormData }) {
     let newErrors = validate(protocolInfo);
     setErrors(newErrors);
 
-    if (!newErrors.URL && !newErrors.protocolSharing) {
+    if (Object.keys(newErrors).length === 0) {
       protocolInfo.protocolSharing = str2bool(protocolInfo.protocolSharing);
 
       formData.Protocol.push(protocolInfo);

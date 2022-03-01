@@ -28,12 +28,7 @@ function RegReports({ formData, setFormData }) {
     let newErrors = validate(regReportInfo);
     setErrors(newErrors);
 
-    if (
-      !newErrors.URL &&
-      !newErrors.regReportFunding &&
-      !newErrors.regReportPeerRev &&
-      !newErrors.regReportChanges
-    ) {
+    if (Object.keys(newErrors).length === 0) {
       regReportInfo.regReportChanges = str2bool(regReportInfo.regReportChanges);
       regReportInfo.regReportFunding = str2bool(regReportInfo.regReportFunding);
       regReportInfo.regReportPeerRev = str2bool(regReportInfo.regReportPeerRev);

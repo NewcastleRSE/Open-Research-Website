@@ -26,7 +26,7 @@ function PreRegs({ formData, setFormData }) {
     let newErrors = validate(preRegInfo);
     setErrors(newErrors);
 
-    if (!newErrors.URL && !newErrors.preRegDistinction) {
+    if (Object.keys(newErrors).length === 0) {
       preRegInfo.preRegDistinction = str2bool(preRegInfo.preRegDistinction);
 
       formData.PreRegAnalysis.push(preRegInfo);

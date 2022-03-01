@@ -28,12 +28,7 @@ function Monographs({ formData, setFormData }) {
     let newErrors = validate(monographInfo);
     setErrors(newErrors);
 
-    if (
-      !newErrors.URL &&
-      !newErrors.DOI &&
-      !newErrors.licence &&
-      !newErrors.embargo
-    ) {
+    if (Object.keys(newErrors).length === 0) {
       monographInfo.monographEmbargo = str2bool(monographInfo.monographEmbargo);
 
       formData.Monograph.push(monographInfo);

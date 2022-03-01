@@ -1,6 +1,6 @@
 import validateURL from "../fieldValidation/URL";
 import validateDOI from "../fieldValidation/DOI";
-import validateLicence from "../fieldValidation/Licence";
+import validateLicense from "../fieldValidation/License";
 
 export default function validate(values) {
   let errors = {};
@@ -14,7 +14,7 @@ export default function validate(values) {
   }
 
   if (values.openSource === "Yes") {
-    errors = validateLicence(errors, values.codeLicence);
+    errors = validateLicense(errors, values.codeLicense);
   }
 
   return errors;

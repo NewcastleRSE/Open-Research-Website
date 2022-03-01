@@ -1,5 +1,5 @@
 import validateDOI from "../fieldValidation/DOI";
-import validateLicence from "../fieldValidation/Licence";
+import validateLicense from "../fieldValidation/License";
 import validateURL from "../fieldValidation/URL";
 
 export default function validate(values) {
@@ -9,7 +9,7 @@ export default function validate(values) {
 
   errors = validateDOI(errors, values.monographDOI);
 
-  errors = validateLicence(errors, values.monographLicence);
+  errors = validateLicense(errors, values.monographLicense);
 
   // Embargo
   if (!values.monographEmbargo) {

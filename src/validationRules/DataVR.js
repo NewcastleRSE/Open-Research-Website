@@ -1,6 +1,6 @@
 import validateURL from "../fieldValidation/URL";
 import validateDOI from "../fieldValidation/DOI";
-import validateLicence from "../fieldValidation/Licence";
+import validateLicense from "../fieldValidation/License";
 
 export default function validate(values) {
   let errors = {};
@@ -9,7 +9,7 @@ export default function validate(values) {
 
   errors = validateDOI(errors, values.dataDOI);
 
-  errors = validateLicence(errors, values.dataLicence);
+  errors = validateLicense(errors, values.dataLicense);
 
   if (!values.format) {
     errors.format = "Required";

@@ -27,11 +27,7 @@ function Materials({ formData, setFormData }) {
     let newErrors = validate(materialInfo);
     setErrors(newErrors);
 
-    if (
-      !newErrors.URL &&
-      !newErrors.materialReproduction &&
-      !newErrors.materialRelease
-    ) {
+    if (Object.keys(newErrors).length === 0) {
       materialInfo.materialRelease = str2bool(materialInfo.materialRelease);
       materialInfo.materialReproduction = str2bool(
         materialInfo.materialReproduction

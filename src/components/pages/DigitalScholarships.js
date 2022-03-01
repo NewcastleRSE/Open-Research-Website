@@ -27,7 +27,7 @@ function DigitalScholarships({ formData, setFormData }) {
     let newErrors = validate(dsInfo);
     setErrors(newErrors);
 
-    if (!newErrors.URL && !newErrors.embargo && !newErrors.license) {
+    if (Object.keys(newErrors).length === 0) {
       dsInfo.dsEmbargo = str2bool(dsInfo.dsEmbargo);
 
       formData.DigitalScholarship.push(dsInfo);

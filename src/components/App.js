@@ -287,6 +287,20 @@ function App() {
       case 3: {
         return <div>{leftStack[0]}</div>;
       }
+      default: {
+        return (
+          <div>
+            <LeftContent
+              heading="Open Research Tool"
+              img="img/info_graphic_1.svg"
+              subtext="Tation argumentum et usu, dicit viderer evertitur te has. Eu dictas
+          concludaturque usu, facete detracto patrioque an per, lucilius
+          pertinacia eu vel. Adhuc invidunt duo ex. Eu tantas dolorum ullamcorper
+          qui."
+            />
+          </div>
+        );
+      }
     }
   };
 

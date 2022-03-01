@@ -28,12 +28,7 @@ function Codes({ formData, setFormData }) {
     let newErrors = validate(codeInfo);
     setErrors(newErrors);
 
-    if (
-      !newErrors.URL &&
-      !newErrors.DOI &&
-      !newErrors.license &&
-      !newErrors.openSource
-    ) {
+    if (Object.keys(newErrors).length === 0) {
       codeInfo.openSource = str2bool(codeInfo.openSource);
 
       formData.Code.push(codeInfo);

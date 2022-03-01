@@ -27,7 +27,7 @@ function Preprints({ formData, setFormData }) {
     let newErrors = validate(preprintInfo);
     setErrors(newErrors);
 
-    if (!newErrors.URL && !newErrors.DOI && !newErrors.preprintRelease) {
+    if (Object.keys(newErrors).length === 0) {
       preprintInfo.preprintRelease = str2bool(preprintInfo.preprintRelease);
 
       formData.Preprint.push(preprintInfo);

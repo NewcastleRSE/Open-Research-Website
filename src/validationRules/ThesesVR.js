@@ -1,6 +1,6 @@
 import validateURL from "../fieldValidation/URL";
 import validateDOI from "../fieldValidation/DOI";
-import validateLicence from "../fieldValidation/Licence";
+import validateLicense from "../fieldValidation/License";
 
 export default function validate(values) {
   let errors = {};
@@ -9,7 +9,7 @@ export default function validate(values) {
 
   errors = validateDOI(errors, values.thesisDOI);
 
-  errors = validateLicence(errors, values.thesisLicence);
+  errors = validateLicense(errors, values.thesisLicense);
 
   if (!values.thesisEmbargo) {
     errors.embargo = "Required";
