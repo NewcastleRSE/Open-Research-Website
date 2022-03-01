@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 
 import Thesis from "../forms/Thesis";
+import validate from "../../validationRules/ThesesVR";
+import str2bool from "../../util/str2bool";
 
 function Theses({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [thesesInfo, setThesesInfo] = useState({
     thesisURL: "",
     thesisDOI: "",
     thesisEmbargo: false,
-    thesisLicence: "",
+    thesisLicense: "",
   });
 
   const handleClick = (e) => {
@@ -21,30 +25,52 @@ function Theses({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.theses.push(thesesInfo);
+    let newErrors = validate(thesesInfo);
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      thesesInfo.thesisEmbargo = str2bool(thesesInfo.thesisEmbargo);
+
+      formData.Thesis.push(thesesInfo);
+
+      setThesesInfo({
+        thesisURL: "",
+        thesisDOI: "",
+        thesisEmbargo: false,
+        thesisLicense: "",
+      });
+
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setThesesInfo({
       thesisURL: "",
       thesisDOI: "",
       thesisEmbargo: false,
-      thesisLicence: "",
+      thesisLicense: "",
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
   const handleDelete = (e, theses) => {
     e.preventDefault();
 
-    let filteredArray = formData.theses.filter((item) => item !== theses);
-    setFormData({ ...formData, theses: filteredArray });
+    let filteredArray = formData.Thesis.filter((item) => item !== theses);
+    setFormData({ ...formData, Thesis: filteredArray });
   };
 
   return (
     <div>
       <div>
         <h2>Theses and Dissertation</h2>
-        {formData.theses.map((theses) => (
+        {formData.Thesis.map((theses) => (
           <div className="output-type row">
             <h4 className="output-title col">{theses.thesisURL}</h4>
             <span className="output-delete">
@@ -67,6 +93,8 @@ function Theses({ formData, setFormData }) {
         setFormData={setThesesInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );

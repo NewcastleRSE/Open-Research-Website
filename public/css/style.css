@@ -593,7 +593,7 @@ button.submit {
 }
 
 button.cancel {
-  background: red;
+  background: #e34f4f;
 }
 
 button.backward {

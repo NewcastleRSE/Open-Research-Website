@@ -5,7 +5,15 @@ import TextInput from "../formElements/TextInput";
 import DropDown from "../formElements/DropDown";
 import ModalButtons from "../formElements/ModalButtons";
 
-function Dataset({ show, formData, setFormData, setDisplay, handleSubmit }) {
+function Dataset({
+  show,
+  formData,
+  setFormData,
+  setDisplay,
+  handleCancel,
+  handleSubmit,
+  errors,
+}) {
   if (show) {
     return (
       <div className="modal-container" onClick={() => setDisplay(!show)}>
@@ -24,6 +32,7 @@ function Dataset({ show, formData, setFormData, setDisplay, handleSubmit }) {
             onChange={(event) => {
               setFormData({ ...formData, dataURL: event.target.value });
             }}
+            error={errors.URL}
           />
           <TextInput
             name="dataDOI"
@@ -32,6 +41,7 @@ function Dataset({ show, formData, setFormData, setDisplay, handleSubmit }) {
             onChange={(event) => {
               setFormData({ ...formData, dataDOI: event.target.value });
             }}
+            error={errors.DOI}
           />
           <DropDown
             name="format"
@@ -41,16 +51,21 @@ function Dataset({ show, formData, setFormData, setDisplay, handleSubmit }) {
             onChange={(event) => {
               setFormData({ ...formData, format: event.target.value });
             }}
+            error={errors.format}
           />
           <TextInput
-            name="dataLicence"
-            placeholder="Data Licence"
-            value={formData.dataLicence}
+            name="dataLicense"
+            placeholder="Data License"
+            value={formData.dataLicense}
             onChange={(event) => {
-              setFormData({ ...formData, dataLicence: event.target.value });
+              setFormData({ ...formData, dataLicense: event.target.value });
             }}
+            error={errors.license}
           />
-          <ModalButtons setDisplay={setDisplay} handleSubmit={handleSubmit} />
+          <ModalButtons
+            handleSubmit={handleSubmit}
+            handleCancel={handleCancel}
+          />
         </div>
       </div>
     );

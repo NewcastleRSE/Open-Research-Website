@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 
 import Dataset from "../forms/Dataset";
+import validate from "../../validationRules/DataVR";
 
 function Datasets({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [datasetInfo, setDatasetInfo] = useState({
     dataURL: "",
     dataDOI: "",
     format: "",
-    dataLicence: "",
+    dataLicense: "",
   });
 
   const handleClick = (e) => {
@@ -21,30 +24,50 @@ function Datasets({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.datasets.push(datasetInfo);
+    let newErrors = validate(datasetInfo);
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      formData.Dataset.push(datasetInfo);
+
+      setDatasetInfo({
+        dataURL: "",
+        dataDOI: "",
+        format: "",
+        dataLicense: "",
+      });
+
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setDatasetInfo({
       dataURL: "",
       dataDOI: "",
       format: "",
-      dataLicence: "",
+      dataLicense: "",
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
   const handleDelete = (e, dataset) => {
     e.preventDefault();
 
-    let filteredArray = formData.datasets.filter((item) => item !== dataset);
-    setFormData({ ...formData, datasets: filteredArray });
+    let filteredArray = formData.Dataset.filter((item) => item !== dataset);
+    setFormData({ ...formData, Dataset: filteredArray });
   };
 
   return (
     <div>
       <div>
         <h2>Datasets</h2>
-        {formData.datasets.map((dataset) => (
+        {formData.Dataset.map((dataset) => (
           <div className="output-type row">
             <h4 className="output-title col">{dataset.dataURL}</h4>
             <span className="output-delete">
@@ -67,6 +90,8 @@ function Datasets({ formData, setFormData }) {
         setFormData={setDatasetInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );

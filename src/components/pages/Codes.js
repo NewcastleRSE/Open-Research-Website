@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 
 import Code from "../forms/Code";
+import validate from "../../validationRules/CodeVR";
+import str2bool from "../../util/str2bool";
 
 function Codes({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [codeInfo, setCodeInfo] = useState({
     codeURL: "",
     codeDOI: "",
     openSource: false,
-    codeLicence: "",
+    codeLicense: "",
   });
 
   const handleClick = (e) => {
@@ -21,30 +25,51 @@ function Codes({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.codes.push(codeInfo);
+    let newErrors = validate(codeInfo);
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      codeInfo.openSource = str2bool(codeInfo.openSource);
+
+      formData.Code.push(codeInfo);
+
+      setCodeInfo({
+        codeURL: "",
+        codeDOI: "",
+        openSource: false,
+        codeLicense: "",
+      });
+
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setCodeInfo({
       codeURL: "",
       codeDOI: "",
       openSource: false,
-      codeLicence: "",
+      codeLicense: "",
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
   const handleDelete = (e, code) => {
     e.preventDefault();
 
-    let filteredArray = formData.codes.filter((item) => item !== code);
-    setFormData({ ...formData, codes: filteredArray });
+    let filteredArray = formData.Code.filter((item) => item !== code);
+    setFormData({ ...formData, Code: filteredArray });
   };
 
   return (
     <div>
       <div>
         <h2>Code</h2>
-        {formData.codes.map((code) => (
+        {formData.Code.map((code) => (
           <div className="output-type row">
             <h4 className="output-title col">{code.codeURL}</h4>
             <span className="output-delete">
@@ -67,6 +92,8 @@ function Codes({ formData, setFormData }) {
         setFormData={setCodeInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );

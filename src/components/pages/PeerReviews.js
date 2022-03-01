@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 
 import PeerReview from "../forms/PeerReview";
+import validate from "../../validationRules/PeerReviewVR";
+import str2bool from "../../util/str2bool";
 
 function PeerReviews({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [peerRevInfo, setPeerRevInfo] = useState({
     peerRevURL: "",
@@ -19,28 +23,48 @@ function PeerReviews({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.peerRevs.push(peerRevInfo);
+    let newErrors = validate(peerRevInfo);
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      peerRevInfo.peerRevResponse = str2bool(peerRevInfo.peerRevResponse);
+
+      formData.PeerRev.push(peerRevInfo);
+
+      setPeerRevInfo({
+        peerRevURL: "",
+        peerRevResponse: false,
+      });
+
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setPeerRevInfo({
       peerRevURL: "",
       peerRevResponse: false,
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
   const handleDelete = (e, peerRev) => {
     e.preventDefault();
 
-    let filteredArray = formData.peerRevs.filter((item) => item !== peerRev);
-    setFormData({ ...formData, peerRevs: filteredArray });
+    let filteredArray = formData.PeerRev.filter((item) => item !== peerRev);
+    setFormData({ ...formData, PeerRev: filteredArray });
   };
 
   return (
     <div>
       <div>
         <h2>Open Peer Reviews</h2>
-        {formData.peerRevs.map((peerRev) => (
+        {formData.PeerRev.map((peerRev) => (
           <div className="output-type row">
             <h4 className="output-title col">{peerRev.peerRevURL}</h4>
             <span className="output-delete">
@@ -63,6 +87,8 @@ function PeerReviews({ formData, setFormData }) {
         setFormData={setPeerRevInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );

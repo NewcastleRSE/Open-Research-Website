@@ -11,6 +11,8 @@ function DigitalScholarship({
   setFormData,
   setDisplay,
   handleSubmit,
+  handleCancel,
+  errors,
 }) {
   if (show) {
     return (
@@ -30,14 +32,16 @@ function DigitalScholarship({
             onChange={(event) => {
               setFormData({ ...formData, dsURL: event.target.value });
             }}
+            error={errors.URL}
           />
           <TextInput
-            name="dsLicence"
-            placeholder="Licence"
-            value={formData.dsLicence}
+            name="dsLicense"
+            placeholder="License"
+            value={formData.dsLicense}
             onChange={(event) => {
-              setFormData({ ...formData, dsLicence: event.target.value });
+              setFormData({ ...formData, dsLicense: event.target.value });
             }}
+            error={errors.license}
           />
           <BooleanInput
             name="dsEmargo"
@@ -48,8 +52,12 @@ function DigitalScholarship({
             onChange={(event) => {
               setFormData({ ...formData, dsEmbargo: event.target.value });
             }}
+            error={errors.embargo}
           />
-          <ModalButtons setDisplay={setDisplay} handleSubmit={handleSubmit} />
+          <ModalButtons
+            handleSubmit={handleSubmit}
+            handleCancel={handleCancel}
+          />
         </div>
       </div>
     );

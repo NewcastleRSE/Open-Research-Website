@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 
 import Material from "../forms/Material";
+import validate from "../../validationRules/MaterialVR";
+import str2bool from "../../util/str2bool";
 
 function Materials({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [materialInfo, setMaterialInfo] = useState({
     materialURL: "",
@@ -20,7 +24,29 @@ function Materials({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.materials.push(materialInfo);
+    let newErrors = validate(materialInfo);
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      materialInfo.materialRelease = str2bool(materialInfo.materialRelease);
+      materialInfo.materialReproduction = str2bool(
+        materialInfo.materialReproduction
+      );
+
+      formData.Material.push(materialInfo);
+
+      setMaterialInfo({
+        materialURL: "",
+        materialReproduction: false,
+        materialRelease: false,
+      });
+
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setMaterialInfo({
       materialURL: "",
@@ -28,21 +54,22 @@ function Materials({ formData, setFormData }) {
       materialRelease: false,
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
   const handleDelete = (e, material) => {
     e.preventDefault();
 
-    let filteredArray = formData.materials.filter((item) => item !== material);
-    setFormData({ ...formData, materials: filteredArray });
+    let filteredArray = formData.Material.filter((item) => item !== material);
+    setFormData({ ...formData, Material: filteredArray });
   };
 
   return (
     <div>
       <div>
         <h2>Research Materials</h2>
-        {formData.materials.map((material) => (
+        {formData.Material.map((material) => (
           <div className="output-type row">
             <h4 className="output-title col">{material.materialURL}</h4>
             <span className="output-delete">
@@ -65,6 +92,8 @@ function Materials({ formData, setFormData }) {
         setFormData={setMaterialInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );

@@ -6,7 +6,7 @@ const ModalButtons = (props) => {
       <button
         type="button"
         className="cancel float-left"
-        onClick={() => props.setDisplay()}
+        onClick={(e) => props.handleCancel(e)}
       >
         Cancel
       </button>

@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 
 import RegReport from "../forms/RegReport";
+import validate from "../../validationRules/RegReportVR";
+import str2bool from "../../util/str2bool";
 
 function RegReports({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [regReportInfo, setRegReportInfo] = useState({
     regReportURL: "",
@@ -21,7 +25,30 @@ function RegReports({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.regReports.push(regReportInfo);
+    let newErrors = validate(regReportInfo);
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      regReportInfo.regReportChanges = str2bool(regReportInfo.regReportChanges);
+      regReportInfo.regReportFunding = str2bool(regReportInfo.regReportFunding);
+      regReportInfo.regReportPeerRev = str2bool(regReportInfo.regReportPeerRev);
+
+      formData.RegReport.push(regReportInfo);
+
+      setRegReportInfo({
+        regReportURL: "",
+        regReportFunding: false,
+        regReportPeerRev: false,
+        regReportChanges: false,
+      });
+
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setRegReportInfo({
       regReportURL: "",
@@ -30,23 +57,22 @@ function RegReports({ formData, setFormData }) {
       regReportChanges: false,
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
   const handleDelete = (e, regReport) => {
     e.preventDefault();
 
-    let filteredArray = formData.regReports.filter(
-      (item) => item !== regReport
-    );
-    setFormData({ ...formData, regReports: filteredArray });
+    let filteredArray = formData.RegReport.filter((item) => item !== regReport);
+    setFormData({ ...formData, RegReport: filteredArray });
   };
 
   return (
     <div>
       <div>
         <h2>Registered Reports</h2>
-        {formData.regReports.map((regReport) => (
+        {formData.RegReport.map((regReport) => (
           <div className="output-type row">
             <h4 className="output-title col">{regReport.regReportURL}</h4>
             <span className="output-delete">
@@ -69,6 +95,8 @@ function RegReports({ formData, setFormData }) {
         setFormData={setRegReportInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );

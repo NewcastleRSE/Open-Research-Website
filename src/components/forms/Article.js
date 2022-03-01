@@ -5,13 +5,15 @@ import TextInput from "../formElements/TextInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
 
-function ArticleInfo({
+const ArticleInfo = ({
   show,
   formData,
   setFormData,
   setDisplay,
+  handleCancel,
   handleSubmit,
-}) {
+  errors,
+}) => {
   if (show) {
     return (
       <div className="modal-container" onClick={() => setDisplay(!show)}>
@@ -29,6 +31,7 @@ function ArticleInfo({
             onChange={(event) => {
               setFormData({ ...formData, articleURL: event.target.value });
             }}
+            error={errors.URL}
           />
           <TextInput
             name="articleDOI"
@@ -37,14 +40,16 @@ function ArticleInfo({
             onChange={(event) => {
               setFormData({ ...formData, articleDOI: event.target.value });
             }}
+            error={errors.DOI}
           />
           <TextInput
-            name="articleLicence"
-            placeholder="Licence"
-            value={formData.articleLicence}
+            name="articleLicense"
+            placeholder="License"
+            value={formData.articleLicense}
             onChange={(event) => {
-              setFormData({ ...formData, articleLicence: event.target.value });
+              setFormData({ ...formData, articleLicense: event.target.value });
             }}
+            error={errors.license}
           />
           <BooleanInput
             name="articleEmargo"
@@ -55,14 +60,18 @@ function ArticleInfo({
             onChange={(event) => {
               setFormData({ ...formData, articleEmbargo: event.target.value });
             }}
+            error={errors.embargo}
           />
-          <ModalButtons setDisplay={setDisplay} handleSubmit={handleSubmit} />
+          <ModalButtons
+            handleSubmit={handleSubmit}
+            handleCancel={handleCancel}
+          />
         </div>
       </div>
     );
   } else {
     return null;
   }
-}
+};
 
 export default ArticleInfo;

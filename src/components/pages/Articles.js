@@ -1,14 +1,19 @@
 import React, { useState } from "react";
-import ArticleInfo from "../forms/Article";
+
+import Article from "../forms/Article";
+import validate from "../../validationRules/ArticleVR";
+import str2bool from "../../util/str2bool";
 
 function MultipleArticle({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [articleInfo, setArticleInfo] = useState({
     articleURL: "",
     articleDOI: "",
     articleEmbargo: false,
-    articleLicence: "",
+    articleLicense: "",
   });
 
   const handleClick = (e) => {
@@ -20,31 +25,54 @@ function MultipleArticle({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.articles.push(articleInfo);
+    let newErrors = validate(articleInfo);
+    setErrors(newErrors);
+    console.log(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      // Passing validation
+      articleInfo.articleEmbargo = str2bool(articleInfo.articleEmbargo);
+
+      formData.Article.push(articleInfo);
+
+      setArticleInfo({
+        articleURL: "",
+        articleDOI: "",
+        articleEmbargo: false,
+        articleLicense: "",
+      });
+
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setArticleInfo({
       articleURL: "",
       articleDOI: "",
       articleEmbargo: false,
-      articleLicence: "",
+      articleLicense: "",
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
   const handleDelete = (e, article) => {
     e.preventDefault();
 
-    let filteredArray = formData.articles.filter((item) => item !== article);
+    let filteredArray = formData.Article.filter((item) => item !== article);
 
-    setFormData({ ...formData, articles: filteredArray });
+    setFormData({ ...formData, Article: filteredArray });
   };
 
   return (
     <div>
       <div>
         <h2>Articles</h2>
-        {formData.articles.map((article) => (
+        {formData.Article.map((article) => (
           <div className="output-type row">
             <h4 className="output-title col">{article.articleURL}</h4>
             <span className="output-delete">
@@ -61,12 +89,14 @@ function MultipleArticle({ formData, setFormData }) {
         </button>
       </div>
 
-      <ArticleInfo
+      <Article
         show={display}
         formData={articleInfo}
         setFormData={setArticleInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );

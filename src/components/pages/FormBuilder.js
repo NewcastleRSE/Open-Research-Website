@@ -3,7 +3,7 @@ import React from "react";
 import Checkbox from "../formElements/Checkbox";
 
 const displayDissertation = ({ formBuilder, setFormBuilder, formData }) => {
-  if (formData.careerStage === "PhD") {
+  if (formData.Researcher.careerStage === "PhD") {
     return (
       <div className="col">
         <Checkbox
@@ -23,13 +23,14 @@ const displayDissertation = ({ formBuilder, setFormBuilder, formData }) => {
   }
 };
 
-function FormBuilder({ formBuilder, setFormBuilder, formData }) {
+function FormBuilder({ formBuilder, setFormBuilder, formData, error }) {
   return (
     <div className="step">
       <h2>Output Types</h2>
       <h3 className="main_question">
         Please select the output types you have used in your project
       </h3>
+      <p className="red-text">{error.builder}</p>
       <div className="row">
         <div className="col">
           <Checkbox

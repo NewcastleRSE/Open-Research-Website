@@ -3,9 +3,12 @@ import React from "react";
 const DropDown = (props) => {
   return (
     <div className="form-group">
+      <span className={`error ${!props.error ? "hidden" : ""}`}>
+        {props.error}
+      </span>
       <div className=" styled-select clearfix">
         <select
-          className="nice-select wide required"
+          className={`nice-select wide ${props.error ? "red-outline" : ""}`}
           name={props.name}
           value={props.value}
           onChange={props.onChange}

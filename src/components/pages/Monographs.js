@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 
 import Monograph from "../forms/Monograph";
+import validate from "../../validationRules/MonoVR";
+import str2bool from "../../util/str2bool";
 
 function Monographs({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [monographInfo, setMonographInfo] = useState({
     monographURL: "",
@@ -21,7 +25,28 @@ function Monographs({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.monographs.push(monographInfo);
+    let newErrors = validate(monographInfo);
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      monographInfo.monographEmbargo = str2bool(monographInfo.monographEmbargo);
+
+      formData.Monograph.push(monographInfo);
+
+      setMonographInfo({
+        monographURL: "",
+        monographDOI: "",
+        monographEmbargo: false,
+        monographLicence: "",
+      });
+
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setMonographInfo({
       monographURL: "",
@@ -30,23 +55,22 @@ function Monographs({ formData, setFormData }) {
       monographLicence: "",
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
   const handleDelete = (e, monograph) => {
     e.preventDefault();
 
-    let filteredArray = formData.monographs.filter(
-      (item) => item !== monograph
-    );
-    setFormData({ ...formData, monographs: filteredArray });
+    let filteredArray = formData.Monograph.filter((item) => item !== monograph);
+    setFormData({ ...formData, Monograph: filteredArray });
   };
 
   return (
     <div>
       <div>
         <h2>Monographs</h2>
-        {formData.monographs.map((monograph) => (
+        {formData.Monograph.map((monograph) => (
           <div className="output-type row">
             <h4 className="output-title col">{monograph.monographURL}</h4>
             <span className="output-delete">
@@ -69,6 +93,8 @@ function Monographs({ formData, setFormData }) {
         setFormData={setMonographInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );

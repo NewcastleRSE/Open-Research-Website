@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 
 import PreReg from "../forms/PreReg";
+import validate from "../../validationRules/PreRegVR";
+import str2bool from "../../util/str2bool";
 
 function PreRegs({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
+
+  const [errors, setErrors] = useState({});
 
   const [preRegInfo, setPreRegInfo] = useState({
     preRegURL: "",
@@ -19,28 +23,50 @@ function PreRegs({ formData, setFormData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    formData.preRegs.push(preRegInfo);
+    let newErrors = validate(preRegInfo);
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      preRegInfo.preRegDistinction = str2bool(preRegInfo.preRegDistinction);
+
+      formData.PreRegAnalysis.push(preRegInfo);
+
+      setPreRegInfo({
+        preRegURL: "",
+        preRegDistinction: false,
+      });
+
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
 
     setPreRegInfo({
       preRegURL: "",
       preRegDistinction: false,
     });
 
+    setErrors({});
     setDisplay(!display);
   };
 
   const handleDelete = (e, preReg) => {
     e.preventDefault();
 
-    let filteredArray = formData.preRegs.filter((item) => item !== preReg);
-    setFormData({ ...formData, preRegs: filteredArray });
+    let filteredArray = formData.PreRegAnalysis.filter(
+      (item) => item !== preReg
+    );
+    setFormData({ ...formData, PreRegAnalysis: filteredArray });
   };
 
   return (
     <div>
       <div>
         <h2>Pre-registration Analysis Plans</h2>
-        {formData.preRegs.map((preReg) => (
+        {formData.PreRegAnalysis.map((preReg) => (
           <div className="output-type row">
             <h4 className="output-title col">{preReg.preRegURL}</h4>
             <span className="output-delete">
@@ -63,6 +89,8 @@ function PreRegs({ formData, setFormData }) {
         setFormData={setPreRegInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );

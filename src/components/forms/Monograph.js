@@ -5,7 +5,15 @@ import TextInput from "../formElements/TextInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
 
-function Monograph({ show, formData, setFormData, setDisplay, handleSubmit }) {
+function Monograph({
+  show,
+  formData,
+  setFormData,
+  setDisplay,
+  handleCancel,
+  handleSubmit,
+  errors,
+}) {
   if (show) {
     return (
       <div className="modal-container" onClick={() => setDisplay(!show)}>
@@ -22,6 +30,7 @@ function Monograph({ show, formData, setFormData, setDisplay, handleSubmit }) {
             onChange={(event) => {
               setFormData({ ...formData, monographURL: event.target.value });
             }}
+            error={errors.URL}
           />
           <TextInput
             name="monographDOI"
@@ -30,6 +39,7 @@ function Monograph({ show, formData, setFormData, setDisplay, handleSubmit }) {
             onChange={(event) => {
               setFormData({ ...formData, monographDOI: event.target.value });
             }}
+            error={errors.DOI}
           />
           <TextInput
             name="monographLicence"
@@ -41,6 +51,7 @@ function Monograph({ show, formData, setFormData, setDisplay, handleSubmit }) {
                 monographLicence: event.target.value,
               });
             }}
+            error={errors.licence}
           />
           <BooleanInput
             name="monographEmargo"
@@ -54,8 +65,12 @@ function Monograph({ show, formData, setFormData, setDisplay, handleSubmit }) {
                 monographEmbargo: event.target.value,
               });
             }}
+            error={errors.embargo}
           />
-          <ModalButtons setDisplay={setDisplay} handleSubmit={handleSubmit} />
+          <ModalButtons
+            handleSubmit={handleSubmit}
+            handleCancel={handleCancel}
+          />
         </div>
       </div>
     );
