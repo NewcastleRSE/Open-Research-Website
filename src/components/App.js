@@ -26,6 +26,7 @@ import Theses from "./pages/Theses";
 import validateResearcher from "../validationRules/ResearcherVR";
 import validateProject from "../validationRules/ProjectVR";
 import validateBuilder from "../validationRules/BuilderVR";
+import SuccessModal from "./SuccessModal";
 
 function App() {
   const [page, setPage] = useState(0);
@@ -95,6 +96,8 @@ function App() {
     registeredReport: false,
     dissertation: false,
   });
+
+  const [displayModal, setDisplayModal] = useState(false);
 
   let leftStack = [];
 
@@ -351,36 +354,40 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      formData.uuid = uuidv4();
 
-    formData.uuid = uuidv4();
+      if (formData.school === "other" && formData.otherSchool !== "") {
+        formData.school = formData.otherSchool;
+      }
 
-    if (formData.school === "other" && formData.otherSchool !== "") {
-      formData.school = formData.otherSchool;
+      if (formData.funder === "other" && formData.otherFunder !== "") {
+        formData.funder = formData.otherFunder;
+      }
+
+      let data = new FormData();
+      data.append("data", JSON.stringify(formData));
+
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      axios
+        .post("http://localhost:1337/api/submissions", data, config)
+        .then(function (response) {
+          console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+      setDisplayModal(!displayModal);
+    } catch (err) {
+      console.log(err);
+      alert("Error");
     }
-
-    if (formData.funder === "other" && formData.otherFunder !== "") {
-      formData.funder = formData.otherFunder;
-    }
-
-    let data = new FormData();
-    data.append("data", JSON.stringify(formData));
-
-    let config = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    };
-
-    axios
-      .post("http://localhost:1337/api/submissions", data, config)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data));
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-
-    alert("Submitted");
   };
 
   return (
@@ -455,6 +462,11 @@ function App() {
         </div>
         {/*<!-- /row-->*/}
       </div>
+      <SuccessModal
+        show={displayModal}
+        setDisplay={setDisplayModal}
+        name={formData.Researcher.fullName}
+      />
     </div>
   );
 }
