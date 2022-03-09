@@ -48,7 +48,7 @@ function Monograph({
             onChange={(event) => {
               setFormData({
                 ...formData,
-                monographLicense: event.target.valse,
+                monographLicense: event.target.value,
               });
             }}
             error={errors.license}

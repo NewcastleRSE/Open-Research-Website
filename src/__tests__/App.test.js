@@ -11,6 +11,14 @@ describe("App component", () => {
     expect(await screen.findByRole("button", { name: /prev/i })).toBeDisabled();
   });
 
+  it("on initial render, submit button should be disabled", async () => {
+    render(<App />);
+
+    expect(
+      await screen.findByRole("button", { name: /submit/i })
+    ).toBeDisabled();
+  });
+
   it("once form fields have been correctly filled, the next button moves to the next page", () => {
     render(<App />);
 
@@ -18,13 +26,11 @@ describe("App component", () => {
 
     userEvent.selectOptions(
       screen.queryByTestId("faculty"),
-      //screen.getByRole("combobox", { name: "Faculty" }),
       screen.getByRole("option", { name: "SAgE" })
     );
 
     userEvent.selectOptions(
       screen.queryByTestId("school"),
-      //screen.getByRole("combobox", { name: "School" }),
       screen.getByRole("option", { name: "School of Computing" })
     );
 
@@ -38,5 +44,48 @@ describe("App component", () => {
     expect(
       screen.getByRole("heading", { name: "Project" })
     ).toBeInTheDocument();
+  });
+
+  it("should not move to the next page when full name is empty", () => {
+    render(<App />);
+
+    userEvent.selectOptions(
+      screen.queryByTestId("faculty"),
+      screen.getByRole("option", { name: "SAgE" })
+    );
+
+    userEvent.selectOptions(
+      screen.queryByTestId("school"),
+      screen.getByRole("option", { name: "School of Computing" })
+    );
+
+    userEvent.selectOptions(
+      screen.queryByTestId("careerStage"),
+      screen.getByRole("option", { name: "Early career" })
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
+
+    expect(
+      screen.getByRole("heading", { name: "Researcher" })
+    ).toBeInTheDocument();
+  });
+
+  it("should be able to select other option for school and type an input", () => {
+    render(<App />);
+
+    userEvent.selectOptions(
+      screen.queryByTestId("school"),
+      screen.getByRole("option", { name: "Other" })
+    );
+
+    userEvent.type(
+      screen.getByPlaceholderText("Other School/ Institute"),
+      "Other School"
+    );
+
+    expect(
+      screen.getByPlaceholderText("Other School/ Institute").value
+    ).toEqual("Other School");
   });
 });

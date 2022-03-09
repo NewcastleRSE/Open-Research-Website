@@ -15,7 +15,8 @@ const SuccessModal = ({ show, setDisplay, name }) => {
           onClick={(e) => e.stopPropagation()}
         >
           <h1>Success!</h1>
-          <p className="main-question">Thanks {name} for your time!</p>
+          <p>Thanks {name} for your response!</p>
+          <p>Click below to save your results.</p>
           <div className="button-container">
             <button
               type="button"

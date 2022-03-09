@@ -25,6 +25,8 @@ export default function validateProject({
 
   if (!length) {
     errors.length = "Required";
+  } else if (length <= 0) {
+    errors.length = "Length must be positive and greater than 0";
   }
 
   return errors;

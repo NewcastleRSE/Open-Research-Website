@@ -4,7 +4,7 @@ import validateURL from "../fieldValidation/URL";
 
 export default function validate(values) {
   let errors = {};
-
+  console.log(values);
   errors = validateURL(errors, values.monographURL);
 
   errors = validateDOI(errors, values.monographDOI);

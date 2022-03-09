@@ -49,5 +49,6 @@ describe("submission", () => {
     cy.findByRole("button", { name: /submit/i }).click();
 
     // verify if sucessful
+    cy.findByRole("heading", { name: /success!/i }).should("be.visible");
   });
 });

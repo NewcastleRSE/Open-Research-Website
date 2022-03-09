@@ -46,7 +46,7 @@ function App() {
     researchArea: "",
     funder: "",
     otherFunder: "",
-    length: 0,
+    length: "",
   });
 
   const [formData, setFormData] = useState({
@@ -374,19 +374,12 @@ function App() {
         },
       };
 
-      axios
-        .post("http://localhost:1337/api/submissions", data, config)
-        .then(function (response) {
-          console.log(JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      await axios.post("http://localhost:1337/api/submissions", data, config);
 
       setDisplayModal(!displayModal);
     } catch (err) {
+      alert("error");
       console.log(err);
-      alert("Error");
     }
   };
 

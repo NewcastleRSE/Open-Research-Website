@@ -52,7 +52,9 @@ const DropDownOther = (props) => {
                 {option.value}
               </option>
             ))}
-            <option value="other">Other</option>
+            <option value="other" data-testid="select-option">
+              Other
+            </option>
           </select>
         </div>
       </div>
