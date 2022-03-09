@@ -42,16 +42,16 @@ function Monograph({
             error={errors.DOI}
           />
           <TextInput
-            name="monographLicence"
-            placeholder="Licence"
-            value={formData.monographLicence}
+            name="monographLicense"
+            placeholder="License"
+            value={formData.monographLicense}
             onChange={(event) => {
               setFormData({
                 ...formData,
-                monographLicence: event.target.value,
+                monographLicense: event.target.valse,
               });
             }}
-            error={errors.licence}
+            error={errors.license}
           />
           <BooleanInput
             name="monographEmargo"

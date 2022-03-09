@@ -12,10 +12,19 @@ const DropDown = (props) => {
           name={props.name}
           value={props.value}
           onChange={props.onChange}
+          data-testid={props.id}
         >
-          <option value="">{props.placeholder}</option>
+          <option data-testid="select-option" value="">
+            {props.placeholder}
+          </option>
           {props.options.map((option) => (
-            <option value={option.value}>{option.value}</option>
+            <option
+              data-testid="select-option"
+              key={option.value}
+              value={option.value}
+            >
+              {option.value}
+            </option>
           ))}
         </select>
       </div>

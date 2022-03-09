@@ -12,15 +12,6 @@ function ProjectInfo({ formData, setFormData, errors }) {
         Please fill with your details about your project
       </h3>
       <TextInput
-        name="researchArea"
-        placeholder="Research Area"
-        value={formData.researchArea}
-        onChange={(event) =>
-          setFormData({ ...formData, researchArea: event.target.value })
-        }
-        error={errors.researchArea}
-      />
-      <TextInput
         name="projectName"
         placeholder="Project Name"
         value={formData.projectName}
@@ -28,6 +19,15 @@ function ProjectInfo({ formData, setFormData, errors }) {
           setFormData({ ...formData, projectName: event.target.value })
         }
         error={errors.projectName}
+      />
+      <TextInput
+        name="researchArea"
+        placeholder="Research Area"
+        value={formData.researchArea}
+        onChange={(event) =>
+          setFormData({ ...formData, researchArea: event.target.value })
+        }
+        error={errors.researchArea}
       />
       <DropDownOther
         name="funder"

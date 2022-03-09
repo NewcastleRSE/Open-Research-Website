@@ -406,7 +406,12 @@ function App() {
               </div>
               {/*<!-- /top-wizard -->*/}
               <form id="wrapped" method="POST">
-                <input id="website" name="website" type="text" value="" />
+                <input
+                  id="website"
+                  name="website"
+                  type="text"
+                  defaultValue=""
+                />
                 {/*<!-- Leave for security protection, read docs for details -->*/}
                 <div id="middle-wizard">{PageDisplay()}</div>
                 {/*<!-- /middle-wizard -->*/}

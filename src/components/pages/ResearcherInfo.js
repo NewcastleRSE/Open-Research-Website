@@ -27,6 +27,7 @@ function ResearcherInfo({ formData, setFormData, errors }) {
           setFormData({ ...formData, faculty: event.target.value });
         }}
         error={errors.faculty}
+        id="faculty"
       />
       <DropDownOther
         name="school"
@@ -49,6 +50,7 @@ function ResearcherInfo({ formData, setFormData, errors }) {
         }}
         error={errors.school}
         otherError={errors.otherSchool}
+        id="school"
       />
       <DropDown
         name="careerStage"
@@ -68,6 +70,7 @@ function ResearcherInfo({ formData, setFormData, errors }) {
           });
         }}
         error={errors.careerStage}
+        id="careerStage"
       />
     </div>
   );

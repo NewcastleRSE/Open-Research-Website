@@ -13,7 +13,7 @@ function Monographs({ formData, setFormData }) {
     monographURL: "",
     monographDOI: "",
     monographEmbargo: false,
-    monographLicence: "",
+    monographLicense: "",
   });
 
   const handleClick = (e) => {
@@ -27,7 +27,7 @@ function Monographs({ formData, setFormData }) {
 
     let newErrors = validate(monographInfo);
     setErrors(newErrors);
-
+    console.log(newErrors);
     if (Object.keys(newErrors).length === 0) {
       monographInfo.monographEmbargo = str2bool(monographInfo.monographEmbargo);
 
@@ -37,7 +37,7 @@ function Monographs({ formData, setFormData }) {
         monographURL: "",
         monographDOI: "",
         monographEmbargo: false,
-        monographLicence: "",
+        monographLicense: "",
       });
 
       setErrors({});
@@ -52,7 +52,7 @@ function Monographs({ formData, setFormData }) {
       monographURL: "",
       monographDOI: "",
       monographEmbargo: false,
-      monographLicence: "",
+      monographLicense: "",
     });
 
     setErrors({});
