@@ -2,10 +2,17 @@ import { React, useState } from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom/extend-expect";
+import { renderHook } from "@testing-library/react-hooks";
+
+import useFormData from "../util/useFormData";
 import Articles from "../components/pages/Articles";
 
 describe("Articles", () => {
-  render(<Articles />);
+  const { formData, setFormData } = renderHook(() => useFormData());
+
+  console.log(formData);
+
+  render(<Articles formData={formData} setFormData={setFormData} />);
 
   fireEvent.click(screen.getByRole("button", { name: /add article/i }));
 

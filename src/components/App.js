@@ -117,48 +117,114 @@ function App() {
 
     if (formBuilder.monograph) {
       form.push(<Monographs formData={formData} setFormData={setFormData} />);
+      leftStack.push(
+        <LeftContent
+          heading="Monographs"
+          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        />
+      );
     }
 
     if (formBuilder.dataset) {
       form.push(<Datasets formData={formData} setFormData={setFormData} />);
+      leftStack.push(
+        <LeftContent
+          heading="Data"
+          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        />
+      );
     }
 
     if (formBuilder.code) {
       form.push(<Codes formData={formData} setFormData={setFormData} />);
+      leftStack.push(
+        <LeftContent
+          heading="Code"
+          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        />
+      );
     }
 
     if (formBuilder.researchMaterial) {
       form.push(<Materials formData={formData} setFormData={setFormData} />);
+      leftStack.push(
+        <LeftContent
+          heading="Research Material"
+          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        />
+      );
     }
 
     if (formBuilder.protocol) {
       form.push(<Protocols formData={formData} setFormData={setFormData} />);
+      leftStack.push(
+        <LeftContent
+          heading="Protocols"
+          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        />
+      );
     }
 
     if (formBuilder.digitalScholarship) {
       form.push(
         <DigitalScholarships formData={formData} setFormData={setFormData} />
       );
+      leftStack.push(
+        <LeftContent
+          heading="Digital Scholarships"
+          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        />
+      );
     }
 
     if (formBuilder.preprints) {
       form.push(<Preprints formData={formData} setFormData={setFormData} />);
+      leftStack.push(
+        <LeftContent
+          heading="Preprints"
+          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        />
+      );
     }
 
     if (formBuilder.openPeerReview) {
       form.push(<PeerReviews formData={formData} setFormData={setFormData} />);
+      leftStack.push(
+        <LeftContent
+          heading="Open Peer Reviews"
+          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        />
+      );
     }
 
     if (formBuilder.analysisPlan) {
       form.push(<PreRegs formData={formData} setFormData={setFormData} />);
+      leftStack.push(
+        <LeftContent
+          heading="Pre-registration Analysis Plans"
+          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        />
+      );
     }
 
     if (formBuilder.registeredReport) {
       form.push(<RegReports formData={formData} setFormData={setFormData} />);
+      leftStack.push(
+        <LeftContent
+          heading="Registered Report"
+          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        />
+      );
     }
 
     if (formBuilder.dissertation) {
       form.push(<Theses formData={formData} setFormData={setFormData} />);
+      leftStack.push(
+        <LeftContent
+          heading="Theses and Dissertation"
+          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        />
+      );
     }
 
     return form;
@@ -289,6 +355,39 @@ function App() {
       }
       case 3: {
         return <div>{leftStack[0]}</div>;
+      }
+      case 4: {
+        return <div>{leftStack[1]}</div>;
+      }
+      case 5: {
+        return <div>{leftStack[2]}</div>;
+      }
+      case 6: {
+        return <div>{leftStack[3]}</div>;
+      }
+      case 7: {
+        return <div>{leftStack[4]}</div>;
+      }
+      case 8: {
+        return <div>{leftStack[5]}</div>;
+      }
+      case 9: {
+        return <div>{leftStack[6]}</div>;
+      }
+      case 10: {
+        return <div>{leftStack[7]}</div>;
+      }
+      case 11: {
+        return <div>{leftStack[8]}</div>;
+      }
+      case 12: {
+        return <div>{leftStack[9]}</div>;
+      }
+      case 13: {
+        return <div>{leftStack[10]}</div>;
+      }
+      case 14: {
+        return <div>{leftStack[11]}</div>;
       }
       default: {
         return (
