@@ -1,5 +1,5 @@
 describe("multiple output types", () => {
-  it("user should be able to add multiple protocols", () => {
+  it("user should be able to add multiple protocols and remove one", () => {
     cy.visit("http://localhost:3000/");
 
     // enter researcher info
@@ -24,24 +24,32 @@ describe("multiple output types", () => {
     cy.get('[type="radio"]').eq(0).first().check();
     cy.findByRole("button", { name: /submit/i }).click();
 
+    cy.findByRole("heading", { name: "www.protocoltest.com" }).should(
+      "be.visible"
+    );
+
     cy.findByRole("button", { name: /add protocol/i }).click();
     cy.get("input").eq(1).type("www.protocoltest2.com");
     cy.get('[type="radio"]').eq(0).first().check();
     cy.findByRole("button", { name: /submit/i }).click();
+
+    cy.findByRole("heading", { name: "www.protocoltest2.com" }).should(
+      "be.visible"
+    );
 
     cy.findByRole("button", { name: /add protocol/i }).click();
     cy.get("input").eq(1).type("www.protocoltest3.com");
     cy.get('[type="radio"]').eq(0).first().check();
     cy.findByRole("button", { name: /submit/i }).click();
 
-    cy.findByRole("heading", {
-      name: /www\.protocoltest\.com/i,
-    }).should("be.visible");
-    cy.findByRole("heading", {
-      name: /www\.protocoltest2\.com/i,
-    }).should("be.visible");
-    cy.findByRole("heading", {
-      name: /www\.protocoltest3\.com/i,
-    }).should("be.visible");
+    cy.findByRole("heading", { name: "www.protocoltest3.com" }).should(
+      "be.visible"
+    );
+
+    cy.get(":nth-child(2) > .output-delete").click();
+
+    cy.findByRole("heading", { name: "www.protocoltest.com" }).should(
+      "not.exist"
+    );
   });
 });

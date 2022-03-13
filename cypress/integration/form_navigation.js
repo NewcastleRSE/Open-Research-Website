@@ -9,6 +9,8 @@ describe("form navigation", () => {
     cy.get("select").eq(2).select("PhD");
     cy.findByRole("button", { name: /next/i }).click();
 
+    cy.findByRole("heading", { name: /project/i }).should("be.visible");
+
     cy.findByRole("button", { name: /prev/i }).click();
 
     cy.findByRole("heading", { name: /researcher/i }).should("be.visible");

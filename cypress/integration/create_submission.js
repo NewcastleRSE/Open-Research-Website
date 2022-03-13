@@ -38,6 +38,9 @@ describe("submission", () => {
     cy.get("input").eq(3).type("MIT");
     cy.get('[type="radio"]').first().check();
     cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("heading", { name: "www.articletest.com" }).should(
+      "be.visible"
+    );
     cy.findByRole("button", { name: /next/i }).click();
 
     // enter monograph info
@@ -47,6 +50,9 @@ describe("submission", () => {
     cy.get("input").eq(3).type("MIT");
     cy.get('[type="radio"]').first().check();
     cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("heading", { name: "www.monographtest.com" }).should(
+      "be.visible"
+    );
     cy.findByRole("button", { name: /next/i }).click();
 
     // enter dataset info
@@ -56,6 +62,9 @@ describe("submission", () => {
     cy.get("select").eq(0).select("CSV");
     cy.get("input").eq(3).type("MIT");
     cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("heading", { name: "www.datasettest.com" }).should(
+      "be.visible"
+    );
     cy.findByRole("button", { name: /next/i }).click();
 
     // enter code info
@@ -64,6 +73,7 @@ describe("submission", () => {
     cy.get("input").eq(2).type("10.1234/abc");
     cy.findByRole("radio", { name: /no/i }).click();
     cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("heading", { name: "www.codetest.com" }).should("be.visible");
     cy.findByRole("button", { name: /next/i }).click();
 
     // enter material info
@@ -72,6 +82,9 @@ describe("submission", () => {
     cy.get('[type="radio"]').eq(0).first().check();
     cy.get('[type="radio"]').eq(2).first().check();
     cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("heading", { name: "www.materialtest.com" }).should(
+      "be.visible"
+    );
     cy.findByRole("button", { name: /next/i }).click();
 
     // enter protocol info
@@ -79,14 +92,20 @@ describe("submission", () => {
     cy.get("input").eq(1).type("www.protocoltest.com");
     cy.get('[type="radio"]').eq(0).first().check();
     cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("heading", { name: "www.protocoltest.com" }).should(
+      "be.visible"
+    );
     cy.findByRole("button", { name: /next/i }).click();
 
     // enter digital scholarship info
     cy.findByRole("button", { name: /add digital scholarship/i }).click();
-    cy.get("input").eq(1).type("www.protocoltest.com");
+    cy.get("input").eq(1).type("www.digitalscholarshiptest.com");
     cy.get("input").eq(2).type("MIT");
     cy.get('[type="radio"]').eq(0).first().check();
     cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("heading", { name: "www.digitalscholarshiptest.com" }).should(
+      "be.visible"
+    );
     cy.findByRole("button", { name: /next/i }).click();
 
     // enter preprint info
@@ -95,6 +114,9 @@ describe("submission", () => {
     cy.get("input").eq(2).type("10.1234/abc");
     cy.get('[type="radio"]').eq(0).first().check();
     cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("heading", { name: "www.preprinttest.com" }).should(
+      "be.visible"
+    );
     cy.findByRole("button", { name: /next/i }).click();
 
     // enter peer review info
@@ -102,6 +124,9 @@ describe("submission", () => {
     cy.get("input").eq(1).type("www.peerreviewtest.com");
     cy.get('[type="radio"]').eq(0).first().check();
     cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("heading", { name: "www.peerreviewtest.com" }).should(
+      "be.visible"
+    );
     cy.findByRole("button", { name: /next/i }).click();
 
     // enter pre-reg analysis plan info
@@ -111,6 +136,9 @@ describe("submission", () => {
     cy.get("input").eq(1).type("www.prereganalysisplantest.com");
     cy.get('[type="radio"]').eq(0).first().check();
     cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("heading", { name: "www.prereganalysisplantest.com" }).should(
+      "be.visible"
+    );
     cy.findByRole("button", { name: /next/i }).click();
 
     // enter registered report info
@@ -120,6 +148,9 @@ describe("submission", () => {
     cy.get('[type="radio"]').eq(2).first().check();
     cy.get('[type="radio"]').eq(4).first().check();
     cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("heading", { name: "www.regreporttest.com" }).should(
+      "be.visible"
+    );
     cy.findByRole("button", { name: /next/i }).click();
 
     // enter thesis info
@@ -129,6 +160,9 @@ describe("submission", () => {
     cy.get("input").eq(3).type("MIT");
     cy.get('[type="radio"]').first().check();
     cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("heading", { name: "www.thesistest.com" }).should(
+      "be.visible"
+    );
     cy.findByRole("button", { name: /next/i }).click();
 
     // press submit
@@ -167,6 +201,9 @@ describe("submission", () => {
     cy.get("input").eq(3).type("MIT");
     cy.get('[type="radio"]').first().check();
     cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("heading", { name: "www.articletest.com" }).should(
+      "be.visible"
+    );
 
     cy.findByRole("button", { name: /add article/i }).click();
     cy.get("input").eq(1).type("www.articletest2.com");
@@ -174,6 +211,9 @@ describe("submission", () => {
     cy.get("input").eq(3).type("MIT");
     cy.get('[type="radio"]').first().check();
     cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("heading", { name: "www.articletest2.com" }).should(
+      "be.visible"
+    );
     cy.findByRole("button", { name: /next/i }).click();
 
     // enter preprint
@@ -182,6 +222,9 @@ describe("submission", () => {
     cy.get("input").eq(2).type("10.1234/321");
     cy.get('[type="radio"]').first().check();
     cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("heading", { name: "www.preprinttest.com" }).should(
+      "be.visible"
+    );
     cy.findByRole("button", { name: /next/i }).click();
 
     // press submit
