@@ -8,22 +8,23 @@ import useFormData from "../util/useFormData";
 import Articles from "../components/pages/Articles";
 
 describe("Articles", () => {
-  const { formData, setFormData } = renderHook(() => useFormData());
+  it("should be able to fill article form fields", () => {
+    const { formData, setFormData } = renderHook(() => useFormData());
 
-  console.log(formData);
+    console.log(formData);
 
-  render(<Articles formData={formData} setFormData={setFormData} />);
+    render(<Articles formData={formData} setFormData={setFormData} />);
 
-  fireEvent.click(screen.getByRole("button", { name: /add article/i }));
+    fireEvent.click(screen.getByRole("button", { name: /add article/i }));
 
-  userEvent.type(screen.getByPlaceholderText(/article url/i), "www.test.com");
-  userEvent.type(screen.getByPlaceholderText(/article doi/i), "10.1234/abc");
-  userEvent.type(screen.getByPlaceholderText(/license/i), "tst");
-  fireEvent.click(screen.getByRole("radio", { name: /yes/i }));
+    userEvent.type(screen.getByPlaceholderText(/article url/i), "www.test.com");
+    userEvent.type(screen.getByPlaceholderText(/article doi/i), "10.1234/abc");
+    userEvent.type(screen.getByPlaceholderText(/license/i), "tst");
+    fireEvent.click(screen.getByRole("radio", { name: /yes/i }));
 
-  fireEvent.click(screen.getByRole("button", { name: /submit/i }));
+    fireEvent.click(screen.getByRole("button", { name: /submit/i }));
 
-  expect(screen.getByText(/remove/i)).toBe(true);
-  screen.getByRole("");
-  expect(addToFormData).toHaveBeenCalledTimes(1);
+    expect(screen.getByText(/remove/i)).toBe(true);
+    screen.getByRole("");
+  });
 });

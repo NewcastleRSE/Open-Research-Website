@@ -4,12 +4,12 @@ import axios from "axios";
 import FormData from "form-data";
 
 import ResearcherInfo from "./pages/ResearcherInfo";
-import ProjectInfo from "./pages/ProjectInfo";
 import FormBuilder from "./pages/FormBuilder";
 import StepCounter from "./StepCounter";
 import LeftContent from "./pages/LeftContent";
 import Summary from "./pages/Summary";
 
+import Projects from "./pages/Projects";
 import Articles from "./pages/Articles";
 import Monographs from "./pages/Monographs";
 import Datasets from "./pages/Datasets";
@@ -39,14 +39,6 @@ function App() {
     school: "",
     otherSchool: "",
     careerStage: "",
-  });
-
-  const [projectInfo, setProjectInfo] = useState({
-    projectName: "",
-    researchArea: "",
-    funder: "",
-    otherFunder: "",
-    length: "",
   });
 
   const [formData, setFormData] = useState({
@@ -261,11 +253,7 @@ function App() {
       case 1: {
         return (
           <div>
-            <ProjectInfo
-              formData={projectInfo}
-              setFormData={setProjectInfo}
-              errors={errors}
-            />
+            <Projects formData={formData} setFormData={setFormData} />
           </div>
         );
       }
@@ -423,15 +411,14 @@ function App() {
         break;
       }
       case 1: {
-        let newErrors = validateProject(projectInfo);
-        setErrors(newErrors);
-
-        if (Object.keys(newErrors).length === 0) {
-          formData.Project = projectInfo;
-
-          setErrors({});
+        // validate project
+        if (formData.Project.projectName) {
           setPage((currentPage) => currentPage + 1);
+        } else {
+          alert("Must choose a project or enter a new one.");
+          break;
         }
+
         break;
       }
       case 2: {

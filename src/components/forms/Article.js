@@ -5,7 +5,7 @@ import TextInput from "../formElements/TextInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
 
-const ArticleInfo = ({
+const Article = ({
   show,
   formData,
   setFormData,
@@ -74,4 +74,4 @@ const ArticleInfo = ({
   }
 };
 
-export default ArticleInfo;
+export default Article;

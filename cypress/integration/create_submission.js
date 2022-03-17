@@ -1,6 +1,10 @@
 describe("submission", () => {
-  it("user can post a submission with one of each output type", () => {
+  it("user can post a submission with one of each output type and all validation should work", () => {
     cy.visit("http://localhost:3000/");
+
+    // test validation
+    cy.findByRole("button", { name: /next/i }).click();
+    cy.findByRole("heading", { name: /researcher/i }).should("be.visible");
 
     // enter researcher info
     cy.findByRole("textbox").type("Test User");
@@ -8,6 +12,12 @@ describe("submission", () => {
     cy.get("select").eq(1).select("School of Computing");
     cy.get("select").eq(2).select("PhD");
     cy.findByRole("button", { name: /next/i }).click();
+
+    // test validation
+    cy.findByRole("button", { name: /next/i }).click();
+    cy.findByRole("heading", {
+      name: /please fill with your details about your project/i,
+    }).should("be.visible");
 
     // enter project info
     cy.get("input").eq(1).type("Test Project");
@@ -31,8 +41,12 @@ describe("submission", () => {
     cy.get('[type="checkbox"]').eq(11).check();
     cy.findByRole("button", { name: /next/i }).click();
 
-    // enter article info
+    // test validation
     cy.findByRole("button", { name: /add article/i }).click();
+    cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("button", { name: /submit/i }).should("be.visible");
+
+    // enter article info
     cy.get("input").eq(1).type("www.articletest.com");
     cy.get("input").eq(2).type("10.1234/abc");
     cy.get("input").eq(3).type("MIT");
@@ -43,8 +57,12 @@ describe("submission", () => {
     );
     cy.findByRole("button", { name: /next/i }).click();
 
-    // enter monograph info
+    // test validation
     cy.findByRole("button", { name: /add monograph/i }).click();
+    cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("button", { name: /submit/i }).should("be.visible");
+
+    // enter monograph info
     cy.get("input").eq(1).type("www.monographtest.com");
     cy.get("input").eq(2).type("10.1234/abc");
     cy.get("input").eq(3).type("MIT");
@@ -55,8 +73,12 @@ describe("submission", () => {
     );
     cy.findByRole("button", { name: /next/i }).click();
 
-    // enter dataset info
+    // test validation
     cy.findByRole("button", { name: /add dataset/i }).click();
+    cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("button", { name: /submit/i }).should("be.visible");
+
+    // enter dataset info
     cy.get("input").eq(1).type("www.datasettest.com");
     cy.get("input").eq(2).type("10.1234/abc");
     cy.get("select").eq(0).select("CSV");
@@ -67,8 +89,12 @@ describe("submission", () => {
     );
     cy.findByRole("button", { name: /next/i }).click();
 
-    // enter code info
+    // test validation
     cy.findByRole("button", { name: /add code/i }).click();
+    cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("button", { name: /submit/i }).should("be.visible");
+
+    // enter code info
     cy.get("input").eq(1).type("www.codetest.com");
     cy.get("input").eq(2).type("10.1234/abc");
     cy.findByRole("radio", { name: /no/i }).click();
@@ -76,8 +102,12 @@ describe("submission", () => {
     cy.findByRole("heading", { name: "www.codetest.com" }).should("be.visible");
     cy.findByRole("button", { name: /next/i }).click();
 
-    // enter material info
+    // test validation
     cy.findByRole("button", { name: /add material/i }).click();
+    cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("button", { name: /submit/i }).should("be.visible");
+
+    // enter material info
     cy.get("input").eq(1).type("www.materialtest.com");
     cy.get('[type="radio"]').eq(0).first().check();
     cy.get('[type="radio"]').eq(2).first().check();
@@ -87,8 +117,12 @@ describe("submission", () => {
     );
     cy.findByRole("button", { name: /next/i }).click();
 
-    // enter protocol info
+    // test validation
     cy.findByRole("button", { name: /add protocol/i }).click();
+    cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("button", { name: /submit/i }).should("be.visible");
+
+    // enter protocol info
     cy.get("input").eq(1).type("www.protocoltest.com");
     cy.get('[type="radio"]').eq(0).first().check();
     cy.findByRole("button", { name: /submit/i }).click();
@@ -97,8 +131,12 @@ describe("submission", () => {
     );
     cy.findByRole("button", { name: /next/i }).click();
 
-    // enter digital scholarship info
+    // test validation
     cy.findByRole("button", { name: /add digital scholarship/i }).click();
+    cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("button", { name: /submit/i }).should("be.visible");
+
+    // enter digital scholarship info
     cy.get("input").eq(1).type("www.digitalscholarshiptest.com");
     cy.get("input").eq(2).type("MIT");
     cy.get('[type="radio"]').eq(0).first().check();
@@ -108,8 +146,12 @@ describe("submission", () => {
     );
     cy.findByRole("button", { name: /next/i }).click();
 
-    // enter preprint info
+    // test validation
     cy.findByRole("button", { name: /add preprint/i }).click();
+    cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("button", { name: /submit/i }).should("be.visible");
+
+    // enter preprint info
     cy.get("input").eq(1).type("www.preprinttest.com");
     cy.get("input").eq(2).type("10.1234/abc");
     cy.get('[type="radio"]').eq(0).first().check();
@@ -119,8 +161,12 @@ describe("submission", () => {
     );
     cy.findByRole("button", { name: /next/i }).click();
 
-    // enter peer review info
+    // test validation
     cy.findByRole("button", { name: /add peer review/i }).click();
+    cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("button", { name: /submit/i }).should("be.visible");
+
+    // enter peer review info
     cy.get("input").eq(1).type("www.peerreviewtest.com");
     cy.get('[type="radio"]').eq(0).first().check();
     cy.findByRole("button", { name: /submit/i }).click();
@@ -129,10 +175,14 @@ describe("submission", () => {
     );
     cy.findByRole("button", { name: /next/i }).click();
 
-    // enter pre-reg analysis plan info
+    // test validation
     cy.findByRole("button", {
       name: /add pre-registration analysis plan/i,
     }).click();
+    cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("button", { name: /submit/i }).should("be.visible");
+
+    // enter pre-reg analysis plan info
     cy.get("input").eq(1).type("www.prereganalysisplantest.com");
     cy.get('[type="radio"]').eq(0).first().check();
     cy.findByRole("button", { name: /submit/i }).click();
@@ -141,8 +191,12 @@ describe("submission", () => {
     );
     cy.findByRole("button", { name: /next/i }).click();
 
-    // enter registered report info
+    // test validation
     cy.findByRole("button", { name: /add registered report/i }).click();
+    cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("button", { name: /submit/i }).should("be.visible");
+
+    // enter registered report info
     cy.get("input").eq(1).type("www.regreporttest.com");
     cy.get('[type="radio"]').eq(0).first().check();
     cy.get('[type="radio"]').eq(2).first().check();
@@ -153,8 +207,12 @@ describe("submission", () => {
     );
     cy.findByRole("button", { name: /next/i }).click();
 
-    // enter thesis info
+    // test validation
     cy.findByRole("button", { name: /add theses or dissertation/i }).click();
+    cy.findByRole("button", { name: /submit/i }).click();
+    cy.findByRole("button", { name: /submit/i }).should("be.visible");
+
+    // enter thesis info
     cy.get("input").eq(1).type("www.thesistest.com");
     cy.get("input").eq(2).type("10.1234/abc");
     cy.get("input").eq(3).type("MIT");
