@@ -1,5 +1,6 @@
 import React from "react";
 
+import TextInput from "../formElements/TextInput";
 import UrlInput from "../formElements/UrlInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
@@ -22,6 +23,15 @@ function RegReport({
         >
           <h2>Registered Reports</h2>
           <h3 className="main_question">Please fill with your details</h3>
+          <TextInput
+            name="regReportTitle"
+            placeholder="Registered Report Title"
+            value={formData.regReportTitle}
+            onChange={(event) => {
+              setFormData({ ...formData, regReportTitle: event.target.value });
+            }}
+            error={errors.title}
+          />
           <UrlInput
             name="regReportURL"
             placeholder="Registered Report URL"

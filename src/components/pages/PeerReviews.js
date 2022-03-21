@@ -10,6 +10,7 @@ function PeerReviews({ formData, setFormData }) {
   const [errors, setErrors] = useState({});
 
   const [peerRevInfo, setPeerRevInfo] = useState({
+    peerRevTitle: "",
     peerRevURL: "",
     peerRevResponse: false,
   });
@@ -32,6 +33,7 @@ function PeerReviews({ formData, setFormData }) {
       formData.PeerRev.push(peerRevInfo);
 
       setPeerRevInfo({
+        peerRevTitle: "",
         peerRevURL: "",
         peerRevResponse: false,
       });
@@ -45,6 +47,7 @@ function PeerReviews({ formData, setFormData }) {
     e.preventDefault();
 
     setPeerRevInfo({
+      peerRevTitle: "",
       peerRevURL: "",
       peerRevResponse: false,
     });
@@ -66,7 +69,7 @@ function PeerReviews({ formData, setFormData }) {
         <h2>Open Peer Reviews</h2>
         {formData.PeerRev.map((peerRev) => (
           <div className="output-type row">
-            <h4 className="output-title col">{peerRev.peerRevURL}</h4>
+            <h4 className="output-title col">{peerRev.peerRevTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, peerRev)}>Remove</p>
             </span>

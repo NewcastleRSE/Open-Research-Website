@@ -1,10 +1,13 @@
+import validateTitle from "../fieldValidation/Title";
 import validateDOI from "../fieldValidation/DOI";
 import validateLicense from "../fieldValidation/License";
 import validateURL from "../fieldValidation/URL";
 
 export default function validate(values) {
   let errors = {};
-  console.log(values);
+
+  errors = validateTitle(errors, values.monographTitle);
+
   errors = validateURL(errors, values.monographURL);
 
   errors = validateDOI(errors, values.monographDOI);

@@ -1,5 +1,6 @@
 import React from "react";
 
+import TextInput from "../formElements/TextInput";
 import UrlInput from "../formElements/UrlInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
@@ -24,6 +25,15 @@ function Material({
           <h3 className="main_question">
             Please fill with details about your research Material
           </h3>
+          <TextInput
+            name="materialTitle"
+            placeholder="Material Title"
+            value={formData.materialTitle}
+            onChange={(event) => {
+              setFormData({ ...formData, materialTitle: event.target.value });
+            }}
+            error={errors.title}
+          />
           <UrlInput
             name="materialURL"
             placeholder="Material URL"

@@ -1,5 +1,6 @@
 import React from "react";
 
+import TextInput from "../formElements/TextInput";
 import UrlInput from "../formElements/UrlInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
@@ -25,9 +26,18 @@ function PreReg({
             Please fill with details of your your pre-registration analysis
             plans
           </h3>
+          <TextInput
+            name="preRegTitle"
+            placeholder="Pre-registration Analysis Plan Title"
+            value={formData.preRegTitle}
+            onChange={(event) => {
+              setFormData({ ...formData, preRegTitle: event.target.value });
+            }}
+            error={errors.title}
+          />
           <UrlInput
             name="preRegURL"
-            placeholder="Pre-registration Analysis Plans URL"
+            placeholder="Pre-registration Analysis Plan URL"
             value={formData.preRegURL}
             onChange={(event) => {
               setFormData({ ...formData, preRegURL: event.target.value });

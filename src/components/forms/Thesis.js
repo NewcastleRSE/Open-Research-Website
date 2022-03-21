@@ -23,6 +23,15 @@ function Thesis({
         >
           <h2>Theses and dissertation</h2>
           <h3 className="main_question">Please fill with your details</h3>
+          <TextInput
+            name="thesisTitle"
+            placeholder="Thesis Title"
+            value={formData.thesisTitle}
+            onChange={(event) => {
+              setFormData({ ...formData, thesisTitle: event.target.value });
+            }}
+            error={errors.title}
+          />
           <UrlInput
             name="thesisURL"
             placeholder="Thesis URL"

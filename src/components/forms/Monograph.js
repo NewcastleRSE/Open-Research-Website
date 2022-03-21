@@ -23,6 +23,15 @@ function Monograph({
         >
           <h2>Monographs, Books, Book Chapters and Edited Volumes</h2>
           <h3 className="main_question"></h3>
+          <TextInput
+            name="monographTitle"
+            placeholder="Monograph Title"
+            value={formData.monographTitle}
+            onChange={(event) => {
+              setFormData({ ...formData, monographTitle: event.target.value });
+            }}
+            error={errors.title}
+          />
           <UrlInput
             name="monographURL"
             placeholder="Monograph URL"

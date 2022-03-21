@@ -25,6 +25,15 @@ function Protocol({
             Please fill with details about your protocol
           </h3>
           <TextInput
+            name="protocolTitle"
+            placeholder="Protocol Title"
+            value={formData.protocolTitle}
+            onChange={(event) => {
+              setFormData({ ...formData, protocolTitle: event.target.value });
+            }}
+            error={errors.title}
+          />
+          <TextInput
             name="protocolURL"
             placeholder="Protocol URL"
             value={formData.protocolURL}

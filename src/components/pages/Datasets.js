@@ -9,6 +9,7 @@ function Datasets({ formData, setFormData }) {
   const [errors, setErrors] = useState({});
 
   const [datasetInfo, setDatasetInfo] = useState({
+    dataTitle: "",
     dataURL: "",
     dataDOI: "",
     format: "",
@@ -31,6 +32,7 @@ function Datasets({ formData, setFormData }) {
       formData.Dataset.push(datasetInfo);
 
       setDatasetInfo({
+        dataTitle: "",
         dataURL: "",
         dataDOI: "",
         format: "",
@@ -46,6 +48,7 @@ function Datasets({ formData, setFormData }) {
     e.preventDefault();
 
     setDatasetInfo({
+      dataTitle: "",
       dataURL: "",
       dataDOI: "",
       format: "",
@@ -69,7 +72,7 @@ function Datasets({ formData, setFormData }) {
         <h2>Datasets</h2>
         {formData.Dataset.map((dataset) => (
           <div className="output-type row">
-            <h4 className="output-title col">{dataset.dataURL}</h4>
+            <h4 className="output-title col">{dataset.dataTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, dataset)}>Remove</p>
             </span>

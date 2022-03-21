@@ -10,6 +10,7 @@ function Protocols({ formData, setFormData }) {
   const [errors, setErrors] = useState({});
 
   const [protocolInfo, setProtocolInfo] = useState({
+    protocolTitle: "",
     protocolURL: "",
     protocolSharing: "",
   });
@@ -32,6 +33,7 @@ function Protocols({ formData, setFormData }) {
       formData.Protocol.push(protocolInfo);
 
       setProtocolInfo({
+        protocolTitle: "",
         protocolURL: "",
         protocolSharing: "",
       });
@@ -45,6 +47,7 @@ function Protocols({ formData, setFormData }) {
     e.preventDefault();
 
     setProtocolInfo({
+      protocolTitle: "",
       protocolURL: "",
       protocolSharing: "",
     });
@@ -66,7 +69,7 @@ function Protocols({ formData, setFormData }) {
         <h2>Protocols</h2>
         {formData.Protocol.map((protocol) => (
           <div className="output-type row">
-            <h4 className="output-title col">{protocol.protocolURL}</h4>
+            <h4 className="output-title col">{protocol.protocolTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, protocol)}>Remove</p>
             </span>

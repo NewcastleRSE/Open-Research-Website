@@ -10,6 +10,7 @@ function Codes({ formData, setFormData }) {
   const [errors, setErrors] = useState({});
 
   const [codeInfo, setCodeInfo] = useState({
+    codeTitle: "",
     codeURL: "",
     codeDOI: "",
     openSource: false,
@@ -34,6 +35,7 @@ function Codes({ formData, setFormData }) {
       formData.Code.push(codeInfo);
 
       setCodeInfo({
+        codeTitle: "",
         codeURL: "",
         codeDOI: "",
         openSource: false,
@@ -48,6 +50,7 @@ function Codes({ formData, setFormData }) {
     e.preventDefault();
 
     setCodeInfo({
+      codeTitle: "",
       codeURL: "",
       codeDOI: "",
       openSource: false,
@@ -71,7 +74,7 @@ function Codes({ formData, setFormData }) {
         <h2>Code</h2>
         {formData.Code.map((code) => (
           <div className="output-type row">
-            <h4 className="output-title col">{code.codeURL}</h4>
+            <h4 className="output-title col">{code.codeTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, code)}>Remove</p>
             </span>

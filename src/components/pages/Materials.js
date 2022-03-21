@@ -10,6 +10,7 @@ function Materials({ formData, setFormData }) {
   const [errors, setErrors] = useState({});
 
   const [materialInfo, setMaterialInfo] = useState({
+    materialTitle: "",
     materialURL: "",
     materialReproduction: false,
     materialRelease: false,
@@ -36,6 +37,7 @@ function Materials({ formData, setFormData }) {
       formData.Material.push(materialInfo);
 
       setMaterialInfo({
+        materialTitle: "",
         materialURL: "",
         materialReproduction: false,
         materialRelease: false,
@@ -49,6 +51,7 @@ function Materials({ formData, setFormData }) {
     e.preventDefault();
 
     setMaterialInfo({
+      materialTitle: "",
       materialURL: "",
       materialReproduction: false,
       materialRelease: false,
@@ -71,7 +74,7 @@ function Materials({ formData, setFormData }) {
         <h2>Research Materials</h2>
         {formData.Material.map((material) => (
           <div className="output-type row">
-            <h4 className="output-title col">{material.materialURL}</h4>
+            <h4 className="output-title col">{material.materialTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, material)}>Remove</p>
             </span>

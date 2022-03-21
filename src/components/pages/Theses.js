@@ -10,6 +10,7 @@ function Theses({ formData, setFormData }) {
   const [errors, setErrors] = useState({});
 
   const [thesesInfo, setThesesInfo] = useState({
+    thesisTitle: "",
     thesisURL: "",
     thesisDOI: "",
     thesisEmbargo: false,
@@ -34,6 +35,7 @@ function Theses({ formData, setFormData }) {
       formData.Thesis.push(thesesInfo);
 
       setThesesInfo({
+        thesisTitle: "",
         thesisURL: "",
         thesisDOI: "",
         thesisEmbargo: false,
@@ -49,6 +51,7 @@ function Theses({ formData, setFormData }) {
     e.preventDefault();
 
     setThesesInfo({
+      thesisTitle: "",
       thesisURL: "",
       thesisDOI: "",
       thesisEmbargo: false,
@@ -72,7 +75,7 @@ function Theses({ formData, setFormData }) {
         <h2>Theses and Dissertation</h2>
         {formData.Thesis.map((theses) => (
           <div className="output-type row">
-            <h4 className="output-title col">{theses.thesisURL}</h4>
+            <h4 className="output-title col">{theses.thesisTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, theses)}>Remove</p>
             </span>

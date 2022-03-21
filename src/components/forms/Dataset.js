@@ -25,6 +25,15 @@ function Dataset({
           <h3 className="main_question">
             Please fill with your details about your dataset
           </h3>
+          <TextInput
+            name="dataTitle"
+            placeholder="Data Title"
+            value={formData.dataTitle}
+            onChange={(event) => {
+              setFormData({ ...formData, dataTitle: event.target.value });
+            }}
+            error={errors.title}
+          />
           <UrlInput
             name="dataURL"
             placeholder="Data URL"
