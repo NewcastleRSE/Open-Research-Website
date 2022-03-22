@@ -25,6 +25,15 @@ function DigitalScholarship({
           <h3 className="main_question">
             Please fill with details about your project
           </h3>
+          <TextInput
+            name="dsTitle"
+            placeholder="Digital Scholarship Title"
+            value={formData.dsTitle}
+            onChange={(event) => {
+              setFormData({ ...formData, dsTitle: event.target.value });
+            }}
+            error={errors.title}
+          />
           <UrlInput
             name="dsURL"
             placeholder="Digital Scholarship URL"

@@ -1,8 +1,11 @@
+import validateTitle from "../fieldValidation/Title";
 import validateURL from "../fieldValidation/URL";
 import validateLicense from "../fieldValidation/License";
 
 export default function validate(values) {
   let errors = {};
+
+  errors = validateTitle(errors, values.dsTitle);
 
   errors = validateURL(errors, values.dsURL);
 

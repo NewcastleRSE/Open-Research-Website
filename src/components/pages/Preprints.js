@@ -10,6 +10,7 @@ function Preprints({ formData, setFormData }) {
   const [errors, setErrors] = useState({});
 
   const [preprintInfo, setPreprintInfo] = useState({
+    preprintTitle: "",
     preprintURL: "",
     preprintDOI: "",
     preprintRelease: false,
@@ -33,6 +34,7 @@ function Preprints({ formData, setFormData }) {
       formData.Preprint.push(preprintInfo);
 
       setPreprintInfo({
+        preprintTitle: "",
         preprintURL: "",
         preprintDOI: "",
         preprintRelease: false,
@@ -47,6 +49,7 @@ function Preprints({ formData, setFormData }) {
     e.preventDefault();
 
     setPreprintInfo({
+      preprintTitle: "",
       preprintURL: "",
       preprintDOI: "",
       preprintRelease: false,
@@ -69,7 +72,7 @@ function Preprints({ formData, setFormData }) {
         <h2>Preprints</h2>
         {formData.Preprint.map((preprint) => (
           <div className="output-type row">
-            <h4 className="output-title col">{preprint.preprintURL}</h4>
+            <h4 className="output-title col">{preprint.preprintTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, preprint)}>Remove</p>
             </span>

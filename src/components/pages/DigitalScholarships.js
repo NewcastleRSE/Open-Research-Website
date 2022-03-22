@@ -10,6 +10,7 @@ function DigitalScholarships({ formData, setFormData }) {
   const [errors, setErrors] = useState({});
 
   const [dsInfo, setDSInfo] = useState({
+    dsTitle: "",
     dsURL: "",
     dsEmbargo: false,
     dsLicense: "",
@@ -33,6 +34,7 @@ function DigitalScholarships({ formData, setFormData }) {
       formData.DigitalScholarship.push(dsInfo);
 
       setDSInfo({
+        dsTitle: "",
         dsURL: "",
         dsEmbargo: false,
         dsLicense: "",
@@ -47,6 +49,7 @@ function DigitalScholarships({ formData, setFormData }) {
     e.preventDefault();
 
     setDSInfo({
+      dsTitle: "",
       dsURL: "",
       dsEmbargo: false,
       dsLicense: "",
@@ -71,7 +74,7 @@ function DigitalScholarships({ formData, setFormData }) {
         <h2>Digital Scholarships</h2>
         {formData.DigitalScholarship.map((ds) => (
           <div className="output-type row">
-            <h4 className="output-title col">{ds.dsURL}</h4>
+            <h4 className="output-title col">{ds.dsTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, ds)}>Remove</p>
             </span>

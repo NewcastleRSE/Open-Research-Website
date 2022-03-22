@@ -25,6 +25,15 @@ function Preprint({
           <h3 className="main_question">
             Please fill with details about your preprint
           </h3>
+          <TextInput
+            name="preprintTitle"
+            placeholder="Preprint Title"
+            value={formData.preprintTitle}
+            onChange={(event) => {
+              setFormData({ ...formData, preprintTitle: event.target.value });
+            }}
+            error={errors.title}
+          />
           <UrlInput
             name="preprintURL"
             placeholder="Preprint URL"

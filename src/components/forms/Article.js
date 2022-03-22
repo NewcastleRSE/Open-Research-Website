@@ -24,6 +24,15 @@ const Article = ({
           <h3 className="main_question">
             Please fill with your details about your article
           </h3>
+          <TextInput
+            name="articleTitle"
+            placeholder="Article Title"
+            value={formData.articleTitle}
+            onChange={(event) => {
+              setFormData({ ...formData, articleTitle: event.target.value });
+            }}
+            error={errors.title}
+          />
           <UrlInput
             name="articleURL"
             placeholder="Article URL"

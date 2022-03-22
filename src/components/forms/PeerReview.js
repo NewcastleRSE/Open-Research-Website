@@ -1,5 +1,6 @@
 import React from "react";
 
+import TextInput from "../formElements/TextInput";
 import UrlInput from "../formElements/UrlInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
@@ -24,6 +25,15 @@ function PeerReview({
           <h3 className="main_question">
             Please fill with details about your open peer review
           </h3>
+          <TextInput
+            name="peerRevTitle"
+            placeholder="Peer Review Title"
+            value={formData.peerRevTitle}
+            onChange={(event) => {
+              setFormData({ ...formData, peerRevTitle: event.target.value });
+            }}
+            error={errors.title}
+          />
           <UrlInput
             name="peerRevURL"
             placeholder="Peer Review URL"

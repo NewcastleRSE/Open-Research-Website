@@ -10,6 +10,7 @@ function PreRegs({ formData, setFormData }) {
   const [errors, setErrors] = useState({});
 
   const [preRegInfo, setPreRegInfo] = useState({
+    preRegTitle: "",
     preRegURL: "",
     preRegDistinction: false,
   });
@@ -32,6 +33,7 @@ function PreRegs({ formData, setFormData }) {
       formData.PreRegAnalysis.push(preRegInfo);
 
       setPreRegInfo({
+        preRegTitle: "",
         preRegURL: "",
         preRegDistinction: false,
       });
@@ -45,6 +47,7 @@ function PreRegs({ formData, setFormData }) {
     e.preventDefault();
 
     setPreRegInfo({
+      preRegTitle: "",
       preRegURL: "",
       preRegDistinction: false,
     });
@@ -68,7 +71,7 @@ function PreRegs({ formData, setFormData }) {
         <h2>Pre-registration Analysis Plans</h2>
         {formData.PreRegAnalysis.map((preReg) => (
           <div className="output-type row">
-            <h4 className="output-title col">{preReg.preRegURL}</h4>
+            <h4 className="output-title col">{preReg.preRegTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, preReg)}>Remove</p>
             </span>

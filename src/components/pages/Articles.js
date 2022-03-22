@@ -10,6 +10,7 @@ function MultipleArticle({ formData, setFormData }) {
   const [errors, setErrors] = useState({});
 
   const [articleInfo, setArticleInfo] = useState({
+    articleTitle: "",
     articleURL: "",
     articleDOI: "",
     articleEmbargo: false,
@@ -35,6 +36,7 @@ function MultipleArticle({ formData, setFormData }) {
       formData.Article.push(articleInfo);
 
       setArticleInfo({
+        articleTitle: "",
         articleURL: "",
         articleDOI: "",
         articleEmbargo: false,
@@ -50,6 +52,7 @@ function MultipleArticle({ formData, setFormData }) {
     e.preventDefault();
 
     setArticleInfo({
+      articleTitle: "",
       articleURL: "",
       articleDOI: "",
       articleEmbargo: false,
@@ -74,7 +77,7 @@ function MultipleArticle({ formData, setFormData }) {
         <h2>Articles</h2>
         {formData.Article.map((article) => (
           <div className="output-type row">
-            <h4 className="output-title col">{article.articleURL}</h4>
+            <h4 className="output-title col">{article.articleTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, article)}>Remove</p>
             </span>

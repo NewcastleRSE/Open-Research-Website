@@ -10,6 +10,7 @@ function Monographs({ formData, setFormData }) {
   const [errors, setErrors] = useState({});
 
   const [monographInfo, setMonographInfo] = useState({
+    monographTitle: "",
     monographURL: "",
     monographDOI: "",
     monographEmbargo: false,
@@ -34,6 +35,7 @@ function Monographs({ formData, setFormData }) {
       formData.Monograph.push(monographInfo);
 
       setMonographInfo({
+        monographTitle: "",
         monographURL: "",
         monographDOI: "",
         monographEmbargo: false,
@@ -49,6 +51,7 @@ function Monographs({ formData, setFormData }) {
     e.preventDefault();
 
     setMonographInfo({
+      monographTitle: "",
       monographURL: "",
       monographDOI: "",
       monographEmbargo: false,
@@ -72,7 +75,7 @@ function Monographs({ formData, setFormData }) {
         <h2>Monographs</h2>
         {formData.Monograph.map((monograph) => (
           <div className="output-type row">
-            <h4 className="output-title col">{monograph.monographURL}</h4>
+            <h4 className="output-title col">{monograph.monographTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, monograph)}>Remove</p>
             </span>

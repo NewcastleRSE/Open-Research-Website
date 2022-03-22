@@ -10,6 +10,7 @@ function RegReports({ formData, setFormData }) {
   const [errors, setErrors] = useState({});
 
   const [regReportInfo, setRegReportInfo] = useState({
+    regReportTitle: "",
     regReportURL: "",
     regReportFunding: false,
     regReportPeerRev: false,
@@ -36,6 +37,7 @@ function RegReports({ formData, setFormData }) {
       formData.RegReport.push(regReportInfo);
 
       setRegReportInfo({
+        regReportTitle: "",
         regReportURL: "",
         regReportFunding: false,
         regReportPeerRev: false,
@@ -51,6 +53,7 @@ function RegReports({ formData, setFormData }) {
     e.preventDefault();
 
     setRegReportInfo({
+      regReportTitle: "",
       regReportURL: "",
       regReportFunding: false,
       regReportPeerRev: false,
@@ -74,7 +77,7 @@ function RegReports({ formData, setFormData }) {
         <h2>Registered Reports</h2>
         {formData.RegReport.map((regReport) => (
           <div className="output-type row">
-            <h4 className="output-title col">{regReport.regReportURL}</h4>
+            <h4 className="output-title col">{regReport.regReportTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, regReport)}>Remove</p>
             </span>

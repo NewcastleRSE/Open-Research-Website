@@ -43,6 +43,15 @@ function CodeInfo({
           <h3 className="main_question">
             Please fill with your details about your code
           </h3>
+          <TextInput
+            name="codeTitle"
+            placeholder="Code Title"
+            value={formData.codeTitle}
+            onChange={(event) =>
+              setFormData({ ...formData, codeTitle: event.target.value })
+            }
+            error={errors.title}
+          />
           <UrlInput
             name="codeURL"
             placeholder="Code URL"
