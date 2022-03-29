@@ -49,3 +49,11 @@
 .red-text {
   color: #e34f4f;
 }
+
+.wide {
+  width: 100%;
+}
+
+.margin_top_sm {
+  margin-top: 1rem;
+}

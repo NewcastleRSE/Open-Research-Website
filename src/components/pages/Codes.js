@@ -15,6 +15,8 @@ function Codes({ formData, setFormData }) {
     codeDOI: "",
     openSource: false,
     codeLicense: "",
+    codeRelease: "",
+    codeConf: "",
   });
 
   const handleClick = (e) => {
@@ -40,6 +42,8 @@ function Codes({ formData, setFormData }) {
         codeDOI: "",
         openSource: false,
         codeLicense: "",
+        codeRelease: "",
+        codeConf: "",
       });
 
       setDisplay(!display);
@@ -55,6 +59,8 @@ function Codes({ formData, setFormData }) {
       codeDOI: "",
       openSource: false,
       codeLicense: "",
+      codeRelease: "",
+      codeConf: "",
     });
 
     setErrors({});

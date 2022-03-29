@@ -24,7 +24,6 @@ describe("Articles", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /submit/i }));
 
-    expect(screen.getByText(/remove/i)).toBe(true);
     screen.getByRole("");
   });
 });

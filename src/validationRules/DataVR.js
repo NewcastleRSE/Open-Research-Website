@@ -18,5 +18,21 @@ export default function validate(values) {
     errors.format = "Required";
   }
 
+  if (!values.dataMetadata) {
+    errors.dataMetadata = "Required";
+  }
+
+  if (!values.dataFair) {
+    errors.dataFair = "Required";
+  }
+
+  if (!values.dataRelease) {
+    errors.dataRelease = "Required";
+  }
+
+  if (!values.dataConf) {
+    errors.dataConf = "Required";
+  }
+
   return errors;
 }

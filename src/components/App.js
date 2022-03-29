@@ -60,6 +60,8 @@ function App() {
       length: 0,
     },
 
+    orcidProject: "",
+
     Article: [],
     Monograph: [],
     Dataset: [],
@@ -412,7 +414,7 @@ function App() {
       }
       case 1: {
         // validate project
-        if (formData.Project.projectName) {
+        if (formData.Project.projectName || formData.orcidProject) {
           setPage((currentPage) => currentPage + 1);
         } else {
           alert("Must choose a project or enter a new one.");

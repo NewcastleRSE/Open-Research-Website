@@ -28,7 +28,7 @@ function MultipleArticle({ formData, setFormData }) {
 
     let newErrors = validate(articleInfo);
     setErrors(newErrors);
-    console.log(newErrors);
+
     if (Object.keys(newErrors).length === 0) {
       // Passing validation
       articleInfo.articleEmbargo = str2bool(articleInfo.articleEmbargo);

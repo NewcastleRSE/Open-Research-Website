@@ -4,6 +4,7 @@ import UrlInput from "../formElements/UrlInput";
 import TextInput from "../formElements/TextInput";
 import DropDown from "../formElements/DropDown";
 import ModalButtons from "../formElements/ModalButtons";
+import BooleanInput from "../formElements/BooleanInput";
 
 function Dataset({
   show,
@@ -70,6 +71,62 @@ function Dataset({
               setFormData({ ...formData, dataLicense: event.target.value });
             }}
             error={errors.license}
+          />
+          <BooleanInput
+            name="dataMetadata"
+            label="Does it include the necessary metadata?"
+            a="Yes"
+            b="No"
+            value={formData.dataMetadata}
+            onChange={(event) => {
+              setFormData({
+                ...formData,
+                dataMetadata: event.target.value,
+              });
+            }}
+            error={errors.dataMetadata}
+          />
+          <BooleanInput
+            name="dataFair"
+            label="Have efforts been made to maximize F.A.I.R. principles?"
+            a="Yes"
+            b="No"
+            value={formData.dataFair}
+            onChange={(event) => {
+              setFormData({
+                ...formData,
+                dataFair: event.target.value,
+              });
+            }}
+            error={errors.dataFair}
+          />
+          <BooleanInput
+            name="dataRelease"
+            label="Was it released no later than the publication of the first paper that uses it?"
+            a="Yes"
+            b="No"
+            value={formData.dataRelease}
+            onChange={(event) => {
+              setFormData({
+                ...formData,
+                dataRelease: event.target.value,
+              });
+            }}
+            error={errors.dataRelease}
+          />
+          <BooleanInput
+            name="dataConf"
+            label="Is independant confirmation of results possible with this data?"
+            a="Yes"
+            b="No"
+            value={formData.dataConf}
+            onChange={(event) => {
+              setFormData({
+                ...formData,
+                dataConf: event.target.value,
+              });
+            }}
+            error={errors.dataConf}
           />
           <ModalButtons
             handleSubmit={handleSubmit}

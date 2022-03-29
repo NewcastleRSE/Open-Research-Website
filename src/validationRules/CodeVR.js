@@ -20,5 +20,13 @@ export default function validate(values) {
     errors = validateLicense(errors, values.codeLicense);
   }
 
+  if (!values.codeRelease) {
+    errors.codeRelease = "Required";
+  }
+
+  if (!values.codeConf) {
+    errors.codeConf = "Required";
+  }
+
   return errors;
 }

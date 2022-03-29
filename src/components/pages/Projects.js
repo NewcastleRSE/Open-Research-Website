@@ -45,33 +45,57 @@ function ProjectInfo({ formData, setFormData }) {
   };
 
   const displayProject = () => {
-    if (formData.Project.projectName) {
+    if (formData.Project.projectName || formData.orcidProject) {
+      var title = "";
+      formData.Project.projectName
+        ? (title = formData.Project.projectName)
+        : (title = formData.orcidProject);
       return (
-        <>
-          <div>Selected project:</div>
-          <p>{formData.Project.projectName}</p>
-        </>
+        <div className="margin_top_sm">
+          <h3 className="main_question">Selected project:</h3>
+          <p>{title}</p>
+          <span className="output-delete">
+            <p onClick={(e) => handleDelete(e)}>Remove</p>
+          </span>
+        </div>
       );
     } else {
       return null;
     }
   };
 
+  const handleDelete = (e) => {
+    e.preventDefault();
+
+    if (formData.Project.projectName) {
+    }
+  };
+
   return (
     <div className="step">
       <h2>Project</h2>
-      <label>ORICD Projects</label>
+      <h3 className="main_question">
+        Please select a project from ORCID or add a new one.
+      </h3>
       <DropDown
-        name="projects"
-        placeholder="Select"
+        name="orcidProject"
+        placeholder="ORCID Projects"
         options={[
           // ordid projects
           { value: "Project 1" },
           { value: "Project 2" },
           { value: "Project 3" },
         ]}
+        value={formData.orcidProject}
+        onChange={(event) => {
+          setFormData({ ...formData, orcidProject: event.target.value });
+        }}
       />
-      <button type="button" className="forward" onClick={(e) => handleClick(e)}>
+      <button
+        type="button"
+        className="forward wide"
+        onClick={(e) => handleClick(e)}
+      >
         Add New Project
       </button>
       <Project
@@ -83,7 +107,7 @@ function ProjectInfo({ formData, setFormData }) {
         handleCancel={handleCancel}
         errors={errors}
       />
-      <p>{displayProject()}</p>
+      <div>{displayProject()}</div>
     </div>
   );
 }

@@ -14,6 +14,10 @@ function Datasets({ formData, setFormData }) {
     dataDOI: "",
     format: "",
     dataLicense: "",
+    dataMetadata: "",
+    dataFair: "",
+    dataRelease: "",
+    dataConf: "",
   });
 
   const handleClick = (e) => {
@@ -37,6 +41,10 @@ function Datasets({ formData, setFormData }) {
         dataDOI: "",
         format: "",
         dataLicense: "",
+        dataMetadata: "",
+        dataFair: "",
+        dataRelease: "",
+        dataConf: "",
       });
 
       setErrors({});
@@ -53,6 +61,10 @@ function Datasets({ formData, setFormData }) {
       dataDOI: "",
       format: "",
       dataLicense: "",
+      dataMetadata: "",
+      dataFair: "",
+      dataRelease: "",
+      dataConf: "",
     });
 
     setErrors({});

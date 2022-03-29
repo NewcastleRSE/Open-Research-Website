@@ -82,6 +82,28 @@ function CodeInfo({
             error={errors.openSource}
           />
           {DisplayLicense({ formData, setFormData, errors })}
+          <BooleanInput
+            name="codeRelease"
+            label="Was it released no later than the publication of the first paper that uses it?"
+            a="Yes"
+            b="No"
+            value={formData.codeRelease}
+            onChange={(event) => {
+              setFormData({ ...formData, codeRelease: event.target.value });
+            }}
+            error={errors.codeRelease}
+          />
+          <BooleanInput
+            name="codeConf"
+            label="Is independant confirmation of results possible with this code?"
+            a="Yes"
+            b="No"
+            value={formData.codeConf}
+            onChange={(event) => {
+              setFormData({ ...formData, codeConf: event.target.value });
+            }}
+            error={errors.codeConf}
+          />
           <ModalButtons
             handleSubmit={handleSubmit}
             handleCancel={handleCancel}
