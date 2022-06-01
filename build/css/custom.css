@@ -31,6 +31,14 @@
   text-decoration: underline;
 }
 
+.output-edit {
+  cursor: pointer;
+}
+
+.output-edit:hover {
+  text-decoration: underline;
+}
+
 .button-container {
 }
 

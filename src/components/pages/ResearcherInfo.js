@@ -59,7 +59,7 @@ function ResearcherInfo({ formData, setFormData, errors }) {
           { value: "PhD" },
           { value: "Early career" },
           { value: "Mid career" },
-          { value: "Post Doc" },
+          { value: "Post doc" },
           { value: "Senior" },
         ]}
         value={formData.careerStage}
@@ -71,6 +71,15 @@ function ResearcherInfo({ formData, setFormData, errors }) {
         }}
         error={errors.careerStage}
         id="careerStage"
+      />
+      <TextInput
+        name="orcidID"
+        placeholder="Orcid ID"
+        value={formData.orcidID}
+        onChange={(event) =>
+          setFormData({ ...formData, orcidID: event.target.value })
+        }
+        error={errors.orcidID}
       />
     </div>
   );

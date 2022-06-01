@@ -13,6 +13,7 @@ function Preprints({ formData, setFormData }) {
     preprintTitle: "",
     preprintURL: "",
     preprintDOI: "",
+    preprintLicense: "",
     preprintRelease: false,
   });
 
@@ -37,6 +38,7 @@ function Preprints({ formData, setFormData }) {
         preprintTitle: "",
         preprintURL: "",
         preprintDOI: "",
+        preprintLicense: "",
         preprintRelease: false,
       });
 
@@ -52,6 +54,7 @@ function Preprints({ formData, setFormData }) {
       preprintTitle: "",
       preprintURL: "",
       preprintDOI: "",
+      preprintLicense: "",
       preprintRelease: false,
     });
 

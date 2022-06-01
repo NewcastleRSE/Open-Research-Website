@@ -170,7 +170,7 @@ function FormBuilder({ formBuilder, setFormBuilder, formData, error }) {
             }}
           />
         </div>
-        {displayDissertation({ formBuilder, setFormBuilder, formData })}
+        {/*{displayDissertation({ formBuilder, setFormBuilder, formData })}*/}
       </div>
     </div>
   );

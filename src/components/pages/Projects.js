@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Project from "../forms/Project";
 import DropDown from "../formElements/DropDown";
 import validateProject from "../../validationRules/ProjectVR";
+import axios from "axios";
 
 function ProjectInfo({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
@@ -17,9 +18,41 @@ function ProjectInfo({ formData, setFormData }) {
     length: "",
   });
 
+  const [orcidProjects, setOrcidProjects] = useState([]);
+
+  useEffect(() => {
+    // Load data from strapi
+    console.log(formData);
+    fetchOrcidProjects();
+  }, []);
+
+  const fetchOrcidProjects = async () => {
+    //axios request
+    // axios
+    //   .get("http://localhost:1337/api/orcid", {
+    //     params: {
+    //       id: formData.Researcher.orcidID,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     setOrcidProjects(res.data.group);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+
+    let res = await axios.get("http://localhost:1337/api/orcid", {
+      params: {
+        id: formData.Researcher.orcidID,
+      },
+    });
+
+    setOrcidProjects(res.data.group);
+  };
+
   const handleClick = (e) => {
     e.preventDefault();
-
+    console.log(orcidProjects);
     setDisplay(!display);
   };
 
@@ -54,9 +87,6 @@ function ProjectInfo({ formData, setFormData }) {
         <div className="margin_top_sm">
           <h3 className="main_question">Selected project:</h3>
           <p>{title}</p>
-          <span className="output-delete">
-            <p onClick={(e) => handleDelete(e)}>Remove</p>
-          </span>
         </div>
       );
     } else {
@@ -71,6 +101,14 @@ function ProjectInfo({ formData, setFormData }) {
     }
   };
 
+  const getTitles = (e) => {
+    let titles = orcidProjects.map((project) => {
+      return { value: project["work-summary"]["0"].title.title.value };
+    });
+
+    return titles;
+  };
+
   return (
     <div className="step">
       <h2>Project</h2>
@@ -80,12 +118,7 @@ function ProjectInfo({ formData, setFormData }) {
       <DropDown
         name="orcidProject"
         placeholder="ORCID Projects"
-        options={[
-          // ordid projects
-          { value: "Project 1" },
-          { value: "Project 2" },
-          { value: "Project 3" },
-        ]}
+        options={getTitles()}
         value={formData.orcidProject}
         onChange={(event) => {
           setFormData({ ...formData, orcidProject: event.target.value });
