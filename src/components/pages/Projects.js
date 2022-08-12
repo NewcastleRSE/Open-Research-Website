@@ -24,7 +24,7 @@ function ProjectInfo({ formData, setFormData }) {
     // Load data from strapi
     console.log(formData);
     fetchOrcidProjects();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchOrcidProjects = async () => {
     //axios request
@@ -94,7 +94,7 @@ function ProjectInfo({ formData, setFormData }) {
     }
   };
 
-  const handleDelete = (e) => {
+  const handleDelete = (e) => { // eslint-disable-line no-unused-vars
     e.preventDefault();
 
     if (formData.Project.projectName) {

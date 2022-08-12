@@ -6,7 +6,7 @@ function Summary({ formData }) {
 
   useEffect(() => {
     setFeedback(generateFeedback(formData));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="submit step">

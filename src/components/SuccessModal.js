@@ -1,7 +1,5 @@
 import React from "react";
 
-import ModalButtons from "./formElements/ModalButtons";
-
 const SuccessModal = ({ show, setDisplay, name }) => {
   const handleSave = () => {
     alert("Saved.");

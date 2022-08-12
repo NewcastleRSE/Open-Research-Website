@@ -22,6 +22,7 @@ export default function generateFeedback(formData) {
       if (!code.codeConf) {
         feedback += "FEEDBACK GOES HERE\n\n";
       }
+      return feedback
     });
   }
 
@@ -39,6 +40,7 @@ export default function generateFeedback(formData) {
       if (!data.dataConf) {
         feedback += "FEEDBACK GOES HERE\n\n";
       }
+      return feedback
     });
   }
 
@@ -47,6 +49,7 @@ export default function generateFeedback(formData) {
       if (ds.dsEmbargo) {
         feedback += "FEEDBACK GOES HERE\n\n";
       }
+      return feedback
     });
   }
 
@@ -58,6 +61,7 @@ export default function generateFeedback(formData) {
       if (!material.materialRelease) {
         feedback += "FEEDBACK GOES HERE\n\n";
       }
+      return feedback
     });
   }
 
@@ -66,6 +70,7 @@ export default function generateFeedback(formData) {
       if (mono.monographEmbargo) {
         feedback += "FEEDBACK GOES HERE\n\n";
       }
+      return feedback
     });
   }
   // check
@@ -74,6 +79,7 @@ export default function generateFeedback(formData) {
       if (pr.peerRevResponse) {
         feedback += "FEEDBACK GOES HERE\n\n";
       }
+      return feedback
     });
   }
 
@@ -82,6 +88,7 @@ export default function generateFeedback(formData) {
       if (!preprint.preprintRelease) {
         feedback += "FEEDBACK GOES HERE\n\n";
       }
+      return feedback
     });
   }
 
@@ -90,6 +97,7 @@ export default function generateFeedback(formData) {
       if (!protocol.protocolSharing) {
         feedback += "FEEDBACK GOES HERE\n\n";
       }
+      return feedback
     });
   }
 
@@ -104,6 +112,7 @@ export default function generateFeedback(formData) {
       if (!regreport.regReportChanges) {
         feedback += "FEEDBACK GOES HERE\n\n";
       }
+      return feedback
     });
   }
 

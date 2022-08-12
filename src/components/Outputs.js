@@ -30,7 +30,7 @@ function Outputs() {
 
   const [page, setPage] = useState(2);
 
-  const [errors, setErrors] = useState({});
+  const [errors] = useState({});
 
   const [researcherInfo, setResearcherInfo] = useState({
     fullName: "",
@@ -92,7 +92,7 @@ function Outputs() {
     // Load data from strapi
 
     fetchData();
-  }, []);
+  });
 
   const fetchData = () => {
     axios
@@ -137,7 +137,7 @@ function Outputs() {
         // Article
         if (data.articles.data.length > 0) {
           data.articles.data.map((article) => {
-            formData.Article.push(article.attributes);
+            return formData.Article.push(article.attributes);
           });
           builder.article = true;
         }
