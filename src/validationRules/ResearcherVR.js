@@ -6,26 +6,26 @@ export default function validateResearcher({
   careerStage,
   orcidID,
 }) {
-  let errors = {}
+  let errors = {};
 
   if (!fullName) {
-    errors.fullName = 'Required'
+    errors.fullName = "Required";
   }
 
   if (!faculty) {
-    errors.faculty = 'Required'
+    errors.faculty = "Required";
   }
 
   if (!school) {
-    errors.school = 'Required'
-  } else if (school === 'other') {
+    errors.school = "Required";
+  } else if (school === "other") {
     if (!otherSchool) {
-      errors.otherSchool = 'Required'
+      errors.otherSchool = "Required";
     }
   }
 
   if (!careerStage) {
-    errors.careerStage = 'Required'
+    errors.careerStage = "Required";
   }
 
   // Uncomment to make OrcidID a required field
