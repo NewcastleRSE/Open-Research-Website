@@ -81,15 +81,6 @@ function ResearcherInfo({ formData, setFormData, errors }) {
         }
         error={errors.orcidID}
       />
-      <TextInput
-        name="orcidID"
-        placeholder="Orcid ID"
-        value={formData.orcidID}
-        onChange={(event) =>
-          setFormData({ ...formData, orcidID: event.target.value })
-        }
-        error={errors.orcidID}
-      />
     </div>
   );
 }

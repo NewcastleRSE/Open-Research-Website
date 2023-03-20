@@ -25,8 +25,8 @@ function LeftContent(props) {
       </figure>
       <h2>{props.heading}</h2>
       <p>{props.subtext}</p>
-      <a href="#0" className="btn_1 rounded">
-        Start Now!
+      <a href="/about" className="btn_1 rounded">
+        About Us
       </a>
     </div>
   );

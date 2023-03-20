@@ -481,7 +481,7 @@ function Form() {
                 <img src="img/ncl_logo.png" alt="" width="48" height="56" />
               </a>
               {LeftDisplay()}
-              <div className="copy">© 2022 Newcastle University</div>
+              <div className="copy">© 2023 Newcastle University</div>
             </div>
             {/*<!-- /content-left-wrapper -->*/}
           </div>
