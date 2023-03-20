@@ -198,7 +198,7 @@ function User() {
         <div className="row row-height">
           <div className="col-lg-6 content-left">
             <div className="content-left-wrapper">
-              <a href="index.html" id="logo">
+              <a href="/" id="logo">
                 <img src="img/ncl_logo.png" alt="" width="48" height="56" />
               </a>
               {LeftDisplay()}
