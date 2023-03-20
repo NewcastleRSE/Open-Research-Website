@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import FormData from "form-data";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import ResearcherInfo from "./pages/ResearcherInfo";
 import LeftContent from "./pages/LeftContent";
@@ -202,7 +202,11 @@ function User() {
                 <img src="img/ncl_logo.png" alt="" width="48" height="56" />
               </a>
               {LeftDisplay()}
-              <div className="copy">© 2023 Newcastle University</div>
+              <div className="copy">
+                <a href="https://www.ncl.ac.uk" target="_blank">
+                  © 2023 Newcastle University
+                </a>
+              </div>
             </div>
             {/*<!-- /content-left-wrapper -->*/}
           </div>

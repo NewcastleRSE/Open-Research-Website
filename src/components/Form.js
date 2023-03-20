@@ -477,11 +477,15 @@ function Form() {
         <div className="row row-height">
           <div className="col-lg-6 content-left">
             <div className="content-left-wrapper">
-              <a href="index.html" id="logo">
+              <a href="/" id="logo">
                 <img src="img/ncl_logo.png" alt="" width="48" height="56" />
               </a>
               {LeftDisplay()}
-              <div className="copy">© 2023 Newcastle University</div>
+              <div className="copy">
+                <a href="/https://www.ncl.ac.uk/">
+                  © 2023 Newcastle University
+                </a>
+              </div>
             </div>
             {/*<!-- /content-left-wrapper -->*/}
           </div>
