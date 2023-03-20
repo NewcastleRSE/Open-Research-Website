@@ -203,7 +203,11 @@ function User() {
               </a>
               {LeftDisplay()}
               <div className="copy">
-                <a href="https://www.ncl.ac.uk" target="_blank">
+                <a
+                  href="https://www.ncl.ac.uk"
+                  rel="noreferrer"
+                  target="_blank"
+                >
                   © 2023 Newcastle University
                 </a>
               </div>

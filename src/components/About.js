@@ -8,7 +8,7 @@ function About() {
           <img src="img/ncl_logo.png" alt="" width="48" height="56" />
         </a>
         <div className="copy">
-          <a href="https://www.ncl.ac.uk" target="_blank">
+          <a href="https://www.ncl.ac.uk" rel="noreferrer" target="_blank">
             © 2023 Newcastle University
           </a>
         </div>
