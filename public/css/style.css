@@ -1289,8 +1289,8 @@ span.error:after {
   -ms-border-radius: 3px;
   border-radius: 3px;
   font-size: 14px;
-  font-size: 0.875rem;
   height: calc(2.55rem + 2px);
+  padding-left: 19px;
 }
 
 .form-control:focus {
