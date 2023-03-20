@@ -34,4 +34,6 @@ export default function validateResearcher({
   // } else if (!/\d{4}-\d{4}-\d{4}-\d{4}/g.test(orcidID)) {
   //   errors.orcidID = 'Must be a valid ORCID ID'
   // }
+
+  return errors;
 }
