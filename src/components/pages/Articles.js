@@ -17,6 +17,8 @@ function MultipleArticle({ formData, setFormData }) {
     articleLicense: "",
   });
 
+  const [currArticle, setCurrArticle] = useState({}); // eslint-disable-line no-unused-vars
+
   const handleClick = (e) => {
     e.preventDefault();
 
@@ -71,13 +73,39 @@ function MultipleArticle({ formData, setFormData }) {
     setFormData({ ...formData, Article: filteredArray });
   };
 
+  const handleEdit = (e, article) => {
+    e.preventDefault();
+
+    setCurrArticle(article);
+
+    setArticleInfo({
+      articleTitle: article.articleTitle,
+      articleURL: article.articleURL,
+      articleDOI: article.articleDOI,
+      articleEmbargo: article.articleEmbargo,
+      articleLicense: article.articleLicense,
+    });
+
+    let filteredArray = formData.Article.filter((item) => item !== article);
+
+    setFormData({ ...formData, Article: filteredArray });
+
+    setDisplay(!display);
+  };
+
   return (
     <div>
       <div>
         <h2>Articles</h2>
         {formData.Article.map((article) => (
-          <div className="output-type row">
+          <div className="output-type row" key={article.articleTitle}>
             <h4 className="output-title col">{article.articleTitle}</h4>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
+              <p onClick={(e) => handleEdit(e, article)}>Edit</p>
+            </span>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, article)}>Remove</p>
             </span>

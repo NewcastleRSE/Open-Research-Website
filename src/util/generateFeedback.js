@@ -1,7 +1,7 @@
 export default function generateFeedback(formData) {
   // init feedback
   let feedback = ''
-
+  
   // if article
   if (formData.Article) {
     formData.Article.map(async (article) => {

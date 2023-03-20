@@ -52,6 +52,14 @@ function Preprint({
             }}
             error={errors.DOI}
           />
+          <TextInput
+            name="preprintLicense"
+            placeholder="Preprint License"
+            value={formData.preprintLicense}
+            onChange={(event) => {
+              setFormData({ ...formData, preprintLicense: event.target.value });
+            }}
+          />
           <BooleanInput
             name="preprintRelease"
             label="Was the preprint released at the time of first submission to a journal?"

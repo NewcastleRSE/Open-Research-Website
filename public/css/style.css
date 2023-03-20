@@ -53,6 +53,10 @@ body {
   color: #555555;
 }
 
+#root {
+  white-space: pre-line;
+}
+
 h1,
 h2,
 h3,

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import Dataset from "../forms/Dataset";
 import validate from "../../validationRules/DataVR";
+import str2bool from "../../util/str2bool";
 
 function Datasets({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
@@ -33,6 +34,11 @@ function Datasets({ formData, setFormData }) {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
+      datasetInfo.dataMetadata = str2bool(datasetInfo.dataMetadata);
+      datasetInfo.dataFair = str2bool(datasetInfo.dataFair);
+      datasetInfo.dataRelease = str2bool(datasetInfo.dataRelease);
+      datasetInfo.dataConf = str2bool(datasetInfo.dataConf);
+
       formData.Dataset.push(datasetInfo);
 
       setDatasetInfo({

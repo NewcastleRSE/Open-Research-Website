@@ -2,7 +2,7 @@ import React from "react";
 
 import Checkbox from "../formElements/Checkbox";
 
-const displayDissertation = ({ formBuilder, setFormBuilder, formData }) => {
+const displayDissertation = ({ formBuilder, setFormBuilder, formData }) => { // eslint-disable-line no-unused-vars
   if (formData.Researcher.careerStage === "PhD") {
     return (
       <div className="col">
@@ -170,7 +170,7 @@ function FormBuilder({ formBuilder, setFormBuilder, formData, error }) {
             }}
           />
         </div>
-        {displayDissertation({ formBuilder, setFormBuilder, formData })}
+        {/*{displayDissertation({ formBuilder, setFormBuilder, formData })}*/}
       </div>
     </div>
   );

@@ -33,6 +33,8 @@ function Codes({ formData, setFormData }) {
 
     if (Object.keys(newErrors).length === 0) {
       codeInfo.openSource = str2bool(codeInfo.openSource);
+      codeInfo.codeRelease = str2bool(codeInfo.codeRelease);
+      codeInfo.codeConf = str2bool(codeInfo.codeConf);
 
       formData.Code.push(codeInfo);
 
@@ -40,7 +42,7 @@ function Codes({ formData, setFormData }) {
         codeTitle: "",
         codeURL: "",
         codeDOI: "",
-        openSource: false,
+        openSource: "",
         codeLicense: "",
         codeRelease: "",
         codeConf: "",
@@ -74,6 +76,26 @@ function Codes({ formData, setFormData }) {
     setFormData({ ...formData, Code: filteredArray });
   };
 
+  const handleEdit = (e, code) => {
+    e.preventDefault();
+
+    setCodeInfo({
+      codeTitle: code.codeTitle,
+      codeURL: code.codeURL,
+      codeDOI: code.codeDOI,
+      openSource: code.openSource,
+      codeLicense: code.codeLicense,
+      codeRelease: code.codeRelease,
+      codeConf: code.codeConf,
+    });
+
+    let filteredArray = formData.Code.filter((item) => item !== code);
+
+    setFormData({ ...formData, Code: filteredArray });
+
+    setDisplay(!display);
+  };
+
   return (
     <div>
       <div>
@@ -81,6 +103,12 @@ function Codes({ formData, setFormData }) {
         {formData.Code.map((code) => (
           <div className="output-type row">
             <h4 className="output-title col">{code.codeTitle}</h4>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
+              <p onClick={(e) => handleEdit(e, code)}>Edit</p>
+            </span>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, code)}>Remove</p>
             </span>

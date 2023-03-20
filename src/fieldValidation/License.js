@@ -1,5 +1,5 @@
 export default function validateLicencse(errors, license) {
-  const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+  const specialChars = /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
 
   // License
   if (!license) {
