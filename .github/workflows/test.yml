@@ -5,22 +5,24 @@ name: Test and build
 
 on:
   push:
-    branches: [ dev ]
+    branches: [dev]
   pull_request:
-    branches: [ dev ]
+    branches: [dev]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node versions: [10.x, 12.x, 14.x, 16.x]
+
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js 14
-      uses: actions/setup-node@v2
-      with:
-        node-version: 14
-        cache: 'npm'
-    - run: npm ci
-    - run: npm test
-    - run: npm run build --if-present
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm test
+      - run: npm run build --if-present
