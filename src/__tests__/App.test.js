@@ -148,7 +148,7 @@ describe("App component", () => {
     fireEvent.change(careerOption, { target: { value: "Early career" } });
     expect(careerOption.value).toBe("Early career");
 
-    // test valid orcidID
+    // test invalid orcidID
     fireEvent.change(orcidId, { target: { value: "xxxx-xxxx" } });
     expect(orcidId.value).toBe("xxxx-xxxx");
 
