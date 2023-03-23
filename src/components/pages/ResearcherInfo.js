@@ -41,7 +41,7 @@ function ResearcherInfo({ formData, setFormData, errors }) {
         onChange={(event) => {
           setFormData({ ...formData, school: event.target.value });
         }}
-        otherValue={formData.otherSchool}
+        otherValue={formData.school == "other" && formData.otherSchool}
         otherOnChange={(event) => {
           setFormData({
             ...formData,

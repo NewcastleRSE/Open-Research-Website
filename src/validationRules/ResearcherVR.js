@@ -28,12 +28,9 @@ export default function validateResearcher({
     errors.careerStage = "Required";
   }
 
-  // Uncomment to make OrcidID a required field
-  // if (!orcidID) {
-  //   errors.orcidID = 'Required'
-  // } else if (!/\d{4}-\d{4}-\d{4}-\d{4}/g.test(orcidID)) {
-  //   errors.orcidID = 'Must be a valid ORCID ID'
-  // }
+  if (orcidID && !/\d{4}-\d{4}-\d{4}-\d{4}/g.test(orcidID)) {
+    errors.orcidID = "Must be a valid ORCID ID";
+  }
 
   return errors;
 }

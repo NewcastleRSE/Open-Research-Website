@@ -449,6 +449,10 @@ function Form() {
         formData.school = formData.otherSchool;
       }
 
+      if (formData.school !== "other") {
+        formData.otherSchool = "";
+      }
+
       if (formData.funder === "other" && formData.otherFunder !== "") {
         formData.funder = formData.otherFunder;
       }
