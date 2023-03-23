@@ -7,11 +7,13 @@ import About from "./About";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<User />} />
-      <Route path="/outputs/:id" element={<Outputs />} />
-      <Route path="/about" element={<About />} />
-    </Routes>
+    <Router>
+      <Routes>
+        <Route path="/" element={<User />} />
+        <Route path="/outputs/:id" element={<Outputs />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </Router>
   );
 }
 
