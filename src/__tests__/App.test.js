@@ -149,8 +149,8 @@ describe("App component", () => {
     expect(careerOption.value).toBe("Early career");
 
     // test valid orcidID
-    fireEvent.change(orcidId, { target: { value: "xxxx-xxxx-xxxx-xxx" } });
-    expect(orcidId.value).toBe("xxxx-xxxx-xxxx-xxx");
+    fireEvent.change(orcidId, { target: { value: "xxxx-xxxx" } });
+    expect(orcidId.value).toBe("xxxx-xxxx");
 
     // test button press
     try {
