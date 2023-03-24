@@ -119,7 +119,7 @@ function ProjectInfo({ formData, setFormData }) {
                   className="Projects__DeleteBtn"
                   onClick={(e) => handleDelete(e)}
                 >
-                  Delete
+                  Remove
                 </button>
               </div>
               <h6>Title</h6>
