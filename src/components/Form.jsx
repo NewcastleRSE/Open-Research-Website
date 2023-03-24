@@ -60,6 +60,8 @@ function Form() {
       length: 0,
     },
 
+    Projects: [],
+
     orcidProject: "",
 
     Article: [],
@@ -519,6 +521,17 @@ function Form() {
                 <div id="middle-wizard">{PageDisplay()}</div>
                 {/*<!-- /middle-wizard -->*/}
                 <div id="bottom-wizard">
+                  {/*<!-- This button is just for the development stage-->*/}
+                  <button
+                    type="button"
+                    name="skip"
+                    className="skip backward"
+                    onClick={() => {
+                      setPage((currentPage) => currentPage + 1);
+                    }}
+                  >
+                    Skip
+                  </button>
                   <button
                     type="button"
                     name="backward"

@@ -7,8 +7,9 @@ import axios from "axios";
 
 function ProjectInfo({ formData, setFormData }) {
   const [display, setDisplay] = useState(false);
-
+  const [projects, setProjects] = useState([]);
   const [errors, setErrors] = useState({});
+  const [displayOutput, setDisplayOutput] = useState(true);
 
   const [projectInfo, setProjectInfo] = useState({
     projectName: "",
@@ -24,7 +25,18 @@ function ProjectInfo({ formData, setFormData }) {
     // Load data from strapi
     console.log(formData);
     fetchOrcidProjects();
+    fetchProjects();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const fetchProjects = async () => {
+    try {
+      setProjects(formData.Projects);
+      console.log(projects);
+      console.log("set projects");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const fetchOrcidProjects = async () => {
     // axios request
@@ -73,10 +85,14 @@ function ProjectInfo({ formData, setFormData }) {
 
     if (Object.keys(newErrors).length === 0) {
       formData.Project = projectInfo;
-
-      setErrors({});
-      setDisplay(!display);
+      formData.Projects.push(formData.Project);
+      setDisplayOutput(true);
     }
+
+    console.log(e);
+
+    setErrors({});
+    setDisplay(!display);
   };
 
   const handleCancel = (e) => {
@@ -94,8 +110,41 @@ function ProjectInfo({ formData, setFormData }) {
         : (title = formData.orcidProject);
       return (
         <div className="margin_top_sm">
-          <h3 className="main_question">Selected project:</h3>
-          <p>{title}</p>
+          {displayOutput ? (
+            <div className="Projects__Output">
+              <div className="Projects__OutputTop">
+                <h3 className="main_question">Selected project:</h3>
+                <button
+                  className="Projects__DeleteBtn"
+                  onClick={(e) => handleDelete(e)}
+                >
+                  Delete
+                </button>
+              </div>
+              <h6>Title</h6>
+              <p>{title}</p>
+              <h6>Research Area</h6>
+              <p>
+                {projectInfo.researchArea
+                  ? formData.Project.researchArea
+                  : "No research area selected."}
+              </p>
+              <h6>Funder</h6>
+              <p>
+                {formData.Project.funder
+                  ? formData.Project.funder
+                  : "No funder selected."}
+              </p>
+              <h6>Project Length (months)</h6>
+              <p>
+                {formData.Project.length
+                  ? formData.Project.funder
+                  : "No length selected"}
+              </p>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       );
     } else {
@@ -106,17 +155,23 @@ function ProjectInfo({ formData, setFormData }) {
   const handleDelete = (e) => {
     // eslint-disable-line no-unused-vars
     e.preventDefault();
-
-    if (formData.Project.projectName) {
-    }
+    // remove the project from db
+    setDisplayOutput(false);
+    setProjectInfo({
+      projectName: "",
+      researchArea: "",
+      funder: "",
+      otherFunder: "",
+      length: "",
+    });
   };
 
   const getTitles = (e) => {
     let titles = orcidProjects.map((project) => {
       return { value: project["work-summary"]["0"].title.title.value };
     });
-
-    return titles;
+    let titles2 = projects.map((project) => project.projectName);
+    return titles2;
   };
 
   return (
@@ -128,16 +183,11 @@ function ProjectInfo({ formData, setFormData }) {
       <DropDown
         name="orcidProject"
         placeholder="ORCID Projects"
-        options={[
-          getTitles(),
-          // ordid projects
-          { value: "Project 1" },
-          { value: "Project 2" },
-          { value: "Project 3" },
-        ]}
+        options={[getTitles()]}
         value={formData.orcidProject}
         onChange={(event) => {
           setFormData({ ...formData, orcidProject: event.target.value });
+          displayProject();
         }}
       />
       <button

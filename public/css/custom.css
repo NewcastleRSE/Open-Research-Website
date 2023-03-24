@@ -31,8 +31,7 @@
   text-decoration: underline;
 }
 
-.button-container {
-}
+.button-container {}
 
 .float-left {
   float: left;
@@ -56,4 +55,28 @@
 
 .margin_top_sm {
   margin-top: 1rem;
+}
+
+.Projects__Output {
+  border: 1px blue solid;
+  border-radius: 2px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.Projects__OutputTop {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.Projects__DeleteBtn {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.skip {
+  margin-right: 5rem;
 }

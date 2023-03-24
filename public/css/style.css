@@ -67,7 +67,7 @@ h6 {
 }
 
 p {
-  margin-bottom: 25px;
+  margin-bottom: 5px;
 }
 
 strong {
@@ -1784,6 +1784,12 @@ input[type="file"].valid::-webkit-file-upload-button:focus {
 
 .nice-select.right .list {
   left: auto;
+  right: 0;
+}
+
+.nice-select.topRight {
+  position: absolute;
+  top: 0;
   right: 0;
 }
 
