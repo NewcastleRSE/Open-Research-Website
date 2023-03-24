@@ -128,7 +128,13 @@ function ProjectInfo({ formData, setFormData }) {
       <DropDown
         name="orcidProject"
         placeholder="ORCID Projects"
-        options={getTitles()}
+        options={[
+          getTitles(),
+          // ordid projects
+          { value: "Project 1" },
+          { value: "Project 2" },
+          { value: "Project 3" },
+        ]}
         value={formData.orcidProject}
         onChange={(event) => {
           setFormData({ ...formData, orcidProject: event.target.value });
