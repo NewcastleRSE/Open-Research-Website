@@ -466,7 +466,14 @@ function Form() {
         },
       };
 
-      await axios.post("http://localhost:1337/api/submissions", data, config);
+      await axios
+        .post("http://localhost:1337/api/submissions", data, config)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
       setDisplayModal(!displayModal);
     } catch (err) {

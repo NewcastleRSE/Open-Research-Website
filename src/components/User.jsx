@@ -18,6 +18,8 @@ function User() {
 
   const [errors, setErrors] = useState({});
 
+  const [sentForm, setSentForm] = useState(false);
+
   const [researcherInfo, setResearcherInfo] = useState({
     fullName: "",
     faculty: "",
@@ -171,7 +173,11 @@ function User() {
       }
 
       let data = new FormData();
-      data.append("data", JSON.stringify(formData));
+      try {
+        data.append("data", JSON.stringify(formData));
+      } catch (err) {
+        console.log(err);
+      }
 
       let config = {
         headers: {
@@ -179,15 +185,18 @@ function User() {
         },
       };
 
-      let res = await axios.post(
-        "http://localhost:1337/api/submissions",
-        data,
-        config
-      );
+      let res = await axios
+        .post("http://localhost:1337/api/submissions", data, config)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
       navigate("/outputs/" + res.data.uuid);
     } catch (err) {
-      alert("error");
+      alert("Error");
       console.log(err);
     }
   };
