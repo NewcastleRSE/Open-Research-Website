@@ -27,27 +27,36 @@ function ProjectInfo({ formData, setFormData }) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchOrcidProjects = async () => {
-    //axios request
-    // axios
-    //   .get("http://localhost:1337/api/orcid", {
-    //     params: {
-    //       id: formData.Researcher.orcidID,
-    //     },
-    //   })
-    //   .then((res) => {
-    //     setOrcidProjects(res.data.group);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    // axios request
+    axios
+      .get("http://localhost:1337/api/orcid", {
+        params: {
+          id: formData.Researcher.orcidID,
+        },
+      })
+      .then((res) => {
+        setOrcidProjects(res.data.group);
+      })
+      .catch((err) => {
+        console.log(err);
+        return err.response;
+      });
 
-    let res = await axios.get("http://localhost:1337/api/orcid", {
-      params: {
-        id: formData.Researcher.orcidID,
-      },
-    });
-
-    setOrcidProjects(res.data.group);
+    let res = await axios
+      .get("http://localhost:1337/api/orcid", {
+        params: {
+          id: formData.Researcher.orcidID,
+        },
+      })
+      .catch((err) => {
+        console.log(err);
+        return err.response;
+      });
+    try {
+      setOrcidProjects(res.data.group);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleClick = (e) => {
@@ -94,7 +103,8 @@ function ProjectInfo({ formData, setFormData }) {
     }
   };
 
-  const handleDelete = (e) => { // eslint-disable-line no-unused-vars
+  const handleDelete = (e) => {
+    // eslint-disable-line no-unused-vars
     e.preventDefault();
 
     if (formData.Project.projectName) {

@@ -230,7 +230,9 @@ function Outputs() {
 
         setFormBuilder(builder);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   let leftStack = [];
@@ -496,7 +498,15 @@ function Outputs() {
         },
       };
 
-      await axios.put(url, data, config);
+      await axios
+        .put(url, data, config)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+          throw err;
+        });
 
       setDisplayModal(!displayModal);
     } catch (err) {
