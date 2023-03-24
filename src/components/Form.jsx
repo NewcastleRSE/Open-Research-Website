@@ -534,7 +534,7 @@ function Form() {
                     type="button"
                     name="forward"
                     className="forward"
-                    disabled={page === form.length + 3}
+                    disabled={page === form.length + 2}
                     onClick={(e) => handleNext(e)}
                   >
                     Next
@@ -543,7 +543,7 @@ function Form() {
                     type="submit"
                     name="process"
                     className="submit"
-                    disabled={!(page === form.length + 3)}
+                    disabled={!(page === form.length + 2)}
                     onClick={(e) => handleSubmit(e)}
                   >
                     Submit

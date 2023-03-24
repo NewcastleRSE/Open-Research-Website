@@ -257,7 +257,7 @@ function User() {
                     type="button"
                     name="forward"
                     className="forward"
-                    disabled={page === 1}
+                    disabled={page == 3}
                     onClick={(e) => handleNext(e)}
                   >
                     Next
@@ -266,7 +266,7 @@ function User() {
                     type="submit"
                     name="process"
                     className="submit"
-                    disabled={page !== 1}
+                    disabled={!(page == 3)}
                     onClick={(e) => handleSubmit(e)}
                   >
                     Save
