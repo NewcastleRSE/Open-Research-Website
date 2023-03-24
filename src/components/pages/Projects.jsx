@@ -75,6 +75,7 @@ function ProjectInfo({ formData, setFormData }) {
     e.preventDefault();
     console.log(orcidProjects);
     setDisplay(!display);
+    setDisplayOutput(false);
   };
 
   const handleSubmit = (e) => {
