@@ -24,6 +24,12 @@ describe("App component", () => {
     const careerOption = screen.queryByTestId("careerStage");
     const orcidId = screen.getByPlaceholderText(/orcid id/i);
 
+    expect(fullName.value).toBe("");
+    expect(facultyOption.value).toBe("");
+    expect(schoolOption.value).toBe("");
+    expect(careerOption.value).toBe("");
+    expect(orcidId.value).toBe("");
+
     // test valid full name
     fireEvent.change(fullName, { target: { value: "Test 123" } });
     expect(fullName.value).toBe("Test 123");
