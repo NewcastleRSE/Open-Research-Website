@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 export default function useFormData() {
   const [formData, setFormData] = useState({
     uuid: "",
 
     Researcher: {
-      fullName: "",
-      faculty: "",
-      school: "",
+      fullName: "Test 1",
+      faculty: "SAgE",
+      school: "School of Computing",
       otherSchool: "",
-      careerStage: "",
+      careerStage: "PhD",
     },
 
     Project: {
-      projectName: "",
-      researchArea: "",
-      funder: "",
+      projectName: "Test 1",
+      researchArea: "Test",
+      funder: "UKRI",
       otherFunder: "",
-      length: 0,
+      length: 2,
     },
 
     Article: [],

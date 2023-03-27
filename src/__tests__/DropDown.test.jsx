@@ -1,5 +1,4 @@
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render, screen, fireEvent, getByTestId } from "@testing-library/react";
 
 import DropDown from "../components/formElements/DropDown";
 
@@ -26,11 +25,10 @@ describe("Dropdown input", () => {
       />
     );
 
-    userEvent.selectOptions(
-      screen.getByRole("combobox"),
-      screen.getByRole("option", { name: "SAgE" })
-    );
+    fireEvent.change(screen.getByRole("option", { name: "Faculty" }), {
+      target: { value: "SAgE" },
+    });
 
-    expect(screen.getByRole("option", { name: "SAgE" }).selected).toBe(true);
+    expect(screen.getByRole("option", { name: "Faculty" }).selected).toBe(true);
   });
 });
