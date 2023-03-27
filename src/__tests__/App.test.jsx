@@ -8,10 +8,10 @@ describe("App component", () => {
     expect(screen.queryByRole("button", { name: /prev/i })).toBeDisabled();
   });
 
-  test("Submit button shouldn't show up until the last page.", () => {
+  test("Submit button should be disabled until the last page.", () => {
     render(<App />);
     // returns null if it can't find the button
-    expect(screen.queryByRole("button", { name: /submit/i })).toEqual(null);
+    expect(screen.queryByRole("button", { name: /submit/i })).toBeDisabled();
   });
 
   test("Once form fields have been correctly filled, the next button moves to the next page.", () => {
