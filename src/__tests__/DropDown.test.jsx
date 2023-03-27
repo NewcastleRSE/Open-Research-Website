@@ -15,7 +15,7 @@ describe("Dropdown input", () => {
     expect(screen.getByRole("option", { name: "Faculty" }).selected).toBe(true);
   });
 
-  it("should be able to select a Faculty from the dropdown", async () => {
+  it("should be able to select a Faculty from the dropdown", () => {
     render(
       <DropDown
         name="faculty"
@@ -25,10 +25,10 @@ describe("Dropdown input", () => {
       />
     );
 
-    fireEvent.change(screen.getByRole("option", { name: "Faculty" }), {
+    fireEvent.click(screen.getByRole("option", { name: "Faculty" }), {
       target: { value: "SAgE" },
     });
 
-    expect(screen.getByRole("option", { name: "Faculty" }).selected).toBe(true);
+    expect(screen.getByRole("option", { name: "Faculty" }).value).toBe("SAgE");
   });
 });

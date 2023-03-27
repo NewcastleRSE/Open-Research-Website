@@ -1,5 +1,11 @@
 import { React, useState } from "react";
-import { renderHook, fireEvent, render, screen } from "@testing-library/react";
+import {
+  renderHook,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 
 import useFormData from "../util/useFormData";
 import App from "../components/App";
@@ -11,7 +17,9 @@ describe("Articles", () => {
     // formData is still undefined for some reason.
     console.log(formData);
 
-    // expect(formData).toEqual({ name: "Test 1" });
+    await waitFor(() => {
+      expect(formData).toEqual({ name: "Test 1" });
+    });
     // // render(<App formData={formData} setFormData={setFormData} />);
 
     // const facultyOption = screen.queryByTestId("faculty");

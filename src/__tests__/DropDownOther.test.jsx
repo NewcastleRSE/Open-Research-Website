@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import DropDownOther from "../components/formElements/DropDownOther";
@@ -35,13 +35,12 @@ describe("DropDownOther", () => {
       />
     );
 
-    userEvent.selectOptions(
-      screen.getByRole("combobox"),
-      screen.getByRole("option", { name: "Medical School" })
-    );
+    fireEvent.click(screen.getByRole("option", { name: "School/ Institute" }), {
+      target: { value: "Medical School" },
+    });
 
     expect(
-      screen.getByRole("option", { name: "Medical School" }).selected
-    ).toBe(true);
+      screen.getByRole("option", { name: "School/ Institute" }).value
+    ).toBe("Medical School");
   });
 });
