@@ -4,9 +4,7 @@ import Material from "../forms/Material";
 import validate from "../../validationRules/MaterialVR";
 import str2bool from "../../util/str2bool";
 
-function Materials({ formData, setFormData }) {
-  const [display, setDisplay] = useState(false);
-
+function Materials({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
 
   const [materialInfo, setMaterialInfo] = useState({

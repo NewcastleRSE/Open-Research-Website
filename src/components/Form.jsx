@@ -27,11 +27,17 @@ import validateResearcher from "../validationRules/ResearcherVR";
 import validateProject from "../validationRules/ProjectVR";
 import validateBuilder from "../validationRules/BuilderVR";
 import SuccessModal from "./SuccessModal";
+import { faListCheck } from "@fortawesome/free-solid-svg-icons";
+import FormDataDisplay from "./pages/FormDataDisplay";
 
 function Form() {
   const [page, setPage] = useState(0);
+  const [display, setDisplay] = useState(false);
 
   const [errors, setErrors] = useState({});
+
+  const [submitted, setSubmitted] = useState(false);
+  const [saved, setSaved] = useState(false);
 
   const [researcherInfo, setResearcherInfo] = useState({
     fullName: "",
@@ -57,7 +63,7 @@ function Form() {
       researchArea: "",
       funder: "",
       otherFunder: "",
-      length: 0,
+      length: "",
     },
 
     Projects: [],
@@ -101,128 +107,209 @@ function Form() {
     const form = [];
 
     if (formBuilder.article) {
-      form.push(<Articles formData={formData} setFormData={setFormData} />);
+      form.push(
+        <Articles
+          formData={formData}
+          setFormData={setFormData}
+          display={display}
+          setDisplay={setDisplay}
+        />
+      );
       leftStack.push(
         <LeftContent
           heading="Articles"
           img="img/Team_Presentation_Monochromatic.svg"
-          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          subtext="A research article is a journal article in which the authors report on the research they did. Research articles are always primary sources. Whether or not a research article is peer reviewed depends on the journal that publishes it."
         />
       );
     }
 
     if (formBuilder.monograph) {
-      form.push(<Monographs formData={formData} setFormData={setFormData} />);
+      form.push(
+        <Monographs
+          formData={formData}
+          setFormData={setFormData}
+          display={display}
+          setDisplay={setDisplay}
+        />
+      );
       leftStack.push(
         <LeftContent
           heading="Monographs"
-          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          subtext="A monograph is a special type of book written on a single specialized topic, devoted mainly for research works; could pose some unsolved problems and may provide detailed explanation of some research papers."
         />
       );
     }
 
     if (formBuilder.dataset) {
-      form.push(<Datasets formData={formData} setFormData={setFormData} />);
+      form.push(
+        <Datasets
+          formData={formData}
+          setFormData={setFormData}
+          display={display}
+          setDisplay={setDisplay}
+        />
+      );
       leftStack.push(
         <LeftContent
           heading="Data"
-          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          subtext="A dataset is any logically meaningful collection or grouping of similar or related data you have used in your research, as a matter of record or directly related to your research"
         />
       );
     }
 
     if (formBuilder.code) {
-      form.push(<Codes formData={formData} setFormData={setFormData} />);
+      form.push(
+        <Codes
+          formData={formData}
+          setFormData={setFormData}
+          display={display}
+          setDisplay={setDisplay}
+        />
+      );
       leftStack.push(
         <LeftContent
           heading="Code"
-          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          subtext="Code is any qualitative data analysis strategy you have used in which some aspect of the data is assigned a descriptive label that allows the researcher to identify related content across the data."
         />
       );
     }
 
     if (formBuilder.researchMaterial) {
-      form.push(<Materials formData={formData} setFormData={setFormData} />);
+      form.push(
+        <Materials
+          formData={formData}
+          setFormData={setFormData}
+          display={display}
+          setDisplay={setDisplay}
+        />
+      );
       leftStack.push(
         <LeftContent
           heading="Research Material"
-          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          subtext="Research materials are any documents, records, software, information, data and other materials or work product in any tangible form created or developed during the course of, or in association with, your research activity."
         />
       );
     }
 
     if (formBuilder.protocol) {
-      form.push(<Protocols formData={formData} setFormData={setFormData} />);
+      form.push(
+        <Protocols
+          formData={formData}
+          setFormData={setFormData}
+          display={display}
+          setDisplay={setDisplay}
+        />
+      );
       leftStack.push(
         <LeftContent
           heading="Protocols"
-          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          subtext="A research protocol is a document that describes the background, rationale, objectives, design, methodology, statistical considerations, and organization of a clinical research project."
         />
       );
     }
 
     if (formBuilder.digitalScholarship) {
       form.push(
-        <DigitalScholarships formData={formData} setFormData={setFormData} />
+        <DigitalScholarships
+          formData={formData}
+          setFormData={setFormData}
+          display={display}
+          setDisplay={setDisplay}
+        />
       );
       leftStack.push(
         <LeftContent
           heading="Digital Scholarships"
-          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          subtext="Digital scholarship can encompass both scholarly communication using digital media and research on digital media. An important aspect of digital scholarship is the effort to establish digital media and social media as credible, professional and legitimate means of research and communication."
         />
       );
     }
 
     if (formBuilder.preprints) {
-      form.push(<Preprints formData={formData} setFormData={setFormData} />);
+      form.push(
+        <Preprints
+          formData={formData}
+          setFormData={setFormData}
+          display={display}
+          setDisplay={setDisplay}
+        />
+      );
       leftStack.push(
         <LeftContent
           heading="Preprints"
-          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          subtext="Preprints are preliminary versions of scientific manuscripts that researchers share by posting to online platforms known as preprint servers before peer-review and publication in an academic journal."
         />
       );
     }
 
     if (formBuilder.openPeerReview) {
-      form.push(<PeerReviews formData={formData} setFormData={setFormData} />);
+      form.push(
+        <PeerReviews
+          formData={formData}
+          setFormData={setFormData}
+          display={display}
+          setDisplay={setDisplay}
+        />
+      );
       leftStack.push(
         <LeftContent
           heading="Open Peer Reviews"
-          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          subtext="Any scholarly review mechanism providing disclosure of author and referee identities to one another at any point during the peer review or publication process."
         />
       );
     }
 
     if (formBuilder.analysisPlan) {
-      form.push(<PreRegs formData={formData} setFormData={setFormData} />);
+      form.push(
+        <PreRegs
+          formData={formData}
+          setFormData={setFormData}
+          display={display}
+          setDisplay={setDisplay}
+        />
+      );
       leftStack.push(
         <LeftContent
           heading="Pre-registration Analysis Plans"
-          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          subtext="Preregistration refers to the specification of a study's hypotheses, methodology, and statistical analyses before inspecting the research data. Preregistration takes typically the form of a document that is made publicly available on a timestamped repository or website."
         />
       );
     }
 
     if (formBuilder.registeredReport) {
-      form.push(<RegReports formData={formData} setFormData={setFormData} />);
+      form.push(
+        <RegReports
+          formData={formData}
+          setFormData={setFormData}
+          display={display}
+          setDisplay={setDisplay}
+        />
+      );
       leftStack.push(
         <LeftContent
           heading="Registered Report"
-          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          subtext="Registered Reports are a format of empirical article where a study proposal is reviewed before the research is undertaken. Pre-registered proposals that meet high scientific standards are then provisionally accepted before the outcomes are known, independently of the results."
         />
       );
     }
 
     if (formBuilder.dissertation) {
-      form.push(<Theses formData={formData} setFormData={setFormData} />);
+      form.push(
+        <Theses
+          formData={formData}
+          setFormData={setFormData}
+          display={display}
+          setDisplay={setDisplay}
+        />
+      );
       leftStack.push(
         <LeftContent
           heading="Theses and Dissertation"
-          subtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          subtext="A thesis is a compilation of research that proves you are knowledgeable about the information learn throughout your graduate program. A dissertation is your opportunity during a doctorate program to contribute new knowledge, theories or practices to your field."
         />
       );
     }
-
     return form;
   };
 
@@ -237,7 +324,7 @@ function Form() {
         </div>
       );
     } else {
-      return <Summary />;
+      return <Summary formData={formData} />;
     }
   };
 
@@ -257,7 +344,12 @@ function Form() {
       case 1: {
         return (
           <div>
-            <Projects formData={formData} setFormData={setFormData} />
+            <Projects
+              formData={formData}
+              setFormData={setFormData}
+              display={display}
+              setDisplay={setDisplay}
+            />
           </div>
         );
       }
@@ -298,103 +390,25 @@ function Form() {
       case 14:
         return displayPage(11);
       case 15:
-        return <Summary />;
+        return <Summary formData={formData} />;
       default:
         return <div>Default Case</div>;
     }
   };
 
   const LeftDisplay = () => {
-    switch (page) {
-      case 0: {
-        return (
-          <div>
-            <LeftContent
-              heading="Open Research Tool"
-              img="img/info_graphic_1.svg"
-              subtext="Tation argumentum et usu, dicit viderer evertitur te has. Eu dictas
-              concludaturque usu, facete detracto patrioque an per, lucilius
-              pertinacia eu vel. Adhuc invidunt duo ex. Eu tantas dolorum ullamcorper
-              qui."
-            />
-          </div>
-        );
-      }
-      case 1: {
-        return (
-          <div>
-            <LeftContent
-              heading="Open Research Tool"
-              img="img/info_graphic_1.svg"
-              subtext="Tation argumentum et usu, dicit viderer evertitur te has. Eu dictas
-              concludaturque usu, facete detracto patrioque an per, lucilius
-              pertinacia eu vel. Adhuc invidunt duo ex. Eu tantas dolorum ullamcorper
-              qui."
-            />
-          </div>
-        );
-      }
-      case 2: {
-        return (
-          <div>
-            <LeftContent
-              heading="Form Builder"
-              img="img/form_building_Monochromatic.svg"
-              subtext="This page is used to build the remainder of the form."
-            />
-          </div>
-        );
-      }
-      case 3: {
-        return <div>{leftStack[0]}</div>;
-      }
-      case 4: {
-        return <div>{leftStack[1]}</div>;
-      }
-      case 5: {
-        return <div>{leftStack[2]}</div>;
-      }
-      case 6: {
-        return <div>{leftStack[3]}</div>;
-      }
-      case 7: {
-        return <div>{leftStack[4]}</div>;
-      }
-      case 8: {
-        return <div>{leftStack[5]}</div>;
-      }
-      case 9: {
-        return <div>{leftStack[6]}</div>;
-      }
-      case 10: {
-        return <div>{leftStack[7]}</div>;
-      }
-      case 11: {
-        return <div>{leftStack[8]}</div>;
-      }
-      case 12: {
-        return <div>{leftStack[9]}</div>;
-      }
-      case 13: {
-        return <div>{leftStack[10]}</div>;
-      }
-      case 14: {
-        return <div>{leftStack[11]}</div>;
-      }
-      default: {
-        return (
-          <div>
-            <LeftContent
-              heading="Open Research Tool"
-              img="img/info_graphic_1.svg"
-              subtext="Tation argumentum et usu, dicit viderer evertitur te has. Eu dictas
-          concludaturque usu, facete detracto patrioque an per, lucilius
-          pertinacia eu vel. Adhuc invidunt duo ex. Eu tantas dolorum ullamcorper
-          qui."
-            />
-          </div>
-        );
-      }
+    if (page == 0) {
+      return (
+        <div>
+          <LeftContent
+            heading="Open Research Tool"
+            img="img/info_graphic_1.svg"
+            subtext="Using this tool you can learn how to increase the openess of your research. As you fill out the forms on the right, our system will take all of your input and provide advise on how best you can increase it's openess. Please be honest and include as much information as possible so that we can provide you with an accurate assessment."
+          />
+        </div>
+      );
+    } else {
+      return <FormDataDisplay formData={formData} />;
     }
   };
 
@@ -444,6 +458,12 @@ function Form() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitted(true);
+    setPage(15);
+  };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
     try {
       formData.uuid = uuidv4();
 
@@ -472,6 +492,7 @@ function Form() {
         .post("http://localhost:1337/api/submissions", data, config)
         .then((res) => {
           console.log(res);
+          setSaved(true);
         })
         .catch((err) => {
           console.log(err);
@@ -486,6 +507,7 @@ function Form() {
 
   return (
     <div>
+      {console.log(displayModal)}
       <div className="container-fluid full-height">
         <div className="row row-height">
           <div className="col-lg-6 content-left">
@@ -525,7 +547,9 @@ function Form() {
                   <button
                     type="button"
                     name="skip"
-                    className="skip backward"
+                    className={`skip backward
+                      ${display && "background"}`}
+                    disabled={(page === form.length + 2) | submitted}
                     onClick={() => {
                       setPage((currentPage) => currentPage + 1);
                     }}
@@ -535,8 +559,8 @@ function Form() {
                   <button
                     type="button"
                     name="backward"
-                    className="backward"
-                    disabled={page === 0}
+                    className={`backward ${display && "background"}`}
+                    disabled={page === 0 || submitted}
                     onClick={() => {
                       setPage((currentPage) => currentPage - 1);
                     }}
@@ -546,8 +570,8 @@ function Form() {
                   <button
                     type="button"
                     name="forward"
-                    className="forward"
-                    disabled={page === form.length + 2}
+                    className={`forward ${display && "background"}`}
+                    disabled={page === form.length + 2 || submitted}
                     onClick={(e) => handleNext(e)}
                   >
                     Next
@@ -555,11 +579,20 @@ function Form() {
                   <button
                     type="submit"
                     name="process"
-                    className="submit"
-                    disabled={!(page === form.length + 2)}
+                    className={`backward ${display && "background"}`}
+                    disabled={!(page === form.length + 2) || submitted}
                     onClick={(e) => handleSubmit(e)}
                   >
                     Submit
+                  </button>
+                  <button
+                    type="submit"
+                    name="process"
+                    className="submit"
+                    disabled={!submitted}
+                    onClick={(e) => handleSave(e)}
+                  >
+                    Save
                   </button>
                 </div>
                 {/*<!-- /bottom-wizard -->*/}

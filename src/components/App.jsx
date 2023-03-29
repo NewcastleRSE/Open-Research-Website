@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import User from "./User";
 import Form from "./Form";
 import Outputs from "./Outputs";
 import About from "./About";

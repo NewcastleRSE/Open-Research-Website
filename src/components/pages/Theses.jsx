@@ -4,9 +4,7 @@ import Thesis from "../forms/Thesis";
 import validate from "../../validationRules/ThesesVR";
 import str2bool from "../../util/str2bool";
 
-function Theses({ formData, setFormData }) {
-  const [display, setDisplay] = useState(false);
-
+function Theses({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
 
   const [thesesInfo, setThesesInfo] = useState({

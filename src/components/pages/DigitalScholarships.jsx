@@ -4,9 +4,7 @@ import DigitalScholarship from "../forms/DigitalScholarship";
 import validate from "../../validationRules/DigitalScholarshipVR";
 import str2bool from "../../util/str2bool";
 
-function DigitalScholarships({ formData, setFormData }) {
-  const [display, setDisplay] = useState(false);
-
+function DigitalScholarships({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
 
   const [dsInfo, setDSInfo] = useState({

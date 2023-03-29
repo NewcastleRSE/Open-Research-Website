@@ -4,9 +4,7 @@ import PreReg from "../forms/PreReg";
 import validate from "../../validationRules/PreRegVR";
 import str2bool from "../../util/str2bool";
 
-function PreRegs({ formData, setFormData }) {
-  const [display, setDisplay] = useState(false);
-
+function PreRegs({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
 
   const [preRegInfo, setPreRegInfo] = useState({

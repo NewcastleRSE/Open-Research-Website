@@ -4,9 +4,7 @@ import RegReport from "../forms/RegReport";
 import validate from "../../validationRules/RegReportVR";
 import str2bool from "../../util/str2bool";
 
-function RegReports({ formData, setFormData }) {
-  const [display, setDisplay] = useState(false);
-
+function RegReports({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
 
   const [regReportInfo, setRegReportInfo] = useState({

@@ -4,9 +4,7 @@ import Protocol from "../forms/Protocol";
 import validate from "../../validationRules/ProtocolVR";
 import str2bool from "../../util/str2bool";
 
-function Protocols({ formData, setFormData }) {
-  const [display, setDisplay] = useState(false);
-
+function Protocols({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
 
   const [protocolInfo, setProtocolInfo] = useState({

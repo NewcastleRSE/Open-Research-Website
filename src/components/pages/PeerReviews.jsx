@@ -4,9 +4,7 @@ import PeerReview from "../forms/PeerReview";
 import validate from "../../validationRules/PeerReviewVR";
 import str2bool from "../../util/str2bool";
 
-function PeerReviews({ formData, setFormData }) {
-  const [display, setDisplay] = useState(false);
-
+function PeerReviews({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
 
   const [peerRevInfo, setPeerRevInfo] = useState({

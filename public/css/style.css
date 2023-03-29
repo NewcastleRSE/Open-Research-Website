@@ -711,6 +711,10 @@ button.submit:before {
   transition: all 0.2s ease;
 }
 
+.summary p {
+  font-size: 1.1rem;
+}
+
 .summary ul {
   margin: 0;
   padding: 0;
@@ -1309,7 +1313,7 @@ span.error:after {
 }
 
 .rating {
-  display: inline-block;
+  display: block;
   font-size: 0;
   float: right;
   position: relative;
@@ -1586,6 +1590,7 @@ span.error:after {
   line-height: 30px;
   padding: 0 10px;
   text-transform: uppercase;
+  appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
   background-color: #fff;

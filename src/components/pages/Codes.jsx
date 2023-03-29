@@ -4,9 +4,7 @@ import Code from "../forms/Code";
 import validate from "../../validationRules/CodeVR";
 import str2bool from "../../util/str2bool";
 
-function Codes({ formData, setFormData }) {
-  const [display, setDisplay] = useState(false);
-
+function Codes({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
 
   const [codeInfo, setCodeInfo] = useState({

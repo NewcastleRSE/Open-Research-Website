@@ -4,9 +4,7 @@ import Article from "../forms/Article";
 import validate from "../../validationRules/ArticleVR";
 import str2bool from "../../util/str2bool";
 
-function MultipleArticle({ formData, setFormData }) {
-  const [display, setDisplay] = useState(false);
-
+function MultipleArticle({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
 
   const [articleInfo, setArticleInfo] = useState({

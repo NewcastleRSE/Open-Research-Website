@@ -4,9 +4,7 @@ import Preprint from "../forms/Preprint";
 import validate from "../../validationRules/PreprintsVR";
 import str2bool from "../../util/str2bool";
 
-function Preprints({ formData, setFormData }) {
-  const [display, setDisplay] = useState(false);
-
+function Preprints({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
 
   const [preprintInfo, setPreprintInfo] = useState({

@@ -5,11 +5,48 @@ import DropDown from "../formElements/DropDown";
 import validateProject from "../../validationRules/ProjectVR";
 import axios from "axios";
 
-function ProjectInfo({ formData, setFormData }) {
-  const [display, setDisplay] = useState(false);
+function ProjectInfo({ formData, setFormData, display, setDisplay }) {
   const [projects, setProjects] = useState([]);
   const [errors, setErrors] = useState({});
   const [displayOutput, setDisplayOutput] = useState(true);
+
+  // const ProjectManager = () => {
+  //   const [projects, setProjects] = useState([]);
+  //   const [selectedProject, setSelectedProject] = useState(null);
+
+  //   const handleAddProject = (project) => {
+  //     setProjects([...projects, project]);
+  //   };
+
+  //   const handleSelect = (e) => {
+  //     const project = projects.find((p) => p.title === e.target.value);
+  //     setSelectedProject(project);
+  //   };
+
+  //   const handleRemove = () => {
+  //     if (selectedProject) {
+  //       const updatedProjects = projects.filter((p) => p.title !== selectedProject.title);
+  //       setProjects(updatedProjects);
+  //       setSelectedProject(null);
+  //     }
+  //   };
+
+  //   return (
+  //     <div>
+  //       <select onChange={handleSelect} value={selectedProject?.title || ''}>
+  //         <option value="">Select a project</option>
+  //         {projects.map((project) => (
+  //           <option key={project.title} value={project.title}>
+  //             {project.title}
+  //           </option>
+  //         ))}
+  //       </select>
+  //       <div>
+  //         <p>Description:</p>
+  //         <textarea value={selectedProject?.description || ''} readOnly />
+  //       </div>
+  //       <button onClick={handleRemove}>Remove Project</button>
+  //       {/* Include your form component here and pass handleAddProject as
 
   const [projectInfo, setProjectInfo] = useState({
     projectName: "",
@@ -73,7 +110,6 @@ function ProjectInfo({ formData, setFormData }) {
 
   const handleClick = (e) => {
     e.preventDefault();
-    console.log(orcidProjects);
     setDisplay(!display);
     setDisplayOutput(false);
   };
@@ -139,7 +175,7 @@ function ProjectInfo({ formData, setFormData }) {
               <h6>Project Length (months)</h6>
               <p>
                 {formData.Project.length
-                  ? formData.Project.funder
+                  ? formData.Project.length
                   : "No length selected"}
               </p>
             </div>
@@ -182,6 +218,7 @@ function ProjectInfo({ formData, setFormData }) {
         Please select a project from ORCID or add a new one.
       </h3>
       <DropDown
+        key={formData.orcidProject}
         name="orcidProject"
         placeholder="ORCID Projects"
         options={[getTitles()]}

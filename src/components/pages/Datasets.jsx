@@ -4,9 +4,7 @@ import Dataset from "../forms/Dataset";
 import validate from "../../validationRules/DataVR";
 import str2bool from "../../util/str2bool";
 
-function Datasets({ formData, setFormData }) {
-  const [display, setDisplay] = useState(false);
-
+function Datasets({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
 
   const [datasetInfo, setDatasetInfo] = useState({
