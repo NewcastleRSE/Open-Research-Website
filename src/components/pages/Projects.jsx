@@ -12,8 +12,9 @@ function ProjectInfo({ formData, setFormData, display, setDisplay }) {
   const [selectedProject, setSelectedProject] = useState(null);
 
   const handleAddProject = (project) => {
-    setProjects([...projects, project]);
-    setFormData({ ...formData, Projects: projects });
+    const updatedProjects = [...projects, project];
+    setProjects(updatedProjects);
+    setFormData({ ...formData, Projects: updatedProjects });
   };
 
   const handleSelect = (e) => {
