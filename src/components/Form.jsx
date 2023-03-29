@@ -33,7 +33,7 @@ import FormDataDisplay from "./pages/FormDataDisplay";
 function Form() {
   const [page, setPage] = useState(0);
   const [display, setDisplay] = useState(false);
-
+  const [selectedProject, setSelectedProject] = useState(null);
   const [errors, setErrors] = useState({});
 
   const [submitted, setSubmitted] = useState(false);
@@ -364,6 +364,8 @@ function Form() {
               setFormData={setFormData}
               display={display}
               setDisplay={setDisplay}
+              selectedProject={selectedProject}
+              setSelectedProject={setSelectedProject}
             />
           </div>
         );
@@ -445,7 +447,7 @@ function Form() {
       }
       case 1: {
         // validate project
-        if (formData.Project.projectName || formData.orcidProject) {
+        if (selectedProject) {
           setPage((currentPage) => currentPage + 1);
         } else {
           alert("Must choose a project or enter a new one.");
