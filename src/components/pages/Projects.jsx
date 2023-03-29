@@ -9,27 +9,28 @@ function ProjectInfo({ formData, setFormData, display, setDisplay }) {
   const [projects, setProjects] = useState([]);
   const [errors, setErrors] = useState({});
   const [displayOutput, setDisplayOutput] = useState(true);
+  const [selectedProject, setSelectedProject] = useState(null);
 
-  // const ProjectManager = () => {
-  //   const [projects, setProjects] = useState([]);
-  //   const [selectedProject, setSelectedProject] = useState(null);
+  const handleAddProject = (project) => {
+    setProjects([...projects, project]);
+    setFormData({ ...formData, Projects: projects });
+  };
 
-  //   const handleAddProject = (project) => {
-  //     setProjects([...projects, project]);
-  //   };
+  const handleSelect = (e) => {
+    const project = projects.find((p) => p.title === e.target.value);
+    setSelectedProject(project);
+  };
 
-  //   const handleSelect = (e) => {
-  //     const project = projects.find((p) => p.title === e.target.value);
-  //     setSelectedProject(project);
-  //   };
-
-  //   const handleRemove = () => {
-  //     if (selectedProject) {
-  //       const updatedProjects = projects.filter((p) => p.title !== selectedProject.title);
-  //       setProjects(updatedProjects);
-  //       setSelectedProject(null);
-  //     }
-  //   };
+  const handleRemove = () => {
+    if (selectedProject) {
+      const updatedProjects = formData.Projects.filter(
+        (p) => p.title !== selectedProject.title
+      );
+      setProjects([updatedProjects]);
+      setFormData({ ...formData, Projects: updatedProjects });
+      setSelectedProject(null);
+    }
+  };
 
   //   return (
   //     <div>
@@ -60,19 +61,12 @@ function ProjectInfo({ formData, setFormData, display, setDisplay }) {
 
   useEffect(() => {
     // Load data from strapi
-    console.log(formData);
     fetchOrcidProjects();
     fetchProjects();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [formData.projects]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const fetchProjects = async () => {
-    try {
-      setProjects(formData.Projects);
-      console.log(projects);
-      console.log("set projects");
-    } catch (err) {
-      console.log(err);
-    }
+  const fetchProjects = () => {
+    setProjects(formData.Projects);
   };
 
   const fetchOrcidProjects = async () => {
@@ -121,9 +115,9 @@ function ProjectInfo({ formData, setFormData, display, setDisplay }) {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      formData.Project = projectInfo;
-      formData.Projects.push(formData.Project);
+      handleAddProject(projectInfo);
       setDisplayOutput(true);
+      fetchProjects();
     }
 
     console.log(e);
@@ -153,7 +147,7 @@ function ProjectInfo({ formData, setFormData, display, setDisplay }) {
                 <h3 className="main_question">Selected project:</h3>
                 <button
                   className="Projects__DeleteBtn"
-                  onClick={(e) => handleDelete(e)}
+                  onClick={(e) => handleRemove(e)}
                 >
                   Remove
                 </button>
@@ -189,26 +183,28 @@ function ProjectInfo({ formData, setFormData, display, setDisplay }) {
     }
   };
 
-  const handleDelete = (e) => {
-    // eslint-disable-line no-unused-vars
-    e.preventDefault();
-    // remove the project from db
-    setDisplayOutput(false);
-    setProjectInfo({
-      projectName: "",
-      researchArea: "",
-      funder: "",
-      otherFunder: "",
-      length: "",
-    });
-  };
-
-  const getTitles = (e) => {
+  const getOrcidTitles = (e) => {
     let titles = orcidProjects.map((project) => {
       return { value: project["work-summary"]["0"].title.title.value };
     });
-    let titles2 = projects.map((project) => project.projectName);
-    return titles2;
+
+    return titles;
+  };
+
+  const getTitles = () => {
+    if (formData.Projects.length === 0) {
+      return [];
+    }
+
+    return formData.Projects.map((proj) => ({ value: proj.projectName }));
+  };
+
+  const handleDropdownChange = (e) => {
+    const selectedProjectTitle = e.target.value;
+    const selected = formData.Projects.find(
+      (project) => project.projectName === selectedProjectTitle
+    );
+    setSelectedProject(selected);
   };
 
   return (
@@ -218,15 +214,21 @@ function ProjectInfo({ formData, setFormData, display, setDisplay }) {
         Please select a project from ORCID or add a new one.
       </h3>
       <DropDown
-        key={formData.orcidProject}
         name="orcidProject"
+        options={getOrcidTitles()}
         placeholder="ORCID Projects"
-        options={[getTitles()]}
         value={formData.orcidProject}
         onChange={(event) => {
           setFormData({ ...formData, orcidProject: event.target.value });
           displayProject();
         }}
+      />
+      <DropDown
+        name="example"
+        placeholder="Projects"
+        options={getTitles()}
+        onChange={handleDropdownChange}
+        value={selectedProject?.projectName || ""}
       />
       <button
         type="button"

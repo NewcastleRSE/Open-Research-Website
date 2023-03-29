@@ -66,7 +66,22 @@ function Form() {
       length: "",
     },
 
-    Projects: [],
+    Projects: [
+      {
+        projectName: "test",
+        researchArea: "test",
+        funder: "test",
+        otherFunder: "UKRI",
+        length: 2,
+      },
+      {
+        projectName: "test2",
+        researchArea: "test2",
+        funder: "test2",
+        otherFunder: "UKRI",
+        length: 3,
+      },
+    ],
 
     orcidProject: "",
 

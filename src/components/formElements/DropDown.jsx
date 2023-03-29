@@ -1,12 +1,24 @@
-import React from "react";
-
 const DropDown = (props) => {
+  const displayOptions = (options) => {
+    return options.map((option, index) => {
+      return (
+        <option
+          key={index}
+          data-testid="select-option"
+          value={option.value}
+          style={{ color: "black" }}
+        >
+          {option.value}
+        </option>
+      );
+    });
+  };
   return (
     <div className="form-group">
       <span className={`error ${!props.error ? "hidden" : ""}`}>
         {props.error}
       </span>
-      <div className=" styled-select clearfix">
+      <div className="styled-select clearfix">
         <select
           className={`nice-select wide ${props.error ? "red-outline" : ""}`}
           name={props.name}
@@ -14,18 +26,10 @@ const DropDown = (props) => {
           onChange={props.onChange}
           data-testid={props.id}
         >
-          <option data-testid="select-option" value="">
+          <option value="" disabled>
             {props.placeholder}
           </option>
-          {props.options.map((option) => (
-            <option
-              data-testid="select-option"
-              key={option.value}
-              value={option.value}
-            >
-              {option.value}
-            </option>
-          ))}
+          {displayOptions(props.options)}
         </select>
       </div>
     </div>
