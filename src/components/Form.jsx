@@ -24,10 +24,8 @@ import RegReports from "./pages/RegReports";
 import Theses from "./pages/Theses";
 
 import validateResearcher from "../validationRules/ResearcherVR";
-import validateProject from "../validationRules/ProjectVR";
 import validateBuilder from "../validationRules/BuilderVR";
 import SuccessModal from "./SuccessModal";
-import { faListCheck } from "@fortawesome/free-solid-svg-icons";
 import FormDataDisplay from "./pages/FormDataDisplay";
 
 function Form() {
