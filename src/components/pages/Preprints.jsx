@@ -71,8 +71,8 @@ function Preprints({ formData, setFormData, display, setDisplay }) {
     <div>
       <div>
         <h2>Preprints</h2>
-        {formData.Preprint.map((preprint) => (
-          <div className="output-type row">
+        {formData.Preprint.map((preprint, index) => (
+          <div className="output-type row" key={index}>
             <h4 className="output-title col">{preprint.preprintTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, preprint)}>Remove</p>

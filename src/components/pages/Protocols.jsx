@@ -65,8 +65,8 @@ function Protocols({ formData, setFormData, display, setDisplay }) {
     <div>
       <div>
         <h2>Protocols</h2>
-        {formData.Protocol.map((protocol) => (
-          <div className="output-type row">
+        {formData.Protocol.map((protocol, index) => (
+          <div className="output-type row" key={index}>
             <h4 className="output-title col">{protocol.protocolTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, protocol)}>Remove</p>

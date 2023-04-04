@@ -22,7 +22,7 @@ function Monograph({
           onClick={(e) => e.stopPropagation()}
         >
           <h2>Monographs, Books, Book Chapters and Edited Volumes</h2>
-          <h3 className="main_question">&nbps;</h3>
+          <h3 className="main_question"></h3>
           <TextInput
             name="monographTitle"
             placeholder="Monograph Title"

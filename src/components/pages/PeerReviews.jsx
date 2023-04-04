@@ -65,8 +65,8 @@ function PeerReviews({ formData, setFormData, display, setDisplay }) {
     <div>
       <div>
         <h2>Open Peer Reviews</h2>
-        {formData.PeerRev.map((peerRev) => (
-          <div className="output-type row">
+        {formData.PeerRev.map((peerRev, index) => (
+          <div className="output-type row" key={index}>
             <h4 className="output-title col">{peerRev.peerRevTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, peerRev)}>Remove</p>

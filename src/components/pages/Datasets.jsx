@@ -86,8 +86,8 @@ function Datasets({ formData, setFormData, display, setDisplay }) {
     <div>
       <div>
         <h2>Datasets</h2>
-        {formData.Dataset.map((dataset) => (
-          <div className="output-type row">
+        {formData.Dataset.map((dataset, index) => (
+          <div className="output-type row" key={index}>
             <h4 className="output-title col">{dataset.dataTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, dataset)}>Remove</p>

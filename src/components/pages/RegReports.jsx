@@ -73,8 +73,8 @@ function RegReports({ formData, setFormData, display, setDisplay }) {
     <div>
       <div>
         <h2>Registered Reports</h2>
-        {formData.RegReport.map((regReport) => (
-          <div className="output-type row">
+        {formData.RegReport.map((regReport, index) => (
+          <div className="output-type row" key={index}>
             <h4 className="output-title col">{regReport.regReportTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, regReport)}>Remove</p>

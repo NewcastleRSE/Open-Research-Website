@@ -95,8 +95,8 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
     <div>
       <div>
         <h2>Articles</h2>
-        {formData.Article.map((article) => (
-          <div className="output-type row" key={article.articleTitle}>
+        {formData.Article.map((article, index) => (
+          <div className="output-type row" key={index}>
             <h4 className="output-title col">{article.articleTitle}</h4>
             <span
               className="output-edit"

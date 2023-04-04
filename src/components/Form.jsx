@@ -522,7 +522,6 @@ function Form() {
 
   return (
     <div>
-      {console.log(displayModal)}
       <div className="container-fluid full-height">
         <div className="row row-height">
           <div className="col-lg-6 content-left">

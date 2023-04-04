@@ -70,8 +70,8 @@ function Materials({ formData, setFormData, display, setDisplay }) {
     <div>
       <div>
         <h2>Research Materials</h2>
-        {formData.Material.map((material) => (
-          <div className="output-type row">
+        {formData.Material.map((material, index) => (
+          <div className="output-type row" key={index}>
             <h4 className="output-title col">{material.materialTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, material)}>Remove</p>

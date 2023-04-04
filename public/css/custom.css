@@ -107,10 +107,10 @@
 
 .Results__List {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   list-style: none;
   margin: 0 0 0.8em 0;
-  padding: 0;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .Results__List::after,

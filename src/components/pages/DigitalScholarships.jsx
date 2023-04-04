@@ -70,8 +70,8 @@ function DigitalScholarships({ formData, setFormData, display, setDisplay }) {
     <div>
       <div>
         <h2>Digital Scholarships</h2>
-        {formData.DigitalScholarship.map((ds) => (
-          <div className="output-type row">
+        {formData.DigitalScholarship.map((ds, index) => (
+          <div className="output-type row" key={index}>
             <h4 className="output-title col">{ds.dsTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, ds)}>Remove</p>

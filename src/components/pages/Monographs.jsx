@@ -71,8 +71,8 @@ function Monographs({ formData, setFormData, display, setDisplay }) {
     <div>
       <div>
         <h2>Monographs</h2>
-        {formData.Monograph.map((monograph) => (
-          <div className="output-type row">
+        {formData.Monograph.map((monograph, index) => (
+          <div className="output-type row" key={index}>
             <h4 className="output-title col">{monograph.monographTitle}</h4>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, monograph)}>Remove</p>

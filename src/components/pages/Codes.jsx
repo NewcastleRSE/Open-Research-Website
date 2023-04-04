@@ -98,8 +98,8 @@ function Codes({ formData, setFormData, display, setDisplay }) {
     <div>
       <div>
         <h2>Code</h2>
-        {formData.Code.map((code) => (
-          <div className="output-type row">
+        {formData.Code.map((code, index) => (
+          <div className="output-type row" key={index}>
             <h4 className="output-title col">{code.codeTitle}</h4>
             <span
               className="output-edit"
