@@ -25,11 +25,23 @@ function ProjectInfo({
 
   const handleRemove = () => {
     if (selectedProject) {
+      // filters through and removes the selected project
       const updatedProjects = formData.Projects.filter(
         (project) => project.projectName !== selectedProject.projectName
       );
       setProjects(updatedProjects);
-      setFormData({ ...formData, Projects: updatedProjects });
+      // resets the project to blank (project in this case is the selected project) also removes the project from the list of saved projects
+      setFormData({
+        ...formData,
+        Project: {
+          projectName: "",
+          researchArea: "",
+          funder: "",
+          otherFunder: "",
+          length: "",
+        },
+        Projects: updatedProjects,
+      });
       setSelectedProject(null);
     }
   };

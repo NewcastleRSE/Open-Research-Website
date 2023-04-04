@@ -1,6 +1,5 @@
 const FormDataDisplay = ({ formData }) => {
   const displayArticleInfo = (articles) => {
-    console.log(articles);
     return articles.map((article, index) => {
       return (
         <div key={index} className="Results__List">
@@ -138,7 +137,6 @@ const FormDataDisplay = ({ formData }) => {
         <div className="Results__SubContainer">
           <h1 className="Results__Title">Article Details</h1>
           {/** Will put the articles in rows of two if they fit evenly and rows of three if not. */}
-          {console.log(formData.Article.length)}
           <div
             className={
               formData.Article.length % 2 == 0
