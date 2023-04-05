@@ -58,7 +58,7 @@ function ProjectInfo({
 
   useEffect(() => {
     // Load data from strapi
-    fetchOrcidProjects();
+    // fetchOrcidProjects();
     fetchProjects();
   }, [formData.projects]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -150,7 +150,7 @@ function ProjectInfo({
             <h6>Funder</h6>
             <p>{selectedProject.funder || "No funder selected."}</p>
             <h6>Project Length (months)</h6>
-            <p>{selectedProject.length || "No length selected"}</p>
+            <p>{selectedProject.length || "No length selected."}</p>
           </div>
         </div>
       );
@@ -190,7 +190,7 @@ function ProjectInfo({
       <h3 className="main_question">
         Please select a project from ORCID or add a new one.
       </h3>
-      <DropDown
+      {/* <DropDown
         name="orcidProject"
         options={getOrcidTitles()}
         placeholder="ORCID Projects"
@@ -199,7 +199,7 @@ function ProjectInfo({
           setFormData({ ...formData, orcidProject: event.target.value });
           displayProject();
         }}
-      />
+      /> */}
       <DropDown
         name="example"
         placeholder="Projects"
