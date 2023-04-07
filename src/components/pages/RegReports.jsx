@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import RegReport from "../forms/RegReport";
+import RegReportModal from "../formModals/RegReportModal";
 import validate from "../../validationRules/RegReportVR";
 import str2bool from "../../util/str2bool";
 
@@ -90,7 +90,7 @@ function RegReports({ formData, setFormData, display, setDisplay }) {
         </button>
       </div>
 
-      <RegReport
+      <RegReportModal
         show={display}
         formData={regReportInfo}
         setFormData={setRegReportInfo}

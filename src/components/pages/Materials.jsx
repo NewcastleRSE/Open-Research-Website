@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Material from "../forms/Material";
+import MaterialModal from "../formModals/MaterialModal";
 import validate from "../../validationRules/MaterialVR";
 import str2bool from "../../util/str2bool";
 
@@ -87,7 +87,7 @@ function Materials({ formData, setFormData, display, setDisplay }) {
         </button>
       </div>
 
-      <Material
+      <MaterialModal
         show={display}
         formData={materialInfo}
         setFormData={setMaterialInfo}

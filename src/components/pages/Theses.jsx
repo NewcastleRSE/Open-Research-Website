@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Thesis from "../forms/Thesis";
+import ThesisModal from "../formModals/ThesisModal";
 import validate from "../../validationRules/ThesesVR";
 import str2bool from "../../util/str2bool";
 
@@ -88,7 +88,7 @@ function Theses({ formData, setFormData, display, setDisplay }) {
         </button>
       </div>
 
-      <Thesis
+      <ThesisModal
         show={display}
         formData={thesesInfo}
         setFormData={setThesesInfo}

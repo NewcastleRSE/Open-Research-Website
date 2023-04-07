@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import PeerReview from "../forms/PeerReview";
+import PeerReviewModal from "../formModals/PeerReviewModal";
 import validate from "../../validationRules/PeerReviewVR";
 import str2bool from "../../util/str2bool";
 
@@ -82,7 +82,7 @@ function PeerReviews({ formData, setFormData, display, setDisplay }) {
         </button>
       </div>
 
-      <PeerReview
+      <PeerReviewModal
         show={display}
         formData={peerRevInfo}
         setFormData={setPeerRevInfo}

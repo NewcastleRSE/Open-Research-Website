@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Article from "../forms/Article";
+import ArticleModal from "../formModals/ArticleModal";
 import validate from "../../validationRules/ArticleVR";
 import str2bool from "../../util/str2bool";
 
@@ -118,7 +118,7 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
         </button>
       </div>
 
-      <Article
+      <ArticleModal
         show={display}
         formData={articleInfo}
         setFormData={setArticleInfo}

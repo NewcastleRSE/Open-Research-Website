@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Dataset from "../forms/Dataset";
+import DatasetModal from "../formModals/DatasetModal";
 import validate from "../../validationRules/DataVR";
 import str2bool from "../../util/str2bool";
 
@@ -103,7 +103,7 @@ function Datasets({ formData, setFormData, display, setDisplay }) {
         </button>
       </div>
 
-      <Dataset
+      <DatasetModal
         show={display}
         formData={datasetInfo}
         setFormData={setDatasetInfo}

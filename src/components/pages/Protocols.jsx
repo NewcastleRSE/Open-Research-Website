@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Protocol from "../forms/Protocol";
+import ProtocolModal from "../formModals/ProtocolModal";
 import validate from "../../validationRules/ProtocolVR";
 import str2bool from "../../util/str2bool";
 
@@ -82,7 +82,7 @@ function Protocols({ formData, setFormData, display, setDisplay }) {
         </button>
       </div>
 
-      <Protocol
+      <ProtocolModal
         show={display}
         formData={protocolInfo}
         setFormData={setProtocolInfo}

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Code from "../forms/Code";
+import CodeModal from "../formModals/CodeModal";
 import validate from "../../validationRules/CodeVR";
 import str2bool from "../../util/str2bool";
 
@@ -121,7 +121,7 @@ function Codes({ formData, setFormData, display, setDisplay }) {
         </button>
       </div>
 
-      <Code
+      <CodeModal
         show={display}
         formData={codeInfo}
         setFormData={setCodeInfo}

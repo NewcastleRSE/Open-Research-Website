@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Monograph from "../forms/Monograph";
+import MonographModal from "../formModals/MonographModal";
 import validate from "../../validationRules/MonoVR";
 import str2bool from "../../util/str2bool";
 
@@ -88,7 +88,7 @@ function Monographs({ formData, setFormData, display, setDisplay }) {
         </button>
       </div>
 
-      <Monograph
+      <MonographModal
         show={display}
         formData={monographInfo}
         setFormData={setMonographInfo}
