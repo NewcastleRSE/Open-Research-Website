@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import PreReg from "../forms/PreReg";
+import PreRegModal from "../formModals/PreRegModal";
 import validate from "../../validationRules/PreRegVR";
 import str2bool from "../../util/str2bool";
 
@@ -84,7 +84,7 @@ function PreRegs({ formData, setFormData, display, setDisplay }) {
         </button>
       </div>
 
-      <PreReg
+      <PreRegModal
         show={display}
         formData={preRegInfo}
         setFormData={setPreRegInfo}

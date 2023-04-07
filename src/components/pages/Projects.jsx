@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import Project from "../forms/Project";
+import ProjectModal from "../formModals/ProjectModal";
 import DropDown from "../formElements/DropDown";
 import validateProject from "../../validationRules/ProjectVR";
 import axios from "axios";
@@ -214,7 +214,7 @@ function ProjectInfo({
       >
         Add New Project
       </button>
-      <Project
+      <ProjectModal
         show={display}
         formData={projectInfo}
         setFormData={setProjectInfo}

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import DigitalScholarship from "../forms/DigitalScholarship";
+import DigitalScholarshipModal from "../formModals/DigitalScholarshipModal";
 import validate from "../../validationRules/DigitalScholarshipVR";
 import str2bool from "../../util/str2bool";
 
@@ -87,7 +87,7 @@ function DigitalScholarships({ formData, setFormData, display, setDisplay }) {
         </button>
       </div>
 
-      <DigitalScholarship
+      <DigitalScholarshipModal
         show={display}
         formData={dsInfo}
         setFormData={setDSInfo}

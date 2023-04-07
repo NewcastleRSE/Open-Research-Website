@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Preprint from "../forms/Preprint";
+import PreprintModal from "../formModals/PreprintModal";
 import validate from "../../validationRules/PreprintsVR";
 import str2bool from "../../util/str2bool";
 
@@ -88,7 +88,7 @@ function Preprints({ formData, setFormData, display, setDisplay }) {
         </button>
       </div>
 
-      <Preprint
+      <PreprintModal
         show={display}
         formData={preprintInfo}
         setFormData={setPreprintInfo}
