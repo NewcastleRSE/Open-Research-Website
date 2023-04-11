@@ -97,6 +97,15 @@
   margin-right: 5rem;
 }
 
+.Projects__SelectedProjectHeading {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.Projects__SelectedProjectContent {
+  margin-bottom: 8px !important;
+}
+
 /** Results **/
 
 .Results__Container {
