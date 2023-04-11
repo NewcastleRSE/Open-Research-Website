@@ -6,20 +6,23 @@ import str2bool from "../../util/str2bool";
 
 function MultipleArticle({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
+  const [editMode, setEditMode] = useState(false);
 
   const [articleInfo, setArticleInfo] = useState({
     articleTitle: "",
     articleURL: "",
     articleDOI: "",
-    articleEmbargo: false,
+    articleEmbargo: "",
     articleLicense: "",
   });
-  g2a;
+
   const [currArticle, setCurrArticle] = useState({}); // eslint-disable-line no-unused-vars
 
   const handleClick = (e) => {
     e.preventDefault();
-
+    if (!editMode) {
+      wipeArticleInfo();
+    }
     setDisplay(!display);
   };
 
@@ -29,35 +32,46 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
     let newErrors = validate(articleInfo);
     setErrors(newErrors);
 
+    // checking for errors
     if (Object.keys(newErrors).length === 0) {
-      // Passing validation
-      articleInfo.articleEmbargo = str2bool(articleInfo.articleEmbargo);
+      // this line of code below was making it so the boolean value wasn't saved when editing the article. not sure how it impacts the rest of the code but it's working fine for now.
+      // articleInfo.articleEmbargo = str2bool(articleInfo.articleEmbargo);
+      if (!editMode) {
+        formData.Article.push(articleInfo);
+      } else {
+        const updatedArticles = formData.Article.map((i) =>
+          JSON.stringify(i) === JSON.stringify(currArticle) ? articleInfo : i
+        );
+        const updatedFormData = {
+          ...formData,
+          Article: updatedArticles,
+        };
+        setFormData(updatedFormData);
+      }
 
-      formData.Article.push(articleInfo);
-
-      setArticleInfo({
-        articleTitle: "",
-        articleURL: "",
-        articleDOI: "",
-        articleEmbargo: false,
-        articleLicense: "",
-      });
-
+      setCurrArticle(articleInfo);
+      wipeArticleInfo();
       setErrors({});
+      console.log(currArticle);
+
       setDisplay(!display);
     }
+  };
+
+  const wipeArticleInfo = () => {
+    setArticleInfo({
+      articleTitle: "",
+      articleURL: "",
+      articleDOI: "",
+      articleEmbargo: "",
+      articleLicense: "",
+    });
   };
 
   const handleCancel = (e) => {
     e.preventDefault();
 
-    setArticleInfo({
-      articleTitle: "",
-      articleURL: "",
-      articleDOI: "",
-      articleEmbargo: false,
-      articleLicense: "",
-    });
+    wipeArticleInfo();
 
     setErrors({});
     setDisplay(!display);
@@ -65,9 +79,7 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
 
   const handleDelete = (e, article) => {
     e.preventDefault();
-
     let filteredArray = formData.Article.filter((item) => item !== article);
-
     setFormData({ ...formData, Article: filteredArray });
   };
 
@@ -77,17 +89,14 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
     setCurrArticle(article);
 
     setArticleInfo({
-      articleTitle: article.articleTitle,
-      articleURL: article.articleURL,
-      articleDOI: article.articleDOI,
-      articleEmbargo: article.articleEmbargo,
-      articleLicense: article.articleLicense,
+      articleTitle: currArticle.articleTitle,
+      articleURL: currArticle.articleURL,
+      articleDOI: currArticle.articleDOI,
+      articleEmbargo: currArticle.articleEmbargo,
+      articleLicense: currArticle.articleLicense,
     });
 
-    let filteredArray = formData.Article.filter((item) => item !== article);
-
-    setFormData({ ...formData, Article: filteredArray });
-
+    setEditMode(true);
     setDisplay(!display);
   };
 
