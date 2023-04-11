@@ -68,15 +68,15 @@ function Form() {
       {
         projectName: "test",
         researchArea: "test",
-        funder: "test",
-        otherFunder: "UKRI",
+        funder: "UKRI",
+        otherFunder: "",
         length: 2,
       },
       {
         projectName: "test2",
         researchArea: "test2",
-        funder: "test2",
-        otherFunder: "UKRI",
+        funder: "UKRI",
+        otherFunder: "",
         length: 3,
       },
     ],
@@ -423,7 +423,10 @@ function Form() {
         </div>
       );
     } else {
-      return <FormDataDisplay formData={formData} />;
+      return (
+        // need to keep the key to force re-renders when the formData changes
+        <FormDataDisplay key={JSON.stringify(formData)} formData={formData} />
+      );
     }
   };
 

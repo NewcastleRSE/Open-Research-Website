@@ -16,6 +16,7 @@ function ProjectInfo({
   const [projects, setProjects] = useState([]);
   const [displayOutput, setDisplayOutput] = useState(false);
   const [errors, setErrors] = useState({});
+  const [editMode, setEditMode] = useState(false);
 
   const handleAddProject = (project) => {
     const updatedProjects = [...projects, project];
@@ -43,6 +44,14 @@ function ProjectInfo({
         Projects: updatedProjects,
       });
       setSelectedProject(null);
+    }
+  };
+
+  const handleEdit = (e) => {
+    if (selectedProject) {
+      setEditMode(true);
+      setProjectInfo(selectedProject);
+      handleClick(e);
     }
   };
 
@@ -110,14 +119,37 @@ function ProjectInfo({
 
     let newErrors = validateProject(projectInfo);
     setErrors(newErrors);
-
     if (Object.keys(newErrors).length === 0) {
-      handleAddProject(projectInfo);
+      if (!editMode) {
+        handleAddProject(projectInfo);
+      } else {
+        handleEditProject(projectInfo);
+        setEditMode(false);
+      }
       setDisplayOutput(true);
+      console.log("Wiping project info");
+      setProjectInfo({
+        projectName: "",
+        researchArea: "",
+        funder: "",
+        otherFunder: "",
+        length: "",
+      });
     }
 
     setErrors({});
     setDisplay(!display);
+  };
+
+  const handleEditProject = (project) => {
+    const updatedProjects = formData.Projects.map((proj) =>
+      JSON.stringify(proj) === JSON.stringify(selectedProject) ? project : proj
+    );
+
+    console.log(updatedProjects);
+    setSelectedProject(project);
+    setProjects(updatedProjects);
+    setFormData({ ...formData, Project: project, Projects: updatedProjects });
   };
 
   const handleCancel = (e) => {
@@ -134,12 +166,20 @@ function ProjectInfo({
           <div className="Projects__Output">
             <div className="Projects__OutputTop">
               <h3 className="main_question background">Selected project:</h3>
-              <button
-                className={`Projects__DeleteBtn ${display && ""}`}
-                onClick={(e) => handleRemove(e)}
-              >
-                Remove
-              </button>
+              <div className="Projects__buttons">
+                <button
+                  className={`Projects__Btn ${display && "background"}`}
+                  onClick={(e) => handleEdit(e)}
+                >
+                  Edit
+                </button>
+                <button
+                  className={`Projects__Btn ${display && "background"}`}
+                  onClick={(e) => handleRemove(e)}
+                >
+                  Remove
+                </button>
+              </div>
             </div>
             <h6>Title</h6>
             <p>{selectedProject.projectName}</p>

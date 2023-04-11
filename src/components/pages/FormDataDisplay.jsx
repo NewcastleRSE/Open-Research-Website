@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import DisplayArticleInfo from "../dataDisplay/DisplayArticleInfo";
 import DisplayCodeInfo from "../dataDisplay/DisplayCodeInfo";
 import DisplayDatasetInfo from "../dataDisplay/DisplayDatasetInfo";
@@ -11,6 +12,7 @@ import DisplayRegReportInfo from "../dataDisplay/DisplayRegReportInfo";
 import DisplayThesisInfo from "../dataDisplay/DisplayThesisInfo";
 
 const FormDataDisplay = ({ formData }) => {
+  useEffect(() => {}), [formData];
   const field = (label, value) => {
     return (
       <div className="Results__Item">

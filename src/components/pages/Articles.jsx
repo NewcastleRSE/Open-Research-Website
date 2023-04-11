@@ -14,7 +14,7 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
     articleEmbargo: false,
     articleLicense: "",
   });
-
+  g2a;
   const [currArticle, setCurrArticle] = useState({}); // eslint-disable-line no-unused-vars
 
   const handleClick = (e) => {
