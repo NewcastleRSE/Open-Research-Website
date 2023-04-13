@@ -95,7 +95,7 @@ function ProjectInfo({
 
   // will pull in new projects that have been added
   useEffect(() => {
-    // fetchOrcidProjects();
+    fetchOrcidProjects();
     fetchProjects();
   }, [formData.projects]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -107,35 +107,15 @@ function ProjectInfo({
   // fetch orcid projects
   // this will link up with an orcid ID and pull from the API
   const fetchOrcidProjects = async () => {
-    // axios request
-    axios
-      .get("http://localhost:1337/api/orcid", {
-        params: {
-          id: formData.Researcher.orcidID,
-        },
-      })
-      .then((res) => {
-        setOrcidProjects(res.data.group);
-      })
-      .catch((err) => {
-        console.log(err);
-        return err.response;
-      });
-
-    let res = await axios
-      .get("http://localhost:1337/api/orcid", {
-        params: {
-          id: formData.Researcher.orcidID,
-        },
-      })
-      .catch((err) => {
-        console.log(err);
-        return err.response;
-      });
     try {
-      setOrcidProjects(res.data.group);
-    } catch (err) {
-      console.log(err);
+      const response = await axios.get("http://localhost:1337/api/orcid", {
+        params: {
+          id: formData.Researcher.orcidID,
+        },
+      });
+      setOrcidProjects(response.data.group);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -310,7 +290,7 @@ function ProjectInfo({
           id="dropdown menu for your projects"
           name="project dropdown menu"
           placeholder="Projects"
-          options={getTitles()}
+          options={getOrcidTitles()}
           onChange={handleDropdownChange}
           value={selectedProject?.projectName || ""}
           aria-label="Select project"

@@ -5,7 +5,12 @@ function About() {
     <div className="container-fluid full-height">
       <div className="content-left-wrapper">
         <a href="/" id="logo">
-          <img src="img/ncl_logo.png" alt="" width="48" height="56" />
+          <img
+            src="https://localhost:5173/img/ncl_logo.png"
+            alt=""
+            width="48"
+            height="56"
+          />
         </a>
         <div className="copy">
           <a href="https://www.ncl.ac.uk" rel="noreferrer" target="_blank">

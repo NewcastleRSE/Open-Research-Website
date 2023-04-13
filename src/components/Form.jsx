@@ -131,7 +131,7 @@ function Form() {
       leftStack.push(
         <LeftContent
           heading="Articles"
-          img="img/Team_Presentation_Monochromatic.svg"
+          img="https://localhost:5173/Team_Presentation_Monochromatic.svg"
           subtext="A research article is a journal article in which the authors report on the research they did. Research articles are always primary sources. Whether or not a research article is peer reviewed depends on the journal that publishes it."
         />
       );
@@ -417,7 +417,7 @@ function Form() {
         <div>
           <LeftContent
             heading="Open Research Tool"
-            img="img/info_graphic_1.svg"
+            img="https://localhost:5173/img/info_graphic_1.svg"
             subtext="Using this tool you can learn how to increase the openess of your research. As you fill out the forms on the right, our system will take all of your input and provide advise on how best you can increase it's openess. Please be honest and include as much information as possible so that we can provide you with an accurate assessment."
           />
         </div>
@@ -530,7 +530,12 @@ function Form() {
           <div className="col-lg-6 content-left">
             <div className="content-left-wrapper">
               <a href="/" id="logo">
-                <img src="img/ncl_logo.png" alt="" width="48" height="56" />
+                <img
+                  src="https://localhost:5173/img/ncl_logo.png"
+                  alt=""
+                  width="48"
+                  height="56"
+                />
               </a>
               {LeftDisplay()}
               <div className="copy">

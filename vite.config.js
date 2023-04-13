@@ -1,11 +1,25 @@
-/// <reference types="vitest" />
-import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
+import fs from "fs";
+import path from "path";
 
-export default defineConfig({
+const cert = fs.readFileSync(
+  path.resolve(__dirname, "./localhost.pem"),
+  "utf-8"
+);
+const key = fs.readFileSync(
+  path.resolve(__dirname, "./localhost-key.pem"),
+  "utf-8"
+);
+
+export default {
   plugins: [react()],
   server: {
+    https: {
+      key,
+      cert,
+    },
     open: true,
+    host: "localhost",
   },
   build: {
     outDir: "build",
@@ -17,10 +31,4 @@ export default defineConfig({
   optimizeDeps: {
     disabled: false,
   },
-  test: {
-    globals: true,
-    environment: "jsdom",
-    setupFiles: "@testing-library/jest-dom",
-    mockReset: true,
-  },
-});
+};
