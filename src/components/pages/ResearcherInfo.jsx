@@ -1,10 +1,30 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import OrcidLinkButton from "../OrcidLinkButton";
+import getUserOrcidInfo from "../../util/getUserOrcidInfo";
 
 import DropDown from "../formElements/DropDown";
 import DropDownOther from "../formElements/DropDownOther";
 import TextInput from "../formElements/TextInput";
 
-function ResearcherInfo({ formData, setFormData, errors }) {
+function ResearcherInfo({
+  formData,
+  setFormData,
+  errors,
+  setOrcidData,
+  orcidData,
+}) {
+  const handleOrcidLinked = (accessToken, orcid) => {
+    setFormData({ ...formData, orcidID: orcid });
+  };
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const userOrcidData = getUserOrcidInfo(navigate);
+    setOrcidData({ ...orcidData, userOrcidData });
+  }, [localStorage.getItem("orcidLinked")]);
+
   return (
     <div className="step">
       <h2>Researcher</h2>
@@ -81,6 +101,10 @@ function ResearcherInfo({ formData, setFormData, errors }) {
         }
         error={errors.orcidID}
       />
+      {formData.orcidID && !formData.orcidLinked && (
+        <OrcidLinkButton onOrcidLinked={handleOrcidLinked} />
+      )}
+      {formData.orcidLinked && <p>Orcid Account Successfully Linked.</p>}
     </div>
   );
 }

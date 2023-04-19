@@ -1,12 +1,14 @@
 import axios from "axios";
 import getAccessToken from "../util/getAccessToken";
+import { Route, useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const handleLogin = async () => {
-    const strapiUrl = "http://localhost:1337";
-    const response = await axios.get(`${strapiUrl}/connect/orcid`);
-    window.location.href = response.data.url;
-  };
+  const navigate = useNavigate();
+  // const handleLogin = async () => {
+  //   const strapiUrl = "http://localhost:1337";
+  //   const response = await axios.get(`${strapiUrl}/connect/orcid`);
+  //   window.location.href = response.data.url;
+  // };
   const handleOAuth = () => {
     const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
     const REDIRECT_URI = import.meta.env.VITE_OAUTH_URL;
@@ -14,6 +16,15 @@ const Login = () => {
     window.location.href = url;
     console.log(getAccessToken);
   };
+
+  useEffect(() => {
+    const code = new URLSearchParams(window.location.search).get("code");
+
+    if (code) {
+      // Exchange the authorization code for an access token
+      getAccessToken(code, navigate);
+    }
+  }, [navigate]);
 
   return (
     <div>

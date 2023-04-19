@@ -4,7 +4,7 @@ import axios from "axios";
 import FormData from "form-data";
 import fetchResearcherProjects from "../util/fetchResearcherProjects";
 import processOrcidData from "../util/processOrcidData";
-
+import { useNavigate } from "react-router-dom";
 import ResearcherInfo from "./pages/ResearcherInfo";
 import FormBuilder from "./pages/FormBuilder";
 import StepCounter from "./StepCounter";
@@ -35,19 +35,20 @@ function Form() {
   const [display, setDisplay] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [errors, setErrors] = useState({});
-  const [orcidData, setOrcidData] = useState();
+  const [orcidData, setOrcidData] = useState({});
   const [selectedProjectIndex, setSelectedProjectIndex] = useState();
   const [loaded, setLoaded] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [saved, setSaved] = useState(false);
-
+  const navigate = useNavigate();
   const [researcherInfo, setResearcherInfo] = useState({
     fullName: "",
     faculty: "",
     school: "",
     otherSchool: "",
     careerStage: "",
-    orcidID: "",
+    orcidID: localStorage.getItem("orcidID"),
+    orcidLinked: localStorage.getItem("orcidLinked"),
   });
 
   const [formData, setFormData] = useState({
@@ -356,6 +357,8 @@ function Form() {
               formData={researcherInfo}
               setFormData={setResearcherInfo}
               errors={errors}
+              orcidData={orcidData}
+              setOrcidData={setOrcidData}
             />
           </div>
         );
@@ -554,7 +557,7 @@ function Form() {
     if (researcherInfo.orcidID) {
       fetchOrcidData();
     }
-  }, [researcherInfo.orcidID]);
+  }, [researcherInfo.orcidID, localStorage.getItem("orcidLinked")]);
 
   return (
     <div>
