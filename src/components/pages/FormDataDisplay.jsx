@@ -100,6 +100,8 @@ const FormDataDisplay = ({ formData }) => {
               {formData.Researcher.otherSchool &&
                 field("School", formData.Researcher.otherSchool)}
               {field("Career Stage", formData.Researcher.careerStage)}
+              {formData.Researcher.orcidID &&
+                field("OrcidID", formData.Researcher.orcidID)}
             </div>
           </div>
         )}
@@ -108,7 +110,7 @@ const FormDataDisplay = ({ formData }) => {
           <div className="Results__SubContainer">
             <h1 className="Results__Title">Project Details</h1>
             <div className="Results__List">
-              {field("Project Name", formData.Project.projectName)}
+              {field("Title", formData.Project.projectName)}
               {field("Researcher Area", formData.Project.researchArea)}
               {field("Funder", formData.Project.funder)}
               {formData.Project.otherFunder &&

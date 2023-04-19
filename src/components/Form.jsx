@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import FormData from "form-data";
+import fetchResearcherProjects from "../util/fetchResearcherProjects";
+import processOrcidData from "../util/processOrcidData";
 
 import ResearcherInfo from "./pages/ResearcherInfo";
 import FormBuilder from "./pages/FormBuilder";
@@ -33,7 +35,9 @@ function Form() {
   const [display, setDisplay] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [errors, setErrors] = useState({});
-
+  const [orcidData, setOrcidData] = useState();
+  const [selectedProjectIndex, setSelectedProjectIndex] = useState();
+  const [loaded, setLoaded] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -43,6 +47,7 @@ function Form() {
     school: "",
     otherSchool: "",
     careerStage: "",
+    orcidID: "",
   });
 
   const [formData, setFormData] = useState({
@@ -54,6 +59,7 @@ function Form() {
       school: "",
       otherSchool: "",
       careerStage: "",
+      orcidID: "",
     },
 
     Project: {
@@ -81,7 +87,7 @@ function Form() {
       },
     ],
 
-    orcidProject: "",
+    orcidProjects: [],
 
     Article: [],
     Monograph: [],
@@ -364,6 +370,10 @@ function Form() {
               setDisplay={setDisplay}
               selectedProject={selectedProject}
               setSelectedProject={setSelectedProject}
+              selectedProjectIndex={selectedProjectIndex}
+              setSelectedProjectIndex={setSelectedProjectIndex}
+              loaded={loaded}
+              setLoaded={setLoaded}
             />
           </div>
         );
@@ -522,6 +532,29 @@ function Form() {
       console.log(err);
     }
   };
+
+  // fetches the orcid data for an orcid id and puts into formData in the following format { projectName, projectID }. Need the projectID to get further information after the user has authenticated.
+  const fetchOrcidData = async () => {
+    try {
+      const data = await fetchResearcherProjects(researcherInfo.orcidID);
+      const processedData = processOrcidData(data);
+      setOrcidData(processedData);
+      const updatedFormData = {
+        ...formData,
+        orcidProjects: processedData,
+      };
+      setFormData(updatedFormData);
+      setLoaded(true);
+    } catch (error) {
+      console.error("Error fetching researcher works:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (researcherInfo.orcidID) {
+      fetchOrcidData();
+    }
+  }, [researcherInfo.orcidID]);
 
   return (
     <div>

@@ -4,6 +4,8 @@ import ProjectModal from "../formModals/ProjectModal";
 import DropDown from "../formElements/DropDown";
 import validateProject from "../../validationRules/ProjectVR";
 import axios from "axios";
+import fetchResearcherProjects from "../../util/fetchResearcherProjects";
+import ResearcherInfo from "./ResearcherInfo";
 
 function ProjectInfo({
   formData,
@@ -12,11 +14,15 @@ function ProjectInfo({
   setDisplay,
   selectedProject,
   setSelectedProject,
+  loaded,
+  setLoaded,
 }) {
   const [projects, setProjects] = useState([]);
   const [errors, setErrors] = useState({});
   const [editMode, setEditMode] = useState(false);
-  const [orcidProjects, setOrcidProjects] = useState([]);
+  const [orcidProjects, setOrcidProjects] = useState();
+  const [selectedProjectType, setSelectedProjectType] = useState("");
+
   const [projectInfo, setProjectInfo] = useState({
     projectName: "",
     researchArea: "",
@@ -93,30 +99,13 @@ function ProjectInfo({
     }
   };
 
-  // will pull in new projects that have been added
   useEffect(() => {
-    fetchOrcidProjects();
     fetchProjects();
   }, [formData.projects]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // fetch normal projects
   const fetchProjects = () => {
     setProjects(formData.Projects);
-  };
-
-  // fetch orcid projects
-  // this will link up with an orcid ID and pull from the API
-  const fetchOrcidProjects = async () => {
-    try {
-      const response = await axios.get("http://localhost:1337/api/orcid", {
-        params: {
-          id: formData.Researcher.orcidID,
-        },
-      });
-      setOrcidProjects(response.data.group);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   // handles project form pop up
@@ -179,20 +168,22 @@ function ProjectInfo({
           <div className={`Projects__Output ${display && "background"}`}>
             <div className="Projects__OutputTop">
               <h3 className="main_question background">Selected project:</h3>
-              <div className="Projects__buttons">
-                <button
-                  className={"Projects__Btn"}
-                  onClick={(e) => handleEdit(e)}
-                >
-                  Edit
-                </button>
-                <button
-                  className={"Projects__Btn"}
-                  onClick={(e) => handleRemove(e)}
-                >
-                  Remove
-                </button>
-              </div>
+              {selectedProjectType === "normal" && (
+                <div className="Projects__buttons">
+                  <button
+                    className={"Projects__Btn"}
+                    onClick={(e) => handleEdit(e)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className={"Projects__Btn"}
+                    onClick={(e) => handleRemove(e)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              )}
             </div>
             <div>
               <section aria-labelledby="project-title">
@@ -248,13 +239,20 @@ function ProjectInfo({
     }
   };
 
-  // returns orcid project titles
   const getOrcidTitles = () => {
-    let titles = orcidProjects.map((project) => {
-      return { value: project["work-summary"]["0"].title.title.value };
-    });
+    let titles;
 
-    return titles;
+    if (formData.orcidProjects.length !== 0) {
+      titles = formData.orcidProjects.map((project) => {
+        return { value: project.projectName, label: project.projectName };
+      });
+    }
+
+    if (titles) {
+      return titles;
+    } else {
+      return getTitles();
+    }
   };
 
   // returns normal project titles
@@ -266,14 +264,24 @@ function ProjectInfo({
   };
 
   // handles clicking on the dropdown menu
-  const handleDropdownChange = (e) => {
+  const handleDropdownChange = (e, projectType) => {
     // sets the selected project to whatever the user clicks on
     const selectedProjectTitle = e.target.value;
+    let selected;
     // returns the first project it finds with the same project title
-    const selected = formData.Projects.find(
-      (project) => project.projectName === selectedProjectTitle
-    );
-    // update the formData
+    if (projectType === "normal") {
+      setSelectedProjectType("normal");
+      selected = formData.Projects.find(
+        (project) => project.projectName === selectedProjectTitle
+      );
+    }
+    if (projectType === "orcid") {
+      setSelectedProjectType("orcid");
+      selected = formData.orcidProjects.find(
+        (project) => project.projectName === selectedProjectTitle
+      );
+    }
+
     const updatedFormData = { ...formData, Project: selected };
     setFormData(updatedFormData);
     setSelectedProject(selected);
@@ -281,39 +289,64 @@ function ProjectInfo({
 
   return (
     <div className="step">
-      <h2 id="page-heading">Project</h2>
-      <h3 className="main_question" id="project-instructions">
-        Please select a project from ORCID or add a new one.
-      </h3>
-      <div role="region" aria-labelledby="page-heading">
-        <DropDown
-          id="dropdown menu for your projects"
-          name="project dropdown menu"
-          placeholder="Projects"
-          options={getOrcidTitles()}
-          onChange={handleDropdownChange}
-          value={selectedProject?.projectName || ""}
-          aria-label="Select project"
-        />
-        <button
-          type="button"
-          className="forward wide"
-          onClick={(e) => handleClick(e)}
-          aria-label="Add new project"
-        >
-          Add New Project
-        </button>
-      </div>
-      <ProjectModal
-        show={display}
-        formData={projectInfo}
-        setFormData={setProjectInfo}
-        setDisplay={setDisplay}
-        handleSubmit={handleSubmit}
-        handleCancel={handleCancel}
-        errors={errors}
-      />
-      <div>{displayProject()}</div>
+      {loaded ? (
+        <>
+          <h2 id="page-heading">Project</h2>
+          {formData.orcidProjects ? (
+            <h3 className="main_question" id="project-instructions">
+              Please select a project from ORCID or add a new one.
+            </h3>
+          ) : (
+            <h3 className="main_question" id="project-instructions">
+              Please select a project.
+            </h3>
+          )}
+          <div role="region" aria-labelledby="page-heading">
+            {formData.orcidProjects && (
+              <DropDown
+                id="dropdown menu for your projects"
+                name="project dropdown menu"
+                placeholder="Orcid Projects"
+                options={getOrcidTitles()}
+                onChange={(e) => handleDropdownChange(e, "orcid")}
+                value={selectedProject?.projectName || ""}
+                aria-label="Select Orcid project"
+              />
+            )}
+            <DropDown
+              id="dropdown menu for your projects"
+              name="project dropdown menu"
+              placeholder="Projects"
+              options={getTitles()}
+              onChange={(e) => handleDropdownChange(e, "normal")}
+              value={selectedProject?.projectName || ""}
+              aria-label="Select project"
+            />
+            <button
+              type="button"
+              className="forward wide"
+              onClick={(e) => handleClick(e)}
+              aria-label="Add new project"
+            >
+              Add New Project
+            </button>
+          </div>
+          <ProjectModal
+            show={display}
+            formData={projectInfo}
+            setFormData={setProjectInfo}
+            setDisplay={setDisplay}
+            handleSubmit={handleSubmit}
+            handleCancel={handleCancel}
+            errors={errors}
+          />
+          <div>{displayProject()}</div>
+        </>
+      ) : (
+        <>
+          <p>Loading</p>
+        </>
+      )}
     </div>
   );
 }
