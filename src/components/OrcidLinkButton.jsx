@@ -22,7 +22,11 @@ const OrcidLinkButton = ({ onOrcidLinked }) => {
     window.location.href = url;
   };
 
-  return <button onClick={linkOrcid}>Link Orcid Account</button>;
+  return (
+    <button onClick={linkOrcid} className={"forward"}>
+      Link Orcid Account
+    </button>
+  );
 };
 
 export default OrcidLinkButton;

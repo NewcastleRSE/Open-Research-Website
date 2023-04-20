@@ -20,15 +20,16 @@ const OrcidCallback = () => {
           // set local storage
           localStorage.setItem("orcidToken", data.accessToken);
           localStorage.setItem("orcidID", data.orcid);
-          // set expiration and refresh token
-          const expiresIn = data.expires_in;
-          const refreshToken = data.refresh_token;
-          const expirationDate = new Date(
-            new Date().getTime() + expiresIn * 1000
-          );
-          localStorage.setItem("expiresIn", expiresIn);
-          localStorage.setItem("refreshToken", refreshToken);
-          localStorage.setItem("expirationDate", expirationDate.toISOString());
+          // should receive this data but not currently
+          // // set expiration and refresh token
+          // const expiresIn = data.expires_in;
+          // const refreshToken = data.refresh_token;
+          // const expirationDate = new Date(
+          //   new Date().getTime() + expiresIn * 1000
+          // );
+          // localStorage.setItem("expiresIn", expiresIn);
+          // localStorage.setItem("refreshToken", refreshToken);
+          // localStorage.setItem("expirationDate", expirationDate.toISOString());
 
           // redirect the user to another page (e.g., a dashboard)
           console.log("Navigating to home page");
