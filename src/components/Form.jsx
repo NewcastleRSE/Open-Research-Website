@@ -47,8 +47,8 @@ function Form() {
     school: "",
     otherSchool: "",
     careerStage: "",
-    orcidID: localStorage.getItem("orcidID"),
-    orcidLinked: localStorage.getItem("orcidLinked"),
+    orcidID: "",
+    orcidLinked: "",
   });
 
   const [formData, setFormData] = useState({
@@ -557,7 +557,17 @@ function Form() {
     if (researcherInfo.orcidID) {
       fetchOrcidData();
     }
-  }, [researcherInfo.orcidID, localStorage.getItem("orcidLinked")]);
+  }, [researcherInfo.orcidID]);
+
+  useEffect(() => {
+    if (!localStorage.getItem("orcidID")) {
+      const updatedFormData = {
+        ...formData,
+        orcidLinked: false,
+      };
+      setFormData(updatedFormData);
+    }
+  }, [localStorage.getItem("orcidID")]);
 
   return (
     <div>

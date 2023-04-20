@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// this function takes an orcidID and then fetches the full works of the researcher. The data is extremely messy so the function processOrcidData.jsx is needed to extract the title and id that is needed.
 const fetchResearcherProjects = async (orcidID) => {
   try {
     const response = await axios.get(

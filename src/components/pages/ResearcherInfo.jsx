@@ -14,16 +14,28 @@ function ResearcherInfo({
   setOrcidData,
   orcidData,
 }) {
+  // sets the orcidID in the formData to the orcid ID that was authenticated.
   const handleOrcidLinked = (accessToken, orcid) => {
-    setFormData({ ...formData, orcidID: orcid });
+    // should hopefully populate more of the data with the user's information that is gathered from orcid
+    const updatedFormData = { ...formData, orcidID: orcid, orcidLinked: true };
+    setFormData(updatedFormData);
   };
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userOrcidData = getUserOrcidInfo(navigate);
-    setOrcidData({ ...orcidData, userOrcidData });
-  }, [localStorage.getItem("orcidLinked")]);
+    const orcidID = localStorage.getItem("orcidID");
+    if (orcidID && orcidID !== "undefined") {
+      const userOrcidData = getUserOrcidInfo(navigate);
+      setOrcidData({ ...orcidData, userOrcidData });
+      const updatedFormData = {
+        ...formData,
+        orcidID: orcidID,
+        orcidLinked: true,
+      };
+      setFormData(updatedFormData);
+    }
+  }, [localStorage.getItem("orcidID")]);
 
   return (
     <div className="step">
@@ -101,10 +113,14 @@ function ResearcherInfo({
         }
         error={errors.orcidID}
       />
-      {formData.orcidID && !formData.orcidLinked && (
-        <OrcidLinkButton onOrcidLinked={handleOrcidLinked} />
-      )}
-      {formData.orcidLinked && <p>Orcid Account Successfully Linked.</p>}
+      {(formData.orcidID && !localStorage.getItem("orcidID")) ||
+        (formData.orcidID && localStorage.getItem("orcidID") == "undefined" && (
+          <OrcidLinkButton onOrcidLinked={handleOrcidLinked} />
+        ))}
+      {localStorage.getItem("orcidID") !== "undefined" &&
+        localStorage.getItem("orcidID") == formData.orcidID && (
+          <p>Orcid Account Successfully Linked.</p>
+        )}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// This function handles getting the access token
 async function getAccessToken(code, navigate, onOrcidLinked) {
   const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
   const CLIENT_SECRET = import.meta.env.VITE_CLIENT_SECRET;

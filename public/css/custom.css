@@ -82,7 +82,9 @@
 .Projects__Btn {
   border-radius: 5px;
   border: 1px black solid;
-  padding: 2px 5px 2px 5px;
+  padding: 4px 10px 4px 10px;
+  color: white;
+  background: #434bdf;
   transition: background 0.5s ease;
   -moz-transition: background 0.5s ease;
   -webkit-transition: background 0.5s ease;
@@ -91,6 +93,10 @@
 
 .Projects__Btn:hover {
   background-color: #e34f4f;
+}
+
+.Edit__Btn:hover {
+  background-color: #ffb95d;
 }
 
 .skip {
@@ -179,4 +185,39 @@
   flex-direction: row;
   justify-content: space-between;
   gap: 20px;
+}
+
+.styled-select-search {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+}
+
+.dropdown-option {
+  color: black;
+  cursor: pointer;
+  padding: 3px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.dropdown-option:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown-options {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 100;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  overflow-y: auto;
+  width: 100%;
 }

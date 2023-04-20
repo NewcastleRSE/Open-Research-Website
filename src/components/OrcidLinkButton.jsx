@@ -8,7 +8,7 @@ const OrcidLinkButton = ({ onOrcidLinked }) => {
 
   useEffect(() => {
     const code = new URLSearchParams(window.location.search).get("code");
-    if (code && localStorage.getItem("orcidLinked") !== "true") {
+    if (code) {
       // Exchange the authorization code for an access token
       getAccessToken(code, navigate, onOrcidLinked);
     }

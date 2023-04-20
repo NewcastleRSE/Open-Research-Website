@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from "react";
-
+import { useState, useEffect } from "react";
 import ProjectModal from "../formModals/ProjectModal";
-import DropDown from "../formElements/DropDown";
+import DropDownWithSearch from "../formElements/DropDownWithSearch";
 import validateProject from "../../validationRules/ProjectVR";
-import axios from "axios";
-import fetchResearcherProjects from "../../util/fetchResearcherProjects";
-import ResearcherInfo from "./ResearcherInfo";
 
 function ProjectInfo({
   formData,
@@ -20,7 +16,6 @@ function ProjectInfo({
   const [projects, setProjects] = useState([]);
   const [errors, setErrors] = useState({});
   const [editMode, setEditMode] = useState(false);
-  const [orcidProjects, setOrcidProjects] = useState();
   const [selectedProjectType, setSelectedProjectType] = useState("");
 
   const [projectInfo, setProjectInfo] = useState({
@@ -30,6 +25,8 @@ function ProjectInfo({
     otherFunder: "",
     length: "",
   });
+
+  console.log(formData);
 
   // handles adding a project
   const handleAddProject = (project) => {
@@ -171,7 +168,7 @@ function ProjectInfo({
               {selectedProjectType === "normal" && (
                 <div className="Projects__buttons">
                   <button
-                    className={"Projects__Btn"}
+                    className={"Projects__Btn Edit__Btn"}
                     onClick={(e) => handleEdit(e)}
                   >
                     Edit
@@ -187,12 +184,12 @@ function ProjectInfo({
             </div>
             <div>
               <section aria-labelledby="project-title">
-                <h2
+                {/* <h2
                   id="project-title"
                   className="Projects__SelectedProjectHeading"
                 >
                   Title:
-                </h2>
+                </h2> */}
                 <p className="Projects__SelectedProjectContent">
                   {selectedProject.projectName}
                 </p>
@@ -303,7 +300,7 @@ function ProjectInfo({
           )}
           <div role="region" aria-labelledby="page-heading">
             {formData.orcidProjects && (
-              <DropDown
+              <DropDownWithSearch
                 id="dropdown menu for your projects"
                 name="project dropdown menu"
                 placeholder="Orcid Projects"
@@ -313,7 +310,7 @@ function ProjectInfo({
                 aria-label="Select Orcid project"
               />
             )}
-            <DropDown
+            <DropDownWithSearch
               id="dropdown menu for your projects"
               name="project dropdown menu"
               placeholder="Projects"
