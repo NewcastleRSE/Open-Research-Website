@@ -26,8 +26,6 @@ function ProjectInfo({
     length: "",
   });
 
-  console.log(formData);
-
   // handles adding a project
   const handleAddProject = (project) => {
     // do not refactor - copys are created for immutability.

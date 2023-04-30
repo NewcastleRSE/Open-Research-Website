@@ -114,7 +114,8 @@ function ResearcherInfo({
         error={errors.orcidID}
       />
       {(formData.orcidID && !localStorage.getItem("orcidID")) ||
-        (formData.orcidID && localStorage.getItem("orcidID") == "undefined" && (
+        (formData.orcidID && localStorage.getItem("orcidID") == "undefined") ||
+        (formData.orcidID !== localStorage.getItem("orcidID") && (
           <OrcidLinkButton onOrcidLinked={handleOrcidLinked} />
         ))}
       {localStorage.getItem("orcidID") !== "undefined" &&

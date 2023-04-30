@@ -65,7 +65,7 @@ const DropDownWithSearchBar = (props) => {
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           onClick={() => setShowDropdown(!showDropdown)}
-          autocomplete="off"
+          autoComplete="off"
         />
         {showDropdown && (
           <div ref={optionsContainerRef} className="dropdown-options">
