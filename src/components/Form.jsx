@@ -497,6 +497,7 @@ function Form() {
     e.preventDefault();
     try {
       formData.uuid = uuidv4();
+      console.log("uuid", formData.uuid);
 
       if (formData.school === "other" && formData.otherSchool !== "") {
         formData.school = formData.otherSchool;
@@ -518,6 +519,8 @@ function Form() {
           "Content-Type": "multipart/form-data",
         },
       };
+
+      console.log(data);
 
       await axios
         .post("http://localhost:1337/api/submissions", data, config)

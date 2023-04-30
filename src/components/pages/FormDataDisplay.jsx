@@ -52,41 +52,41 @@ const FormDataDisplay = ({ formData }) => {
             )}
           </div>
         );
-      case "Article":
+      case "Articles":
         return <DisplayArticleInfo articleData={sectionData} field={field} />;
-      case "Monograph":
+      case "Monographs":
         return (
           <DisplayMonographInfo monographData={sectionData} field={field} />
         );
-      case "Dataset":
+      case "Datasets":
         return <DisplayDatasetInfo datasetData={sectionData} field={field} />;
-      case "Code":
+      case "Codes":
         return <DisplayCodeInfo codeData={sectionData} field={field} />;
-      case "Research Material":
+      case "Research Materials":
         return <DisplayMaterialInfo materialData={sectionData} field={field} />;
-      case "Digital Scholarship":
+      case "Digital Scholarships":
         return (
           <DisplayDigitalScholarshipInfo
             digitalScholarshipData={sectionData}
             field={field}
           />
         );
-      case "Pre-print":
+      case "Pre-prints":
         return <DisplayPreprintInfo preprintData={sectionData} field={field} />;
-      case "Peer Review":
+      case "Peer Reviews":
         return <DisplayPeerRevInfo peerRevData={sectionData} field={field} />;
-      case "Pre-Reg Analysis":
+      case "Pre-Reg Analyses":
         return (
           <DisplayPreRegAnalysisInfo
             preRegAnalysisData={sectionData}
             field={field}
           />
         );
-      case "Registered Report":
+      case "Registered Reports":
         return (
           <DisplayRegReportInfo regReportData={sectionData} field={field} />
         );
-      case "Thesis":
+      case "Theses":
         return <DisplayThesisInfo thesisData={sectionData} field={field} />;
     }
   };
