@@ -62,7 +62,7 @@ const FormDataDisplay = ({ formData }) => {
         return <DisplayDatasetInfo datasetData={sectionData} field={field} />;
       case "Codes":
         return <DisplayCodeInfo codeData={sectionData} field={field} />;
-      case "Research Materials":
+      case "Materials":
         return <DisplayMaterialInfo materialData={sectionData} field={field} />;
       case "Digital Scholarships":
         return (
