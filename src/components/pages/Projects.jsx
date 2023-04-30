@@ -166,13 +166,13 @@ function ProjectInfo({
               {selectedProjectType === "normal" && (
                 <div className="Projects__buttons">
                   <button
-                    className={"Projects__Btn Edit__Btn"}
+                    className={"forward Projects__Btn"}
                     onClick={(e) => handleEdit(e)}
                   >
                     Edit
                   </button>
                   <button
-                    className={"Projects__Btn"}
+                    className={"backward Projects__Btn"}
                     onClick={(e) => handleRemove(e)}
                   >
                     Remove
@@ -180,19 +180,25 @@ function ProjectInfo({
                 </div>
               )}
             </div>
-            <div>
-              <section aria-labelledby="project-title">
-                {/* <h2
+            <div className="Projects__SelectedContainer">
+              <section
+                className="Results__Item"
+                aria-labelledby="project-title"
+              >
+                <h2
                   id="project-title"
                   className="Projects__SelectedProjectHeading"
                 >
                   Title:
-                </h2> */}
+                </h2>
                 <p className="Projects__SelectedProjectContent">
                   {selectedProject.projectName}
                 </p>
               </section>
-              <section aria-labelledby="project-research-area">
+              <section
+                className="Results__Item"
+                aria-labelledby="project-research-area"
+              >
                 <h2
                   id="project-research-area"
                   className="Projects__SelectedProjectHeading"
@@ -203,7 +209,10 @@ function ProjectInfo({
                   {selectedProject.researchArea || "No research area selected."}
                 </p>
               </section>
-              <section aria-labelledby="project-funder">
+              <section
+                className="Results__Item"
+                aria-labelledby="project-funder"
+              >
                 <h2
                   id="project-funder"
                   className="Projects__SelectedProjectHeading"
@@ -214,15 +223,20 @@ function ProjectInfo({
                   {selectedProject.funder || "No funder selected."}
                 </p>
               </section>
-              <section aria-labelledby="project-length">
+              <section
+                className="Results__Item"
+                aria-labelledby="project-length"
+              >
                 <h2
                   id="project-length"
                   className="Projects__SelectedProjectHeading"
                 >
-                  Project Length (months):
+                  Project Length:
                 </h2>
                 <p className="Projects__SelectedProjectContent">
-                  {selectedProject.length || "No length selected."}
+                  {selectedProject.length
+                    ? `${selectedProject.length} months`
+                    : "No length selected."}
                 </p>
               </section>
             </div>

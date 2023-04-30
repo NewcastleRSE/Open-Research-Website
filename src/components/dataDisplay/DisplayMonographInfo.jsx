@@ -4,7 +4,6 @@ const DisplayMonographInfo = ({ monographData, field }) => {
       <div key={index} className="Results__List">
         <div className="Results__Item">
           <div>
-            <h6>{`Monograph ${index + 1}`}</h6>
             {field("Title", monograph.monographTitle)}
             {field("URL", monograph.monographURL)}
             {field("DOI", monograph.monographDOI)}
