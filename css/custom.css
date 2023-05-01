@@ -152,7 +152,7 @@
 
 .Results__Label {
   font-weight: 500;
-  width: 20%;
+  width: 25%;
   text-align: left;
   margin: 0;
 }
@@ -160,7 +160,7 @@
 .Results__Value {
   margin-left: 8px;
   text-align: left;
-  width: 80%;
+  width: 75%;
   margin: 0;
 }
 
