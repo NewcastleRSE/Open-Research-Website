@@ -10,6 +10,7 @@ import DisplayPreRegAnalysisInfo from "../dataDisplay/DisplayPreRegAnalysisInfo"
 import DisplayPreprintInfo from "../dataDisplay/DisplayPreprintInfo";
 import DisplayRegReportInfo from "../dataDisplay/DisplayRegReportInfo";
 import DisplayThesisInfo from "../dataDisplay/DisplayThesisInfo";
+import DisplayProtocolInfo from "../dataDisplay/DisplayProtocolInfo";
 
 const FormDataDisplay = ({ formData }) => {
   const [expandedSections, setExpandedSections] = useState([
@@ -19,6 +20,7 @@ const FormDataDisplay = ({ formData }) => {
     "Codes",
     "Datasets",
     "Digital Scholarships",
+    "Monographs",
     "Materials",
     "Protocols",
     "Pre-prints",
@@ -71,10 +73,14 @@ const FormDataDisplay = ({ formData }) => {
             field={field}
           />
         );
+      case "Protocols":
+        return <DisplayProtocolInfo protocolData={sectionData} field={field} />;
       case "Pre-prints":
         return <DisplayPreprintInfo preprintData={sectionData} field={field} />;
       case "Peer Reviews":
-        return <DisplayPeerRevInfo peerRevData={sectionData} field={field} />;
+        return (
+          <DisplayPeerRevInfo peerReviewData={sectionData} field={field} />
+        );
       case "Pre-Reg Analyses":
         return (
           <DisplayPreRegAnalysisInfo
@@ -152,9 +158,11 @@ const FormDataDisplay = ({ formData }) => {
         section("Project", [
           {
             Title: formData.Project.projectName,
-            Area: formData.Project.researchArea,
-            Funder: formData.Project.funder,
-            Length: formData.Project.length,
+            Area: formData.Project.researchArea || "No research area selected.",
+            Funder: formData.Project.funder || "No funder selected.",
+            Length: formData.Project.length
+              ? `${formData.Project.length} months`
+              : "No project length selected.",
           },
         ])}
       {/** Additional Sections Display */}

@@ -6,7 +6,7 @@ const DisplayMonographInfo = ({ monographData, field }) => {
         {field("Title", monograph.monographTitle)}
         {field("URL", monograph.monographURL)}
         {field("DOI", monograph.monographDOI)}
-        {field("Embargo", monograph.monographEmbargo ? "True" : "False")}
+        {field("Embargo", monograph.monographEmbargo)}
         {field("License", monograph.monographLicense)}
       </div>
     );

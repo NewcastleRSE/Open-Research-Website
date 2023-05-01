@@ -1,7 +1,7 @@
 import { useState } from "react";
-
 import DatasetModal from "../formModals/DatasetModal";
 import validate from "../../validationRules/DataVR";
+import { v4 as uuidv4 } from "uuid";
 
 function Datasets({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
@@ -55,10 +55,13 @@ function Datasets({ formData, setFormData, display, setDisplay }) {
       // datasetInfo.dataConf = str2bool(datasetInfo.dataConf);
 
       if (!editMode) {
-        formData.Dataset.push(datasetInfo);
+        setFormData({
+          ...formData,
+          Dataset: [...formData.Dataset, { ...datasetInfo, id: uuidv4() }],
+        });
       } else {
         const updatedData = formData.Dataset.map((i) =>
-          JSON.stringify(i) === JSON.stringify(currData) ? datasetInfo : i
+          i.id === currData.id ? datasetInfo : i
         );
         const updatedFormData = {
           ...formData,
@@ -67,10 +70,10 @@ function Datasets({ formData, setFormData, display, setDisplay }) {
         setFormData(updatedFormData);
       }
 
-      setCurrData(datasetInfo);
       wipeData();
       setErrors({});
       setDisplay(!display);
+      setEditMode(false);
     }
   };
 
@@ -88,15 +91,7 @@ function Datasets({ formData, setFormData, display, setDisplay }) {
     setCurrData(dataset);
 
     setDatasetInfo({
-      dataTitle: dataset.dataTitle,
-      dataURL: dataset.dataURL,
-      dataDOI: dataset.dataDOI,
-      format: dataset.format,
-      dataLicense: dataset.dataLicense,
-      dataMetadata: dataset.dataMetadata,
-      dataFair: dataset.dataFair,
-      dataRelease: dataset.dataRelease,
-      dataConf: dataset.dataConf,
+      ...dataset,
     });
 
     setEditMode(true);

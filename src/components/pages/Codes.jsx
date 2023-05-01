@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-
+import { useState } from "react";
 import CodeModal from "../formModals/CodeModal";
 import validate from "../../validationRules/CodeVR";
-import str2bool from "../../util/str2bool";
+import { v4 as uuidv4 } from "uuid";
 
 function Codes({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
@@ -50,10 +49,13 @@ function Codes({ formData, setFormData, display, setDisplay }) {
       // codeInfo.codeRelease = str2bool(codeInfo.codeRelease);
       // codeInfo.codeConf = str2bool(codeInfo.codeConf);
       if (!editMode) {
-        formData.Code.push(codeInfo);
+        setFormData({
+          ...formData,
+          Code: [...formData.Code, { ...codeInfo, id: uuidv4() }],
+        });
       } else {
         const updatedCodes = formData.Code.map((i) =>
-          JSON.stringify(i) === JSON.stringify(currCode) ? codeInfo : i
+          i.id === currCode.id ? codeInfo : i
         );
         const updatedFormData = {
           ...formData,
@@ -62,10 +64,10 @@ function Codes({ formData, setFormData, display, setDisplay }) {
         setFormData(updatedFormData);
       }
 
-      setCurrCode(codeInfo);
       wipeCodeInfo();
       setErrors({});
       setDisplay(!display);
+      setEditMode(false);
     }
   };
 
@@ -88,13 +90,7 @@ function Codes({ formData, setFormData, display, setDisplay }) {
     setCurrCode(code);
 
     setCodeInfo({
-      codeTitle: code.codeTitle,
-      codeURL: code.codeURL,
-      codeDOI: code.codeDOI,
-      openSource: code.openSource,
-      codeLicense: code.codeLicense,
-      codeRelease: code.codeRelease,
-      codeConf: code.codeConf,
+      ...code,
     });
 
     setEditMode(true);

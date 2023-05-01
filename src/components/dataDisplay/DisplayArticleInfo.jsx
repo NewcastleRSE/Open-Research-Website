@@ -5,7 +5,7 @@ const DisplayArticleInfo = ({ articleData, field }) => {
         {field("Title", article.articleTitle)}
         {field("URL", article.articleURL)}
         {field("DOI", article.articleDOI)}
-        {field("Embargo", article.articleEmbargo ? "False" : "True")}
+        {field("Embargo", article.articleEmbargo)}
         {field("License", article.articleLicense)}
       </div>
     );

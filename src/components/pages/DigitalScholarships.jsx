@@ -1,6 +1,7 @@
 import { useState } from "react";
 import DigitalScholarshipModal from "../formModals/DigitalScholarshipModal";
 import validate from "../../validationRules/DigitalScholarshipVR";
+import { v4 as uuidv4 } from "uuid";
 
 function DigitalScholarships({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
@@ -35,10 +36,16 @@ function DigitalScholarships({ formData, setFormData, display, setDisplay }) {
       // dsInfo.dsEmbargo = str2bool(dsInfo.dsEmbargo);
 
       if (!editMode) {
-        formData.DigitalScholarship.push(dsInfo);
+        setFormData({
+          ...formData,
+          DigitalScholarship: [
+            ...formData.DigitalScholarship,
+            { ...dsInfo, id: uuidv4() },
+          ],
+        });
       } else {
         const updatedData = formData.DigitalScholarship.map((i) =>
-          JSON.stringify(i) === JSON.stringify(currDs) ? dsInfo : i
+          i.id === currDs.id ? dsInfo : i
         );
         const updatedFormData = {
           ...formData,
@@ -47,10 +54,10 @@ function DigitalScholarships({ formData, setFormData, display, setDisplay }) {
         setFormData(updatedFormData);
       }
 
-      setCurrDs(dsInfo);
       wipeInfo();
       setErrors({});
       setDisplay(!display);
+      setEditMode(false);
     }
   };
 
@@ -66,12 +73,8 @@ function DigitalScholarships({ formData, setFormData, display, setDisplay }) {
     e.preventDefault();
 
     setCurrDs(ds);
-
-    setCurrDs({
-      dsTitle: ds.dsTitle,
-      dsURL: ds.dsURL,
-      dsEmbargo: ds.dsEmbargo,
-      dsLicense: ds.dsLicense,
+    setDSInfo({
+      ...ds,
     });
 
     setEditMode(true);

@@ -1,21 +1,31 @@
-import React, { useState } from "react";
-
+import { useState } from "react";
 import ProtocolModal from "../formModals/ProtocolModal";
 import validate from "../../validationRules/ProtocolVR";
-import str2bool from "../../util/str2bool";
+import { v4 as uuidv4 } from "uuid";
 
 function Protocols({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
-
+  const [editMode, setEditMode] = useState(false);
+  const [currProtocol, setCurrProtocol] = useState({});
   const [protocolInfo, setProtocolInfo] = useState({
     protocolTitle: "",
     protocolURL: "",
     protocolSharing: "",
   });
 
+  const wipeInfo = () => {
+    setProtocolInfo({
+      protocolTitle: "",
+      protocolURL: "",
+      protocolSharing: "",
+    });
+  };
+
   const handleClick = (e) => {
     e.preventDefault();
-
+    if (!editMode) {
+      wipeInfo();
+    }
     setDisplay(!display);
   };
 
@@ -26,31 +36,47 @@ function Protocols({ formData, setFormData, display, setDisplay }) {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      protocolInfo.protocolSharing = str2bool(protocolInfo.protocolSharing);
+      // protocolInfo.protocolSharing = str2bool(protocolInfo.protocolSharing);
+      if (!editMode) {
+        setFormData({
+          ...formData,
+          Protocol: [...formData.Protocol, { ...protocolInfo, id: uuidv4() }],
+        });
+      } else {
+        const updatedProtocol = formData.Protocol.map((i) =>
+          JSON.stringify(i) === JSON.stringify(currProtocol) ? protocolInfo : i
+        );
+        const updatedFormData = {
+          ...formData,
+          Protocol: updatedProtocol,
+        };
+        setFormData(updatedFormData);
+      }
 
-      formData.Protocol.push(protocolInfo);
-
-      setProtocolInfo({
-        protocolTitle: "",
-        protocolURL: "",
-        protocolSharing: "",
-      });
-
+      wipeInfo();
       setErrors({});
       setDisplay(!display);
+      setEditMode(false);
     }
   };
 
   const handleCancel = (e) => {
     e.preventDefault();
+    wipeInfo();
+    setErrors({});
+    setDisplay(!display);
+  };
+
+  const handleEdit = (e, protocol) => {
+    e.preventDefault();
+
+    setCurrProtocol(protocol);
 
     setProtocolInfo({
-      protocolTitle: "",
-      protocolURL: "",
-      protocolSharing: "",
+      ...protocol,
     });
 
-    setErrors({});
+    setEditMode(true);
     setDisplay(!display);
   };
 
@@ -68,6 +94,12 @@ function Protocols({ formData, setFormData, display, setDisplay }) {
         {formData.Protocol.map((protocol, index) => (
           <div className="output-type row" key={index}>
             <h4 className="output-title col">{protocol.protocolTitle}</h4>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
+              <p onClick={(e) => handleEdit(e, protocol)}>Edit</p>
+            </span>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, protocol)}>Remove</p>
             </span>

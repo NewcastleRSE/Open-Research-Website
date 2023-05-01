@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-
+import { useState } from "react";
 import PreprintModal from "../formModals/PreprintModal";
 import validate from "../../validationRules/PreprintsVR";
-import str2bool from "../../util/str2bool";
+import { v4 as uuidv4 } from "uuid";
 
 function Preprints({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
+  const [editMode, setEditMode] = useState(false);
+  const [currPreprint, setCurrPreprint] = useState({});
 
   const [preprintInfo, setPreprintInfo] = useState({
     preprintTitle: "",
@@ -17,8 +18,20 @@ function Preprints({ formData, setFormData, display, setDisplay }) {
 
   const handleClick = (e) => {
     e.preventDefault();
-
+    if (!editMode) {
+      wipePreprintInfo();
+    }
     setDisplay(!display);
+  };
+
+  const wipePreprintInfo = () => {
+    setPreprintInfo({
+      preprintTitle: "",
+      preprintURL: "",
+      preprintDOI: "",
+      preprintLicense: "",
+      preprintRelease: false,
+    });
   };
 
   const handleSubmit = (e) => {
@@ -28,34 +41,34 @@ function Preprints({ formData, setFormData, display, setDisplay }) {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      preprintInfo.preprintRelease = str2bool(preprintInfo.preprintRelease);
+      // preprintInfo.preprintRelease = str2bool(preprintInfo.preprintRelease);
 
-      formData.Preprint.push(preprintInfo);
+      if (!editMode) {
+        setFormData({
+          ...formData,
+          Preprint: [...formData.Preprint, { ...preprintInfo, id: uuidv4() }],
+        });
+      } else {
+        const updatedPreprints = formData.Preprint.map((i) =>
+          i.id === currPreprint.id ? preprintInfo : i
+        );
+        const updatedFormData = {
+          ...formData,
+          Preprint: updatedPreprints,
+        };
+        setFormData(updatedFormData);
+      }
 
-      setPreprintInfo({
-        preprintTitle: "",
-        preprintURL: "",
-        preprintDOI: "",
-        preprintLicense: "",
-        preprintRelease: false,
-      });
-
+      wipePreprintInfo();
       setErrors({});
       setDisplay(!display);
+      editMode(false);
     }
   };
 
   const handleCancel = (e) => {
     e.preventDefault();
-
-    setPreprintInfo({
-      preprintTitle: "",
-      preprintURL: "",
-      preprintDOI: "",
-      preprintLicense: "",
-      preprintRelease: false,
-    });
-
+    wipePreprintInfo();
     setErrors({});
     setDisplay(!display);
   };
@@ -67,6 +80,19 @@ function Preprints({ formData, setFormData, display, setDisplay }) {
     setFormData({ ...formData, Preprint: filteredArray });
   };
 
+  const handleEdit = (e, preprint) => {
+    e.preventDefault();
+
+    setCurrPreprint(preprint);
+
+    setPreprintInfo({
+      ...preprint,
+    });
+
+    setEditMode(true);
+    setDisplay(!display);
+  };
+
   return (
     <div>
       <div>
@@ -74,6 +100,12 @@ function Preprints({ formData, setFormData, display, setDisplay }) {
         {formData.Preprint.map((preprint, index) => (
           <div className="output-type row" key={index}>
             <h4 className="output-title col">{preprint.preprintTitle}</h4>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
+              <p onClick={(e) => handleEdit(e, preprint)}>Edit</p>
+            </span>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, preprint)}>Remove</p>
             </span>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ArticleModal from "../formModals/ArticleModal";
 import validate from "../../validationRules/ArticleVR";
+import { v4 as uuidv4 } from "uuid";
 
 function MultipleArticle({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
@@ -30,15 +31,18 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
     let newErrors = validate(articleInfo);
     setErrors(newErrors);
 
-    // checking for errors
     if (Object.keys(newErrors).length === 0) {
-      // this line of code below was making it so the boolean value wasn't saved when editing the article. not sure how it impacts the rest of the code but it's working fine for now.
-      // articleInfo.articleEmbargo = str2bool(articleInfo.articleEmbargo);
       if (!editMode) {
-        formData.Article.push(articleInfo);
+        setFormData({
+          ...formData,
+          Article: [
+            ...formData.Article,
+            { ...articleInfo, id: uuidv4() }, // Add a unique ID
+          ],
+        });
       } else {
         const updatedArticles = formData.Article.map((i) =>
-          JSON.stringify(i) === JSON.stringify(currArticle) ? articleInfo : i
+          i.id === currArticle.id ? articleInfo : i
         );
         const updatedFormData = {
           ...formData,
@@ -47,10 +51,10 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
         setFormData(updatedFormData);
       }
 
-      setCurrArticle(articleInfo);
       wipeArticleInfo();
       setErrors({});
       setDisplay(!display);
+      setEditMode(false);
     }
   };
 
@@ -83,13 +87,7 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
 
     setCurrArticle(article);
 
-    setArticleInfo({
-      articleTitle: currArticle.articleTitle,
-      articleURL: currArticle.articleURL,
-      articleDOI: currArticle.articleDOI,
-      articleEmbargo: currArticle.articleEmbargo,
-      articleLicense: currArticle.articleLicense,
-    });
+    setArticleInfo({ ...article });
 
     setEditMode(true);
     setDisplay(!display);

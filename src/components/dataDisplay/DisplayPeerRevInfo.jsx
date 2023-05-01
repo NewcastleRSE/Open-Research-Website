@@ -4,7 +4,7 @@ const DisplayPeerRevInfo = ({ peerReviewData, field }) => {
       <div key={index} className="Results__List">
         {field("Title", peerReview.peerRevTitle)}
         {field("URL", peerReview.peerRevURL)}
-        {field("Response", peerReview.peerRevReponse)}
+        {/* {field("Response", peerReview.peerRevReponse)} */}
       </div>
     );
   });

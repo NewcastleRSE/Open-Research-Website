@@ -5,7 +5,7 @@ const DisplayPreprintInfo = ({ preprintData, field }) => {
         {field("Title", preprint.preprintTitle)}
         {field("URL", preprint.preprintURL)}
         {field("DOI", preprint.preprintDOI)}
-        {field("License", preprint.dataLicense)}
+        {field("License", preprint.preprintLicense)}
       </div>
     );
   });

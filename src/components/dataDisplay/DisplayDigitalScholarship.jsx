@@ -4,7 +4,7 @@ const DisplayDigitalScholarshipInfo = ({ digitalScholarshipData, field }) => {
       <div key={index} className="Results__List">
         {field("Title", digitalScholarship.dsTitle)}
         {field("URL", digitalScholarship.dsURL)}
-        {field("Embargo", digitalScholarship.dsEmbargo ? "True" : "False")}
+        {field("Embargo", digitalScholarship.dsEmbargo)}
         {field("License", digitalScholarship.dsLicense)}
       </div>
     );

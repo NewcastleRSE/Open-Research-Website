@@ -5,8 +5,8 @@ const DisplayCodeInfo = ({ codeData, field }) => {
         {field("Title", code.codeTitle)}
         {field("URL", code.codeURL)}
         {field("DOI", code.codeDOI)}
-        {field("Open Source?", code.openSource ? "True" : "False")}
-        {field("License", code.codeLicense)}
+        {field("Open Source", code.openSource)}
+        {code.openSource == "Yes" && field("License", code.codeLicense)}
       </div>
     );
   });
