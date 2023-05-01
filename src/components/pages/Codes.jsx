@@ -71,17 +71,7 @@ function Codes({ formData, setFormData, display, setDisplay }) {
 
   const handleCancel = (e) => {
     e.preventDefault();
-
-    setCodeInfo({
-      codeTitle: "",
-      codeURL: "",
-      codeDOI: "",
-      openSource: false,
-      codeLicense: "",
-      codeRelease: "",
-      codeConf: "",
-    });
-
+    wipeCodeInfo();
     setErrors({});
     setDisplay(!display);
   };

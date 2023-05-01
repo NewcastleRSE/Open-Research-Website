@@ -68,7 +68,6 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
     e.preventDefault();
 
     wipeArticleInfo();
-
     setErrors({});
     setDisplay(!display);
   };
