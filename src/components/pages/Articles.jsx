@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-
+import { useState } from "react";
 import ArticleModal from "../formModals/ArticleModal";
 import validate from "../../validationRules/ArticleVR";
-import str2bool from "../../util/str2bool";
 
 function MultipleArticle({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
@@ -52,8 +50,6 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
       setCurrArticle(articleInfo);
       wipeArticleInfo();
       setErrors({});
-      console.log(currArticle);
-
       setDisplay(!display);
     }
   };

@@ -6,6 +6,8 @@ import str2bool from "../../util/str2bool";
 
 function Codes({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
+  const [editMode, setEditMode] = useState(false);
+  const [currCode, setCurrCode] = useState({});
 
   const [codeInfo, setCodeInfo] = useState({
     codeTitle: "",
@@ -19,8 +21,22 @@ function Codes({ formData, setFormData, display, setDisplay }) {
 
   const handleClick = (e) => {
     e.preventDefault();
-
+    if (!editMode) {
+      wipeCodeInfo();
+    }
     setDisplay(!display);
+  };
+
+  const wipeCodeInfo = () => {
+    setCodeInfo({
+      codeTitle: "",
+      codeURL: "",
+      codeDOI: "",
+      openSource: false,
+      codeLicense: "",
+      codeRelease: "",
+      codeConf: "",
+    });
   };
 
   const handleSubmit = (e) => {
@@ -30,22 +46,25 @@ function Codes({ formData, setFormData, display, setDisplay }) {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      codeInfo.openSource = str2bool(codeInfo.openSource);
-      codeInfo.codeRelease = str2bool(codeInfo.codeRelease);
-      codeInfo.codeConf = str2bool(codeInfo.codeConf);
+      // codeInfo.openSource = str2bool(codeInfo.openSource);
+      // codeInfo.codeRelease = str2bool(codeInfo.codeRelease);
+      // codeInfo.codeConf = str2bool(codeInfo.codeConf);
+      if (!editMode) {
+        formData.Code.push(codeInfo);
+      } else {
+        const updatedCodes = formData.Code.map((i) =>
+          JSON.stringify(i) === JSON.stringify(currCode) ? codeInfo : i
+        );
+        const updatedFormData = {
+          ...formData,
+          Code: updatedCodes,
+        };
+        setFormData(updatedFormData);
+      }
 
-      formData.Code.push(codeInfo);
-
-      setCodeInfo({
-        codeTitle: "",
-        codeURL: "",
-        codeDOI: "",
-        openSource: "",
-        codeLicense: "",
-        codeRelease: "",
-        codeConf: "",
-      });
-
+      setCurrCode(codeInfo);
+      wipeCodeInfo();
+      setErrors({});
       setDisplay(!display);
     }
   };
@@ -69,13 +88,14 @@ function Codes({ formData, setFormData, display, setDisplay }) {
 
   const handleDelete = (e, code) => {
     e.preventDefault();
-
     let filteredArray = formData.Code.filter((item) => item !== code);
     setFormData({ ...formData, Code: filteredArray });
   };
 
   const handleEdit = (e, code) => {
     e.preventDefault();
+
+    setCurrCode(code);
 
     setCodeInfo({
       codeTitle: code.codeTitle,
@@ -87,10 +107,7 @@ function Codes({ formData, setFormData, display, setDisplay }) {
       codeConf: code.codeConf,
     });
 
-    let filteredArray = formData.Code.filter((item) => item !== code);
-
-    setFormData({ ...formData, Code: filteredArray });
-
+    setEditMode(true);
     setDisplay(!display);
   };
 
