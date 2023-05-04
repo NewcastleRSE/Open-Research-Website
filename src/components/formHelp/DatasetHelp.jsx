@@ -1,23 +1,30 @@
 const DatasetHelp = ({}) => {
   return (
-    <div>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-        mattis tincidunt ipsum, et ultrices nisl feugiat eget. Maecenas et dui
-        aliquet, euismod risus in, iaculis erat. Nulla mollis suscipit ligula ut
-        commodo. Nullam eu nulla dui. Pellentesque lacinia sem vitae ipsum
-        congue, vitae volutpat tellus vestibulum. Vestibulum ante ipsum primis
-        in faucibus orci luctus et ultrices posuere cubilia curae; Cras ac
-        dapibus tellus.
+    <div className="help-text">
+      <p className="paragraph">
+        Open research data can be freely accessed, reused, remixed and
+        redistributed, for academic research and teaching purposes and beyond.
+        Ideally, open data have no restrictions on reuse or redistribution, and
+        are appropriately licensed as such. In exceptional cases, e.g. to
+        protect the identity of human subjects, special or limited restrictions
+        of access are set. Openly sharing data facilitates reuse, forming the
+        basis for research verification and reproducibility, and opens up a
+        pathway to wider collaboration.
       </p>
-
-      <p>
-        Curabitur scelerisque, nunc sodales dictum auctor, est neque rhoncus
-        sem, nec luctus lacus metus non libero. Mauris eget maximus enim.
-        Quisque vitae nunc vel purus tempus feugiat sed vitae lorem. Proin
-        accumsan volutpat tellus eu cursus. In id convallis felis, non blandit
-        eros. Suspendisse et lectus quis metus tincidunt mattis. Sed facilisis
-        metus ut nisi aliquet fringilla.
+      <p className="paragraph">
+        Data should be archived into a repository with supporting documenting to
+        ensure the data is assigned a persistent identifier (e.g. DOI) and
+        preserved for at least ten years.
+      </p>
+      <p className="reference">
+        Reference:{" "}
+        <a href="https://www.fosteropenscience.eu/content/open-science-training-handbook">
+          Open Science Training Handbook
+        </a>
+        , Bezjak et al., (2018){" "}
+        <a href="https://book.fosteropenscience.eu">
+          https://book.fosteropenscience.eu/
+        </a>
       </p>
     </div>
   );
