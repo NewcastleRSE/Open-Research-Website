@@ -1,3 +1,4 @@
+import React from "react";
 const PeerReviewHelp = ({}) => {
   return (
     <div className="text-help">

@@ -2,6 +2,7 @@ import { useState } from "react";
 import PreRegModal from "../formModals/PreRegModal";
 import validate from "../../validationRules/PreRegVR";
 import { v4 as uuidv4 } from "uuid";
+import React from "react";
 
 function PreRegs({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});

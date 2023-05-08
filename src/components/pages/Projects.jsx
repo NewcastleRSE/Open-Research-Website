@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import ProjectModal from "../formModals/ProjectModal";
 import DropDownWithSearch from "../formElements/DropDownWithSearch";
 import validateProject from "../../validationRules/ProjectVR";
+import React from "react";
 
 function ProjectInfo({
   formData,
@@ -298,64 +299,56 @@ function ProjectInfo({
 
   return (
     <div className="step">
-      {loaded ? (
-        <>
-          <h2 id="page-heading">Project</h2>
-          {formData.orcidProjects ? (
-            <h3 className="main_question" id="project-instructions">
-              Please select a project from ORCID or add a new one.
-            </h3>
-          ) : (
-            <h3 className="main_question" id="project-instructions">
-              Please select a project.
-            </h3>
-          )}
-          <div role="region" aria-labelledby="page-heading">
-            {formData.orcidProjects && (
-              <DropDownWithSearch
-                id="dropdown menu for your projects"
-                name="project dropdown menu"
-                placeholder="Orcid Projects"
-                options={getOrcidTitles()}
-                onChange={(e) => handleDropdownChange(e, "orcid")}
-                value={selectedProject?.projectName || ""}
-                aria-label="Select Orcid project"
-              />
-            )}
-            <DropDownWithSearch
-              id="dropdown menu for your projects"
-              name="project dropdown menu"
-              placeholder="Projects"
-              options={getTitles()}
-              onChange={(e) => handleDropdownChange(e, "normal")}
-              value={selectedProject?.projectName || ""}
-              aria-label="Select project"
-            />
-            <button
-              type="button"
-              className="forward wide"
-              onClick={(e) => handleClick(e)}
-              aria-label="Add new project"
-            >
-              Add New Project
-            </button>
-          </div>
-          <ProjectModal
-            show={display}
-            formData={projectInfo}
-            setFormData={setProjectInfo}
-            setDisplay={setDisplay}
-            handleSubmit={handleSubmit}
-            handleCancel={handleCancel}
-            errors={errors}
-          />
-          <div>{displayProject()}</div>
-        </>
+      <h2 id="page-heading">Project</h2>
+      {formData.orcidProjects ? (
+        <h3 className="main_question" id="project-instructions">
+          Please select a project from ORCID or add a new one.
+        </h3>
       ) : (
-        <>
-          <p>Loading</p>
-        </>
+        <h3 className="main_question" id="project-instructions">
+          Please select a project.
+        </h3>
       )}
+      <div role="region" aria-labelledby="page-heading">
+        {formData.orcidProjects && (
+          <DropDownWithSearch
+            id="dropdown menu for your projects"
+            name="project dropdown menu"
+            placeholder="Orcid Projects"
+            options={getOrcidTitles()}
+            onChange={(e) => handleDropdownChange(e, "orcid")}
+            value={selectedProject?.projectName || ""}
+            aria-label="Select Orcid project"
+          />
+        )}
+        <DropDownWithSearch
+          id="dropdown menu for your projects"
+          name="project dropdown menu"
+          placeholder="Projects"
+          options={getTitles()}
+          onChange={(e) => handleDropdownChange(e, "normal")}
+          value={selectedProject?.projectName || ""}
+          aria-label="Select project"
+        />
+        <button
+          type="button"
+          className="forward wide"
+          onClick={(e) => handleClick(e)}
+          aria-label="Add new project"
+        >
+          Add New Project
+        </button>
+      </div>
+      <ProjectModal
+        show={display}
+        formData={projectInfo}
+        setFormData={setProjectInfo}
+        setDisplay={setDisplay}
+        handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        errors={errors}
+      />
+      <div>{displayProject()}</div>
     </div>
   );
 }

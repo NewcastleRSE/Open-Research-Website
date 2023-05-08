@@ -1,3 +1,5 @@
+import React from "react";
+
 const DisplayDigitalScholarshipInfo = ({ digitalScholarshipData, field }) => {
   return digitalScholarshipData.map((digitalScholarship, index) => {
     return (

@@ -2,6 +2,7 @@ import { useState } from "react";
 import DigitalScholarshipModal from "../formModals/DigitalScholarshipModal";
 import validate from "../../validationRules/DigitalScholarshipVR";
 import { v4 as uuidv4 } from "uuid";
+import React from "react";
 
 function DigitalScholarships({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});

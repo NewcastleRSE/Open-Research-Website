@@ -10,6 +10,7 @@ import FormBuilder from "./pages/FormBuilder";
 import StepCounter from "./StepCounter";
 import LeftContent from "./pages/LeftContent";
 import Summary from "./pages/Summary";
+import React from "react";
 
 import Projects from "./pages/Projects";
 import Articles from "./pages/Articles";

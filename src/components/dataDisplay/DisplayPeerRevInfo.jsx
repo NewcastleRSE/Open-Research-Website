@@ -1,3 +1,4 @@
+import React from "react";
 const DisplayPeerRevInfo = ({ peerReviewData, field }) => {
   return peerReviewData.map((peerReview, index) => {
     return (

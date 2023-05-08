@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import App from "../components/App";
+import React from "react";
 
 describe("App component", () => {
   test("Prev button should be disabled until the second page.", async () => {

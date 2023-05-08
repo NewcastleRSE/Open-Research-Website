@@ -1,3 +1,4 @@
+import React from "react";
 const ArticleHelp = ({}) => {
   return (
     <div className="help-text">

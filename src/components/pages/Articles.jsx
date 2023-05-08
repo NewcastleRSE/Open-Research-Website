@@ -2,6 +2,7 @@ import { useState } from "react";
 import ArticleModal from "../formModals/ArticleModal";
 import validate from "../../validationRules/ArticleVR";
 import { v4 as uuidv4 } from "uuid";
+import React from "react";
 
 function MultipleArticle({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});

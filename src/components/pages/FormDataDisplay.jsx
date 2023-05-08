@@ -1,4 +1,6 @@
 import { useEffect, useState, useRef } from "react";
+import React from "react";
+
 import DisplayArticleInfo from "../dataDisplay/DisplayArticleInfo";
 import DisplayCodeInfo from "../dataDisplay/DisplayCodeInfo";
 import DisplayDatasetInfo from "../dataDisplay/DisplayDatasetInfo";

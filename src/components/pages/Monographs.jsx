@@ -2,6 +2,7 @@ import { useState } from "react";
 import MonographModal from "../formModals/MonographModal";
 import validate from "../../validationRules/MonoVR";
 import { v4 as uuidv4 } from "uuid";
+import React from "react";
 
 function Monographs({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});

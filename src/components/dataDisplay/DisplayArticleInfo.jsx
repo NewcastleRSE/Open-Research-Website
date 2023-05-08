@@ -1,3 +1,5 @@
+import React from "react";
+
 const DisplayArticleInfo = ({ articleData, field }) => {
   return articleData.map((article, index) => {
     return (

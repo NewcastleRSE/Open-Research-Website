@@ -1,3 +1,4 @@
+import React from "react";
 const DisplayPreRegAnalysisInfo = ({ preRegAnalysisData, field }) => {
   return preRegAnalysisData.map((preRegAnalysis, index) => {
     return (

@@ -1,3 +1,5 @@
+import React from "react";
+
 const DisplayMaterialInfo = ({ materialData, field }) => {
   return materialData.map((material, index) => {
     return (

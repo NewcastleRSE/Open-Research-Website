@@ -1,3 +1,5 @@
+import React from "react";
+
 const DisplayCodeInfo = ({ codeData, field }) => {
   return codeData.map((code, index) => {
     return (

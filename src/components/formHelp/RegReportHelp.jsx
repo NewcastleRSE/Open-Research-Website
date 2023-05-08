@@ -1,3 +1,4 @@
+import React from "react";
 const RegReportHelp = ({}) => {
   return (
     <div className="help-text">

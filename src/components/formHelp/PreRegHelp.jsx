@@ -1,3 +1,4 @@
+import React from "react";
 const PreRegHelp = ({}) => {
   return (
     <div className="help-text">

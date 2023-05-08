@@ -1,3 +1,4 @@
+import React from "react";
 const DisplayProtocolInfo = ({ protocolData, field }) => {
   return protocolData.map((protocol, index) => {
     return (
