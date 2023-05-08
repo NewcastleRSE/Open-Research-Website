@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-
-import RegReport from "../forms/RegReport";
+import { useState } from "react";
+import RegReportModal from "../formModals/RegReportModal";
 import validate from "../../validationRules/RegReportVR";
-import str2bool from "../../util/str2bool";
+import { v4 as uuidv4 } from "uuid";
 
-function RegReports({ formData, setFormData }) {
-  const [display, setDisplay] = useState(false);
-
+function RegReports({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
+  const [editMode, setEditMode] = useState(false);
+  const [currRegReport, setCurrRegReport] = useState({});
 
   const [regReportInfo, setRegReportInfo] = useState({
     regReportTitle: "",
@@ -19,8 +18,20 @@ function RegReports({ formData, setFormData }) {
 
   const handleClick = (e) => {
     e.preventDefault();
-
+    if (!editMode) {
+      wipeRegReportInfo();
+    }
     setDisplay(!display);
+  };
+
+  const wipeRegReportInfo = () => {
+    setRegReportInfo({
+      regReportTitle: "",
+      regReportURL: "",
+      regReportFunding: false,
+      regReportPeerRev: false,
+      regReportChanges: false,
+    });
   };
 
   const handleSubmit = (e) => {
@@ -30,36 +41,39 @@ function RegReports({ formData, setFormData }) {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      regReportInfo.regReportChanges = str2bool(regReportInfo.regReportChanges);
-      regReportInfo.regReportFunding = str2bool(regReportInfo.regReportFunding);
-      regReportInfo.regReportPeerRev = str2bool(regReportInfo.regReportPeerRev);
+      // regReportInfo.regReportChanges = str2bool(regReportInfo.regReportChanges);
+      // regReportInfo.regReportFunding = str2bool(regReportInfo.regReportFunding);
+      // regReportInfo.regReportPeerRev = str2bool(regReportInfo.regReportPeerRev);
 
-      formData.RegReport.push(regReportInfo);
+      if (!editMode) {
+        setFormData({
+          ...formData,
+          RegReport: [
+            ...formData.RegReport,
+            { ...regReportInfo, id: uuidv4() },
+          ],
+        });
+      } else {
+        const updatedRegReports = formData.RegReport.map((i) =>
+          i.id === currRegReport.id ? regReportInfo : i
+        );
+        const updatedFormData = {
+          ...formData,
+          RegReport: updatedRegReports,
+        };
+        setFormData(updatedFormData);
+      }
 
-      setRegReportInfo({
-        regReportTitle: "",
-        regReportURL: "",
-        regReportFunding: false,
-        regReportPeerRev: false,
-        regReportChanges: false,
-      });
-
+      wipeRegReportInfo();
       setErrors({});
       setDisplay(!display);
+      setEditMode(false);
     }
   };
 
   const handleCancel = (e) => {
     e.preventDefault();
-
-    setRegReportInfo({
-      regReportTitle: "",
-      regReportURL: "",
-      regReportFunding: false,
-      regReportPeerRev: false,
-      regReportChanges: false,
-    });
-
+    wipeRegReportInfo();
     setErrors({});
     setDisplay(!display);
   };
@@ -71,13 +85,32 @@ function RegReports({ formData, setFormData }) {
     setFormData({ ...formData, RegReport: filteredArray });
   };
 
+  const handleEdit = (e, regReport) => {
+    e.preventDefault();
+
+    setCurrRegReport(regReport);
+
+    setRegReportInfo({
+      ...regReport,
+    });
+
+    setEditMode(true);
+    setDisplay(!display);
+  };
+
   return (
     <div>
       <div>
         <h2>Registered Reports</h2>
-        {formData.RegReport.map((regReport) => (
-          <div className="output-type row">
+        {formData.RegReport.map((regReport, index) => (
+          <div className="output-type row" key={index}>
             <h4 className="output-title col">{regReport.regReportTitle}</h4>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
+              <p onClick={(e) => handleEdit(e, regReport)}>Edit</p>
+            </span>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, regReport)}>Remove</p>
             </span>
@@ -92,7 +125,7 @@ function RegReports({ formData, setFormData }) {
         </button>
       </div>
 
-      <RegReport
+      <RegReportModal
         show={display}
         formData={regReportInfo}
         setFormData={setRegReportInfo}

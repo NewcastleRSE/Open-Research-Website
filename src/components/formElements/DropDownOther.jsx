@@ -40,7 +40,7 @@ const DropDownOther = (props) => {
             onChange={props.onChange}
             data-testid={props.id}
           >
-            <option value="" data-testid="select-option">
+            <option value="" data-testid="select-option" disabled>
               {props.placeholder}
             </option>
             {props.options.map((option) => (

@@ -4,7 +4,7 @@ function StepCounter(props) {
   return (
     <div>
       <strong className="step-counter">
-        {props.page + 1}/{props.form.length}
+        Page {props.page + 1}/{props.form.length}
       </strong>
     </div>
   );

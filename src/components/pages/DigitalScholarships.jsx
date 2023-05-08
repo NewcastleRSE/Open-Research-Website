@@ -1,14 +1,12 @@
-import React, { useState } from "react";
-
-import DigitalScholarship from "../forms/DigitalScholarship";
+import { useState } from "react";
+import DigitalScholarshipModal from "../formModals/DigitalScholarshipModal";
 import validate from "../../validationRules/DigitalScholarshipVR";
-import str2bool from "../../util/str2bool";
+import { v4 as uuidv4 } from "uuid";
 
-function DigitalScholarships({ formData, setFormData }) {
-  const [display, setDisplay] = useState(false);
-
+function DigitalScholarships({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
-
+  const [currDs, setCurrDs] = useState({});
+  const [editMode, setEditMode] = useState(false);
   const [dsInfo, setDSInfo] = useState({
     dsTitle: "",
     dsURL: "",
@@ -16,9 +14,15 @@ function DigitalScholarships({ formData, setFormData }) {
     dsLicense: "",
   });
 
+  const wipeInfo = () => {
+    setDSInfo({ dsTitle: "", dsURL: "", dsEmbargo: false, dsLicense: "" });
+  };
+
   const handleClick = (e) => {
     e.preventDefault();
-
+    if (!editMode) {
+      wipeInfo();
+    }
     setDisplay(!display);
   };
 
@@ -29,33 +33,51 @@ function DigitalScholarships({ formData, setFormData }) {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      dsInfo.dsEmbargo = str2bool(dsInfo.dsEmbargo);
+      // dsInfo.dsEmbargo = str2bool(dsInfo.dsEmbargo);
 
-      formData.DigitalScholarship.push(dsInfo);
+      if (!editMode) {
+        setFormData({
+          ...formData,
+          DigitalScholarship: [
+            ...formData.DigitalScholarship,
+            { ...dsInfo, id: uuidv4() },
+          ],
+        });
+      } else {
+        const updatedData = formData.DigitalScholarship.map((i) =>
+          i.id === currDs.id ? dsInfo : i
+        );
+        const updatedFormData = {
+          ...formData,
+          DigitalScholarship: updatedData,
+        };
+        setFormData(updatedFormData);
+      }
 
-      setDSInfo({
-        dsTitle: "",
-        dsURL: "",
-        dsEmbargo: false,
-        dsLicense: "",
-      });
-
+      wipeInfo();
       setErrors({});
       setDisplay(!display);
+      setEditMode(false);
     }
   };
 
   const handleCancel = (e) => {
     e.preventDefault();
 
+    wipeInfo();
+    setErrors({});
+    setDisplay(!display);
+  };
+
+  const handleEdit = (e, ds) => {
+    e.preventDefault();
+
+    setCurrDs(ds);
     setDSInfo({
-      dsTitle: "",
-      dsURL: "",
-      dsEmbargo: false,
-      dsLicense: "",
+      ...ds,
     });
 
-    setErrors({});
+    setEditMode(true);
     setDisplay(!display);
   };
 
@@ -72,9 +94,15 @@ function DigitalScholarships({ formData, setFormData }) {
     <div>
       <div>
         <h2>Digital Scholarships</h2>
-        {formData.DigitalScholarship.map((ds) => (
-          <div className="output-type row">
+        {formData.DigitalScholarship.map((ds, index) => (
+          <div className="output-type row" key={index}>
             <h4 className="output-title col">{ds.dsTitle}</h4>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
+              <p onClick={(e) => handleEdit(e, ds)}>Edit</p>
+            </span>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, ds)}>Remove</p>
             </span>
@@ -89,7 +117,7 @@ function DigitalScholarships({ formData, setFormData }) {
         </button>
       </div>
 
-      <DigitalScholarship
+      <DigitalScholarshipModal
         show={display}
         formData={dsInfo}
         setFormData={setDSInfo}

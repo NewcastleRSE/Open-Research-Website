@@ -1,8 +1,7 @@
-import React from "react";
-
 import Checkbox from "../formElements/Checkbox";
 
-const displayDissertation = ({ formBuilder, setFormBuilder, formData }) => { // eslint-disable-line no-unused-vars
+const displayDissertation = ({ formBuilder, setFormBuilder, formData }) => {
+  // eslint-disable-line no-unused-vars
   if (formData.Researcher.careerStage === "PhD") {
     return (
       <div className="col">

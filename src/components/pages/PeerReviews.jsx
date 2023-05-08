@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-
-import PeerReview from "../forms/PeerReview";
+import { useState } from "react";
+import PeerReviewModal from "../formModals/PeerReviewModal";
 import validate from "../../validationRules/PeerReviewVR";
-import str2bool from "../../util/str2bool";
+import { v4 as uuidv4 } from "uuid";
 
-function PeerReviews({ formData, setFormData }) {
-  const [display, setDisplay] = useState(false);
-
+function PeerReviews({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
+  const [editMode, setEditMode] = useState(false);
+  const [currPeerRev, setCurrPeerRev] = useState({});
 
   const [peerRevInfo, setPeerRevInfo] = useState({
     peerRevTitle: "",
@@ -17,8 +16,18 @@ function PeerReviews({ formData, setFormData }) {
 
   const handleClick = (e) => {
     e.preventDefault();
-
+    if (!editMode) {
+      wipePeerRevInfo();
+    }
     setDisplay(!display);
+  };
+
+  const wipePeerRevInfo = () => {
+    setPeerRevInfo({
+      peerRevTitle: "",
+      peerRevURL: "",
+      peerRevResponse: false,
+    });
   };
 
   const handleSubmit = (e) => {
@@ -28,30 +37,34 @@ function PeerReviews({ formData, setFormData }) {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      peerRevInfo.peerRevResponse = str2bool(peerRevInfo.peerRevResponse);
+      // peerRevInfo.peerRevResponse = str2bool(peerRevInfo.peerRevResponse);
 
-      formData.PeerRev.push(peerRevInfo);
+      if (!editMode) {
+        setFormData({
+          ...formData,
+          PeerRev: [...formData.PeerRev, { ...peerRevInfo, id: uuidv4() }],
+        });
+      } else {
+        const updatedPeerReviews = formData.PeerRev.map((i) =>
+          i.id === currPeerRev.id ? peerRevInfo : i
+        );
+        const updatedFormData = {
+          ...formData,
+          PeerRev: updatedPeerReviews,
+        };
+        setFormData(updatedFormData);
+      }
 
-      setPeerRevInfo({
-        peerRevTitle: "",
-        peerRevURL: "",
-        peerRevResponse: false,
-      });
-
+      wipePeerRevInfo();
       setErrors({});
       setDisplay(!display);
+      setEditMode(false);
     }
   };
 
   const handleCancel = (e) => {
     e.preventDefault();
-
-    setPeerRevInfo({
-      peerRevTitle: "",
-      peerRevURL: "",
-      peerRevResponse: false,
-    });
-
+    wipePeerRevInfo();
     setErrors({});
     setDisplay(!display);
   };
@@ -63,13 +76,32 @@ function PeerReviews({ formData, setFormData }) {
     setFormData({ ...formData, PeerRev: filteredArray });
   };
 
+  const handleEdit = (e, peerRev) => {
+    e.preventDefault();
+
+    setCurrPeerRev(peerRev);
+
+    setPeerRevInfo({
+      ...peerRev,
+    });
+
+    setEditMode(true);
+    setDisplay(!display);
+  };
+
   return (
     <div>
       <div>
         <h2>Open Peer Reviews</h2>
-        {formData.PeerRev.map((peerRev) => (
-          <div className="output-type row">
+        {formData.PeerRev.map((peerRev, index) => (
+          <div className="output-type row" key={index}>
             <h4 className="output-title col">{peerRev.peerRevTitle}</h4>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
+              <p onClick={(e) => handleEdit(e, peerRev)}>Edit</p>
+            </span>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, peerRev)}>Remove</p>
             </span>
@@ -84,7 +116,7 @@ function PeerReviews({ formData, setFormData }) {
         </button>
       </div>
 
-      <PeerReview
+      <PeerReviewModal
         show={display}
         formData={peerRevInfo}
         setFormData={setPeerRevInfo}

@@ -3,6 +3,7 @@ import generateFeedback from "../../util/generateFeedback";
 
 function Summary({ formData }) {
   const [feedback, setFeedback] = useState("");
+  console.log(formData);
 
   useEffect(() => {
     setFeedback(generateFeedback(formData));

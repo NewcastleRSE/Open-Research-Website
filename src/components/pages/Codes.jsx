@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-
-import Code from "../forms/Code";
+import { useState } from "react";
+import CodeModal from "../formModals/CodeModal";
 import validate from "../../validationRules/CodeVR";
-import str2bool from "../../util/str2bool";
+import { v4 as uuidv4 } from "uuid";
 
-function Codes({ formData, setFormData }) {
-  const [display, setDisplay] = useState(false);
-
+function Codes({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
+  const [editMode, setEditMode] = useState(false);
+  const [currCode, setCurrCode] = useState({});
 
   const [codeInfo, setCodeInfo] = useState({
     codeTitle: "",
@@ -21,40 +20,13 @@ function Codes({ formData, setFormData }) {
 
   const handleClick = (e) => {
     e.preventDefault();
-
+    if (!editMode) {
+      wipeCodeInfo();
+    }
     setDisplay(!display);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    let newErrors = validate(codeInfo);
-    setErrors(newErrors);
-
-    if (Object.keys(newErrors).length === 0) {
-      codeInfo.openSource = str2bool(codeInfo.openSource);
-      codeInfo.codeRelease = str2bool(codeInfo.codeRelease);
-      codeInfo.codeConf = str2bool(codeInfo.codeConf);
-
-      formData.Code.push(codeInfo);
-
-      setCodeInfo({
-        codeTitle: "",
-        codeURL: "",
-        codeDOI: "",
-        openSource: "",
-        codeLicense: "",
-        codeRelease: "",
-        codeConf: "",
-      });
-
-      setDisplay(!display);
-    }
-  };
-
-  const handleCancel = (e) => {
-    e.preventDefault();
-
+  const wipeCodeInfo = () => {
     setCodeInfo({
       codeTitle: "",
       codeURL: "",
@@ -64,14 +36,50 @@ function Codes({ formData, setFormData }) {
       codeRelease: "",
       codeConf: "",
     });
+  };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    let newErrors = validate(codeInfo);
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      // codeInfo.openSource = str2bool(codeInfo.openSource);
+      // codeInfo.codeRelease = str2bool(codeInfo.codeRelease);
+      // codeInfo.codeConf = str2bool(codeInfo.codeConf);
+      if (!editMode) {
+        setFormData({
+          ...formData,
+          Code: [...formData.Code, { ...codeInfo, id: uuidv4() }],
+        });
+      } else {
+        const updatedCodes = formData.Code.map((i) =>
+          i.id === currCode.id ? codeInfo : i
+        );
+        const updatedFormData = {
+          ...formData,
+          Code: updatedCodes,
+        };
+        setFormData(updatedFormData);
+      }
+
+      wipeCodeInfo();
+      setErrors({});
+      setDisplay(!display);
+      setEditMode(false);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    wipeCodeInfo();
     setErrors({});
     setDisplay(!display);
   };
 
   const handleDelete = (e, code) => {
     e.preventDefault();
-
     let filteredArray = formData.Code.filter((item) => item !== code);
     setFormData({ ...formData, Code: filteredArray });
   };
@@ -79,20 +87,13 @@ function Codes({ formData, setFormData }) {
   const handleEdit = (e, code) => {
     e.preventDefault();
 
+    setCurrCode(code);
+
     setCodeInfo({
-      codeTitle: code.codeTitle,
-      codeURL: code.codeURL,
-      codeDOI: code.codeDOI,
-      openSource: code.openSource,
-      codeLicense: code.codeLicense,
-      codeRelease: code.codeRelease,
-      codeConf: code.codeConf,
+      ...code,
     });
 
-    let filteredArray = formData.Code.filter((item) => item !== code);
-
-    setFormData({ ...formData, Code: filteredArray });
-
+    setEditMode(true);
     setDisplay(!display);
   };
 
@@ -100,8 +101,8 @@ function Codes({ formData, setFormData }) {
     <div>
       <div>
         <h2>Code</h2>
-        {formData.Code.map((code) => (
-          <div className="output-type row">
+        {formData.Code.map((code, index) => (
+          <div className="output-type row" key={index}>
             <h4 className="output-title col">{code.codeTitle}</h4>
             <span
               className="output-edit"
@@ -123,7 +124,7 @@ function Codes({ formData, setFormData }) {
         </button>
       </div>
 
-      <Code
+      <CodeModal
         show={display}
         formData={codeInfo}
         setFormData={setCodeInfo}

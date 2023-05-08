@@ -4,22 +4,22 @@ import { useParams } from "react-router-dom";
 function LeftContent(props) {
   let { id } = useParams();
 
-  const displayUuid = () => {
-    if (id) {
-      return (
-        <>
-          <h3>Your UUID is:</h3>
-          <p>{id}</p>
-        </>
-      );
-    } else {
-      return null;
-    }
-  };
+  // const displayUuid = () => {
+  //   if (id) {
+  //     return (
+  //       <>
+  //         <h3>Your UUID is:</h3>
+  //         <p>{id}</p>
+  //       </>
+  //     );
+  //   } else {
+  //     return null;
+  //   }
+  // };
 
   return (
     <div>
-      {displayUuid()}
+      {/* {displayUuid()} */}
       <figure>
         <img src={props.img} alt="" className="img-fluid" />
       </figure>

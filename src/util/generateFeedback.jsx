@@ -1,7 +1,6 @@
 export default function generateFeedback(formData) {
   // init feedback
   let feedback = "";
-
   // if article
   if (formData.Article) {
     formData.Article.map(async (article) => {
@@ -114,6 +113,10 @@ export default function generateFeedback(formData) {
       }
       return feedback;
     });
+  }
+
+  if (feedback == "") {
+    feedback = `Congratulations ${formData.Researcher.fullName}! From the information you have provided us, we can't find anyway of making your research more open.`;
   }
 
   return feedback;

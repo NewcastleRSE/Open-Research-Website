@@ -1,19 +1,17 @@
-import React, { useState } from "react";
-
-import Article from "../forms/Article";
+import { useState } from "react";
+import ArticleModal from "../formModals/ArticleModal";
 import validate from "../../validationRules/ArticleVR";
-import str2bool from "../../util/str2bool";
+import { v4 as uuidv4 } from "uuid";
 
-function MultipleArticle({ formData, setFormData }) {
-  const [display, setDisplay] = useState(false);
-
+function MultipleArticle({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
+  const [editMode, setEditMode] = useState(false);
 
   const [articleInfo, setArticleInfo] = useState({
     articleTitle: "",
     articleURL: "",
     articleDOI: "",
-    articleEmbargo: false,
+    articleEmbargo: "",
     articleLicense: "",
   });
 
@@ -21,7 +19,9 @@ function MultipleArticle({ formData, setFormData }) {
 
   const handleClick = (e) => {
     e.preventDefault();
-
+    if (!editMode) {
+      wipeArticleInfo();
+    }
     setDisplay(!display);
   };
 
@@ -32,44 +32,53 @@ function MultipleArticle({ formData, setFormData }) {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Passing validation
-      articleInfo.articleEmbargo = str2bool(articleInfo.articleEmbargo);
+      if (!editMode) {
+        setFormData({
+          ...formData,
+          Article: [
+            ...formData.Article,
+            { ...articleInfo, id: uuidv4() }, // Add a unique ID
+          ],
+        });
+      } else {
+        const updatedArticles = formData.Article.map((i) =>
+          i.id === currArticle.id ? articleInfo : i
+        );
+        const updatedFormData = {
+          ...formData,
+          Article: updatedArticles,
+        };
+        setFormData(updatedFormData);
+      }
 
-      formData.Article.push(articleInfo);
-
-      setArticleInfo({
-        articleTitle: "",
-        articleURL: "",
-        articleDOI: "",
-        articleEmbargo: false,
-        articleLicense: "",
-      });
-
+      wipeArticleInfo();
       setErrors({});
       setDisplay(!display);
+      setEditMode(false);
     }
+  };
+
+  const wipeArticleInfo = () => {
+    setArticleInfo({
+      articleTitle: "",
+      articleURL: "",
+      articleDOI: "",
+      articleEmbargo: "",
+      articleLicense: "",
+    });
   };
 
   const handleCancel = (e) => {
     e.preventDefault();
 
-    setArticleInfo({
-      articleTitle: "",
-      articleURL: "",
-      articleDOI: "",
-      articleEmbargo: false,
-      articleLicense: "",
-    });
-
+    wipeArticleInfo();
     setErrors({});
     setDisplay(!display);
   };
 
   const handleDelete = (e, article) => {
     e.preventDefault();
-
     let filteredArray = formData.Article.filter((item) => item !== article);
-
     setFormData({ ...formData, Article: filteredArray });
   };
 
@@ -78,18 +87,9 @@ function MultipleArticle({ formData, setFormData }) {
 
     setCurrArticle(article);
 
-    setArticleInfo({
-      articleTitle: article.articleTitle,
-      articleURL: article.articleURL,
-      articleDOI: article.articleDOI,
-      articleEmbargo: article.articleEmbargo,
-      articleLicense: article.articleLicense,
-    });
+    setArticleInfo({ ...article });
 
-    let filteredArray = formData.Article.filter((item) => item !== article);
-
-    setFormData({ ...formData, Article: filteredArray });
-
+    setEditMode(true);
     setDisplay(!display);
   };
 
@@ -97,8 +97,8 @@ function MultipleArticle({ formData, setFormData }) {
     <div>
       <div>
         <h2>Articles</h2>
-        {formData.Article.map((article) => (
-          <div className="output-type row" key={article.articleTitle}>
+        {formData.Article.map((article, index) => (
+          <div className="output-type row" key={index}>
             <h4 className="output-title col">{article.articleTitle}</h4>
             <span
               className="output-edit"
@@ -120,7 +120,7 @@ function MultipleArticle({ formData, setFormData }) {
         </button>
       </div>
 
-      <Article
+      <ArticleModal
         show={display}
         formData={articleInfo}
         setFormData={setArticleInfo}

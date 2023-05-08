@@ -38,6 +38,8 @@ Author URI: http://themeforest.net/user/Ansonika/
 html,
 body {
   height: 100%;
+  width: 100vw;
+  margin: 0;
 }
 
 html * {
@@ -366,6 +368,25 @@ a.btn_1.rounded,
   height: 100vh;
 }
 
+.help-text {
+  font-size: 0.95rem;
+}
+
+.paragraph {
+  margin-top: 0.5rem;
+}
+
+
+.bulletpoints {
+  margin-bottom: 1rem;
+}
+
+.bulletpoint {
+  margin-left: 1rem;
+  list-style: circle;
+  margin-top: 0.5rem;
+}
+
 @media (max-width: 991px) {
   .row-height {
     height: auto;
@@ -591,7 +612,7 @@ input#website {
 }
 
 h3.main_question {
-  margin: 0 0 20px 0;
+  margin: 20px 0 20px 0;
   padding: 0;
   font-weight: 500;
   font-size: 18px;
@@ -711,9 +732,14 @@ button.submit:before {
   transition: all 0.2s ease;
 }
 
+.summary p {
+  font-size: 1.1rem;
+}
+
 .summary ul {
   margin: 0;
   padding: 0;
+  font-size: 1rem;
 }
 
 .summary ul li {
@@ -725,8 +751,12 @@ button.submit:before {
   margin-bottom: 25px;
 }
 
+.summary ul li:first-child {
+  margin-top: 1rem;
+}
+
 .summary ul li:last-child {
-  margin-bottom: 0;
+  margin-bottom: 1rem;
   border-bottom: none;
 }
 
@@ -873,9 +903,14 @@ button.submit:before {
 /*-------- 2.3 Inner pages --------*/
 header {
   position: relative;
-  padding: 15px 0;
-  background-color: #fff;
+  padding: 20px 0;
+  background-color: #434bdf;
   border-bottom: 1px solid #d9e1e6;
+  width: 100vw;
+}
+
+header h1 {
+  color: white;
 }
 
 header .cd-nav-trigger {
@@ -895,12 +930,19 @@ header #social ul li a {
 footer {
   border-top: 1px solid #ededed;
   padding: 30px 0;
+  background-color: #434bdf;
+  margin-top: 2rem;
 }
 
 footer p {
   margin: 0;
   padding: 0;
   float: right;
+}
+
+footer a {
+  color: white;
+  font-size: 1.1rem;
 }
 
 @media (max-width: 991px) {
@@ -1309,7 +1351,7 @@ span.error:after {
 }
 
 .rating {
-  display: inline-block;
+  display: block;
   font-size: 0;
   float: right;
   position: relative;
@@ -1409,8 +1451,8 @@ span.error:after {
   position: absolute;
   top: 0;
   left: 0;
-  height: 20px;
-  width: 20px;
+  height: 16px;
+  width: 16px;
   border: 1px solid #d2d8dd;
   background-color: #fff;
   -webkit-border-radius: 3px;
@@ -1586,6 +1628,7 @@ span.error:after {
   line-height: 30px;
   padding: 0 10px;
   text-transform: uppercase;
+  appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
   background-color: #fff;

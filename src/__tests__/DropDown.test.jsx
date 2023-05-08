@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import DropDown from "../components/formElements/DropDown";
 
 describe("Dropdown input", () => {
-  it("Should correctly set the default option as the placeholder.", () => {
+  it("Should not be able to select the placeholder value as an option.", () => {
     render(
       <DropDown
         name="faculty"
@@ -12,7 +12,7 @@ describe("Dropdown input", () => {
     );
 
     // ensure the default option is selected
-    expect(screen.getByRole("option", { name: "Faculty" }).selected).toBe(true);
+    expect(screen.getByRole("option", { name: "Faculty" }).disabled).toBe(true);
   });
 
   it("Should be able to select a Faculty from the dropdown and the value should change to the selected option.", () => {

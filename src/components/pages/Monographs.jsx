@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-
-import Monograph from "../forms/Monograph";
+import { useState } from "react";
+import MonographModal from "../formModals/MonographModal";
 import validate from "../../validationRules/MonoVR";
-import str2bool from "../../util/str2bool";
+import { v4 as uuidv4 } from "uuid";
 
-function Monographs({ formData, setFormData }) {
-  const [display, setDisplay] = useState(false);
-
+function Monographs({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
+  const [editMode, setEditMode] = useState(false);
+  const [currMonograph, setCurrMonograph] = useState({});
 
   const [monographInfo, setMonographInfo] = useState({
     monographTitle: "",
@@ -19,37 +18,13 @@ function Monographs({ formData, setFormData }) {
 
   const handleClick = (e) => {
     e.preventDefault();
-
+    if (!editMode) {
+      wipeMonographInfo();
+    }
     setDisplay(!display);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    let newErrors = validate(monographInfo);
-    setErrors(newErrors);
-    console.log(newErrors);
-    if (Object.keys(newErrors).length === 0) {
-      monographInfo.monographEmbargo = str2bool(monographInfo.monographEmbargo);
-
-      formData.Monograph.push(monographInfo);
-
-      setMonographInfo({
-        monographTitle: "",
-        monographURL: "",
-        monographDOI: "",
-        monographEmbargo: false,
-        monographLicense: "",
-      });
-
-      setErrors({});
-      setDisplay(!display);
-    }
-  };
-
-  const handleCancel = (e) => {
-    e.preventDefault();
-
+  const wipeMonographInfo = () => {
     setMonographInfo({
       monographTitle: "",
       monographURL: "",
@@ -57,7 +32,45 @@ function Monographs({ formData, setFormData }) {
       monographEmbargo: false,
       monographLicense: "",
     });
+  };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    let newErrors = validate(monographInfo);
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      // monographInfo.monographEmbargo = str2bool(monographInfo.monographEmbargo);
+      if (!editMode) {
+        setFormData({
+          ...formData,
+          Monograph: [
+            ...formData.Monograph,
+            { ...monographInfo, id: uuidv4() },
+          ],
+        });
+      } else {
+        const updatedMonographs = formData.Monograph.map((i) =>
+          i.id === currMonograph.id ? monographInfo : i
+        );
+        const updatedFormData = {
+          ...formData,
+          Monograph: updatedMonographs,
+        };
+        setFormData(updatedFormData);
+      }
+
+      wipeMonographInfo();
+      setErrors({});
+      setDisplay(!display);
+      setEditMode(false);
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    wipeMonographInfo();
     setErrors({});
     setDisplay(!display);
   };
@@ -69,13 +82,32 @@ function Monographs({ formData, setFormData }) {
     setFormData({ ...formData, Monograph: filteredArray });
   };
 
+  const handleEdit = (e, monograph) => {
+    e.preventDefault();
+
+    setCurrMonograph(monograph);
+
+    setMonographInfo({
+      ...monograph,
+    });
+
+    setEditMode(true);
+    setDisplay(!display);
+  };
+
   return (
     <div>
       <div>
         <h2>Monographs</h2>
-        {formData.Monograph.map((monograph) => (
-          <div className="output-type row">
+        {formData.Monograph.map((monograph, index) => (
+          <div className="output-type row" key={index}>
             <h4 className="output-title col">{monograph.monographTitle}</h4>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
+              <p onClick={(e) => handleEdit(e, monograph)}>Edit</p>
+            </span>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, monograph)}>Remove</p>
             </span>
@@ -90,7 +122,7 @@ function Monographs({ formData, setFormData }) {
         </button>
       </div>
 
-      <Monograph
+      <MonographModal
         show={display}
         formData={monographInfo}
         setFormData={setMonographInfo}

@@ -2,8 +2,8 @@ import React from "react";
 
 const Checkbox = (props) => {
   return (
-    <div class="form-group">
-      <label class="container_check version_2">
+    <div className="form-group">
+      <label className="container_check version_2">
         {props.name}
         <input
           type="checkbox"
@@ -11,7 +11,7 @@ const Checkbox = (props) => {
           checked={props.checked}
           onChange={props.onChange}
         />
-        <span class="checkmark"></span>
+        <span className="checkmark"></span>
       </label>
     </div>
   );

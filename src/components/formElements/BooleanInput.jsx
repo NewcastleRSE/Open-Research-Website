@@ -3,9 +3,9 @@ import React from "react";
 const BooleanInput = (props) => {
   return (
     <div>
-      <div class="form-group radio_input">
+      <div className="form-group radio_input">
         <label>{props.label}</label>
-        <label class="container_radio">
+        <label className="container_radio">
           {props.a}
           <span className={`error ${!props.error ? "hidden" : ""}`}>
             {props.error}
@@ -14,23 +14,23 @@ const BooleanInput = (props) => {
             type="radio"
             name={props.name}
             value={props.a}
-            class="required"
+            className="required"
             checked={props.value === props.a}
             onChange={props.onChange}
           />
-          <span class="checkmark"></span>
+          <span className="checkmark"></span>
         </label>
-        <label class="container_radio">
+        <label className="container_radio">
           {props.b}
           <input
             type="radio"
             name={props.name}
             value={props.b}
-            class="required"
+            className="required"
             checked={props.value === props.b}
             onChange={props.onChange}
           />
-          <span class="checkmark"></span>
+          <span className="checkmark"></span>
         </label>
       </div>
     </div>
