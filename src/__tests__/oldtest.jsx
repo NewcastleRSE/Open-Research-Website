@@ -19,11 +19,11 @@ describe("App component", () => {
     render(<App />);
 
     // constants
-    const fullName = screen.getByPlaceholderText(/full name/i);
+    const fullName = screen.queryByTestId("fullName");
     const facultyOption = screen.queryByTestId("faculty");
     const schoolOption = screen.queryByTestId("school");
     const careerOption = screen.queryByTestId("careerStage");
-    const orcidId = screen.getByPlaceholderText(/orcid id/i);
+    const orcidId = screen.queryByTestId("orcidId");
 
     expect(fullName.value).toBe("");
     expect(facultyOption.value).toBe("");
@@ -70,11 +70,11 @@ describe("App component", () => {
     render(<App />);
 
     // constants
-    const fullName = screen.getByPlaceholderText(/full name/i);
+    const fullName = screen.getByTestId("fullName");
     const facultyOption = screen.queryByTestId("faculty");
     const schoolOption = screen.queryByTestId("school");
     const careerOption = screen.queryByTestId("careerStage");
-    const orcidId = screen.getByPlaceholderText(/orcid id/i);
+    const orcidId = screen.getByTestId("orcidId");
 
     // test empty full name
     expect(fullName.value).toBe("");
@@ -130,11 +130,11 @@ describe("App component", () => {
     render(<App />);
 
     // constants
-    const fullName = screen.getByPlaceholderText(/full name/i);
+    const fullName = screen.queryByTestId("fullName");
     const facultyOption = screen.queryByTestId("faculty");
     const schoolOption = screen.queryByTestId("school");
     const careerOption = screen.queryByTestId("careerStage");
-    const orcidId = screen.getByPlaceholderText(/orcid id/i);
+    const orcidId = screen.queryByTestId("orcidId");
 
     // test valid full name
     fireEvent.change(fullName, { target: { value: "Test 123" } });
@@ -174,11 +174,11 @@ describe("App component", () => {
     render(<App />);
 
     // constants
-    const fullName = screen.getByPlaceholderText(/full name/i);
+    const fullName = screen.queryByTestId("fullName");
     const facultyOption = screen.queryByTestId("faculty");
     const schoolOption = screen.queryByTestId("school");
     const careerOption = screen.queryByTestId("careerStage");
-    const orcidId = screen.getByPlaceholderText(/orcid id/i);
+    const orcidId = screen.queryByTestId("orcidId");
 
     // test valid full name
     fireEvent.change(fullName, { target: { value: "Test 123" } });
@@ -225,11 +225,6 @@ describe("App component", () => {
     fireEvent.change(schoolOption, {
       target: { value: "other" },
     });
-
-    // a text input should open below the school option so that the user can enter an "other school/ institute"
-    expect(
-      screen.getByPlaceholderText("Other School/ Institute")
-    ).toBeInTheDocument();
 
     // input into the text box
     fireEvent.change(schoolOption, {

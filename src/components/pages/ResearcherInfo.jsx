@@ -57,6 +57,7 @@ function ResearcherInfo({
         value={formData.fullName}
         onChange={(event) => handleChange("fullName", event.target.value)}
         error={errors.fullName}
+        id="fullName"
       />
       <DropDown
         name="faculty"
@@ -108,6 +109,7 @@ function ResearcherInfo({
         value={formData.orcidID}
         onChange={(event) => handleChange("orcidID", event.target.value)}
         error={errors.orcidID}
+        id="orcidId"
       />
       {(formData.orcidID && !localStorage.getItem("orcidID")) ||
         (formData.orcidID && localStorage.getItem("orcidID") == "undefined") ||
