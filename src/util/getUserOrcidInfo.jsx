@@ -1,22 +1,16 @@
 import axios from "axios";
 
-async function getUserOrcidInfo(navigate) {
-  const orcid = localStorage.getItem("orcidID");
-  const accessToken = localStorage.getItem("orcidToken");
-  console.log(orcid);
-  console.log(accessToken);
+async function getUserOrcidInfo(navigate, orcid) {
   try {
-    const response = await axios.post(`http://localhost:1337/orcid/user-info`, {
-      orcidID: orcid,
-      orcidToken: accessToken,
-    });
-
+    const response = await axios.get(
+      `https://pub.orcid.org/v3.0/${orcid}/record`
+    );
     console.log("getting info");
-    const userInfo = response.data;
+    const userRecord = response.data;
     console.log(response);
 
-    navigate.push("/");
-    return userInfo;
+    navigate("/");
+    return userRecord;
   } catch (error) {
     console.error("Error getting user info:", error);
   }

@@ -1,5 +1,6 @@
 // This function takes the orcid data about the researcher and populates it into a nice object with projectName and projectID keys and appropriate values.
 const processOrcidData = (data) => {
+  console.log(data);
   if (!data) {
     throw new Error("No data provided to processOrcidData");
   }
@@ -23,7 +24,7 @@ const processOrcidData = (data) => {
       projectID,
     };
   });
-
+  console.log(projects);
   return projects;
 };
 

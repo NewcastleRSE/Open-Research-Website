@@ -20,11 +20,13 @@ function ProjectInfo({
   const [selectedProjectType, setSelectedProjectType] = useState("");
 
   const [projectInfo, setProjectInfo] = useState({
-    projectName: "",
+    title: "",
     researchArea: "",
     funder: "",
     otherFunder: "",
     length: "",
+    type: "",
+    url: "",
   });
 
   // handles adding a project
@@ -64,18 +66,20 @@ function ProjectInfo({
     if (selectedProject) {
       // filters through and removes the selected project from formData
       const updatedProjects = formData.Projects.filter(
-        (project) => project.projectName !== selectedProject.projectName
+        (project) => project.title !== selectedProject.title
       );
       setProjects(updatedProjects);
       // resets the project to blank (project in this case is the selected project) also removes the project from the list of saved projects
       setFormData({
         ...formData,
         Project: {
-          projectName: "",
+          title: "",
           researchArea: "",
           funder: "",
           otherFunder: "",
           length: "",
+          type: "",
+          url: "",
         },
         Projects: updatedProjects,
       });
@@ -139,11 +143,13 @@ function ProjectInfo({
   // wipes project information
   const wipeProjectInfo = () => {
     setProjectInfo({
-      projectName: "",
+      title: "",
       researchArea: "",
       funder: "",
       otherFunder: "",
       length: "",
+      type: "",
+      url: "",
     });
   };
 
@@ -164,22 +170,21 @@ function ProjectInfo({
           <div className={`Projects__Output ${display && "background"}`}>
             <div className="Projects__OutputTop">
               <h3 className="main_question background">Selected project:</h3>
-              {selectedProjectType === "normal" && (
-                <div className="Projects__buttons">
-                  <button
-                    className={"forward Projects__Btn"}
-                    onClick={(e) => handleEdit(e)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className={"backward Projects__Btn"}
-                    onClick={(e) => handleRemove(e)}
-                  >
-                    Remove
-                  </button>
-                </div>
-              )}
+
+              <div className="Projects__buttons">
+                <button
+                  className={"forward Projects__Btn"}
+                  onClick={(e) => handleEdit(e)}
+                >
+                  Edit
+                </button>
+                <button
+                  className={"backward Projects__Btn"}
+                  onClick={(e) => handleRemove(e)}
+                >
+                  Remove
+                </button>
+              </div>
             </div>
             <div className="Projects__SelectedContainer">
               <section
@@ -193,7 +198,7 @@ function ProjectInfo({
                   Title:
                 </h2>
                 <p className="Projects__SelectedProjectContent">
-                  {selectedProject.projectName}
+                  {selectedProject.title}
                 </p>
               </section>
               <section
@@ -240,6 +245,32 @@ function ProjectInfo({
                     : "No length selected."}
                 </p>
               </section>
+              <section className="Results__Item" aria-labelledby="project-type">
+                <h2
+                  id="project-type"
+                  className="Projects__SelectedProjectHeading"
+                >
+                  Type:
+                </h2>
+                <p className="Projects__SelectedProjectContent">
+                  {selectedProject.type
+                    ? `${selectedProject.type}`
+                    : "No type selected."}
+                </p>
+              </section>
+              <section className="Results__Item" aria-labelledby="project-url">
+                <h2
+                  id="project-url"
+                  className="Projects__SelectedProjectHeading"
+                >
+                  Url:
+                </h2>
+                <p className="Projects__SelectedProjectContent">
+                  {selectedProject.url
+                    ? `${selectedProject.url}`
+                    : "No url selected."}
+                </p>
+              </section>
             </div>
           </div>
         </div>
@@ -254,7 +285,7 @@ function ProjectInfo({
 
     if (formData.orcidProjects.length !== 0) {
       titles = formData.orcidProjects.map((project) => {
-        return { value: project.projectName, label: project.projectName };
+        return { value: project.title, label: project.title };
       });
     }
 
@@ -270,7 +301,7 @@ function ProjectInfo({
     if (formData.Projects.length === 0) {
       return [];
     }
-    return formData.Projects.map((proj) => ({ value: proj.projectName }));
+    return formData.Projects.map((proj) => ({ value: proj.title }));
   };
 
   // handles clicking on the dropdown menu
@@ -282,13 +313,13 @@ function ProjectInfo({
     if (projectType === "normal") {
       setSelectedProjectType("normal");
       selected = formData.Projects.find(
-        (project) => project.projectName === selectedProjectTitle
+        (project) => project.title === selectedProjectTitle
       );
     }
     if (projectType === "orcid") {
       setSelectedProjectType("orcid");
       selected = formData.orcidProjects.find(
-        (project) => project.projectName === selectedProjectTitle
+        (project) => project.title === selectedProjectTitle
       );
     }
 
@@ -317,7 +348,7 @@ function ProjectInfo({
             placeholder="Orcid Projects"
             options={getOrcidTitles()}
             onChange={(e) => handleDropdownChange(e, "orcid")}
-            value={selectedProject?.projectName || ""}
+            value={selectedProject?.title || ""}
             aria-label="Select Orcid project"
           />
         )}
@@ -327,7 +358,7 @@ function ProjectInfo({
           placeholder="Projects"
           options={getTitles()}
           onChange={(e) => handleDropdownChange(e, "normal")}
-          value={selectedProject?.projectName || ""}
+          value={selectedProject?.title || ""}
           aria-label="Select project"
         />
         <button
