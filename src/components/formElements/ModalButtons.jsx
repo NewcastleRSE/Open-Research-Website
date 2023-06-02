@@ -6,7 +6,10 @@ const ModalButtons = (props) => {
       <button
         type="button"
         className="cancel float-left"
-        onClick={(e) => props.handleCancel(e)}
+        onClick={(e) => {
+          console.log("Cancel clicked");
+          props.handleCancel(e);
+        }}
       >
         Cancel
       </button>
@@ -14,7 +17,10 @@ const ModalButtons = (props) => {
       <button
         type="button"
         className="forward float-right"
-        onClick={(e) => props.handleSubmit(e)}
+        onClick={(e) => {
+          console.log("Submit clicked");
+          props.handleSubmit(e);
+        }}
       >
         Submit
       </button>

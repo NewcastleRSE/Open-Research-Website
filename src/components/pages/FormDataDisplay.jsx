@@ -1,3 +1,6 @@
+import { useEffect, useState, useRef } from "react";
+import React from "react";
+
 import DisplayArticleInfo from "../dataDisplay/DisplayArticleInfo";
 import DisplayCodeInfo from "../dataDisplay/DisplayCodeInfo";
 import DisplayDatasetInfo from "../dataDisplay/DisplayDatasetInfo";
@@ -9,8 +12,27 @@ import DisplayPreRegAnalysisInfo from "../dataDisplay/DisplayPreRegAnalysisInfo"
 import DisplayPreprintInfo from "../dataDisplay/DisplayPreprintInfo";
 import DisplayRegReportInfo from "../dataDisplay/DisplayRegReportInfo";
 import DisplayThesisInfo from "../dataDisplay/DisplayThesisInfo";
+import DisplayProtocolInfo from "../dataDisplay/DisplayProtocolInfo";
 
 const FormDataDisplay = ({ formData }) => {
+  const [expandedSections, setExpandedSections] = useState([
+    "Researcher",
+    "Project",
+    "Articles",
+    "Codes",
+    "Datasets",
+    "Digital Scholarships",
+    "Monographs",
+    "Materials",
+    "Protocols",
+    "Pre-prints",
+    "Peer Reviews",
+    "Pre-Reg Analyses",
+    "Registered Reports",
+    "Theses",
+  ]);
+  const sectionRefs = useRef({});
+  useEffect(() => {}), [formData];
   const field = (label, value) => {
     return (
       <div className="Results__Item">
@@ -25,115 +47,144 @@ const FormDataDisplay = ({ formData }) => {
   }
   const displaySectionInfo = (sectionName, sectionData) => {
     switch (sectionName) {
-      case "Article":
+      case "Researcher":
+      case "Project":
+        return (
+          <div className="Results__List">
+            {Object.entries(sectionData[0]).map(([key, value]) =>
+              field(key, value)
+            )}
+          </div>
+        );
+      case "Articles":
         return <DisplayArticleInfo articleData={sectionData} field={field} />;
-      case "Monograph":
+      case "Monographs":
         return (
           <DisplayMonographInfo monographData={sectionData} field={field} />
         );
-      case "Dataset":
+      case "Datasets":
         return <DisplayDatasetInfo datasetData={sectionData} field={field} />;
-      case "Code":
+      case "Codes":
         return <DisplayCodeInfo codeData={sectionData} field={field} />;
-      case "Research Material":
+      case "Materials":
         return <DisplayMaterialInfo materialData={sectionData} field={field} />;
-      case "Digital Scholarship":
+      case "Digital Scholarships":
         return (
           <DisplayDigitalScholarshipInfo
             digitalScholarshipData={sectionData}
             field={field}
           />
         );
-      case "Pre-print":
+      case "Protocols":
+        return <DisplayProtocolInfo protocolData={sectionData} field={field} />;
+      case "Pre-prints":
         return <DisplayPreprintInfo preprintData={sectionData} field={field} />;
-      case "Peer Review":
-        return <DisplayPeerRevInfo peerRevData={sectionData} field={field} />;
-      case "Pre-Reg Analysis":
+      case "Peer Reviews":
+        return (
+          <DisplayPeerRevInfo peerReviewData={sectionData} field={field} />
+        );
+      case "Pre-Reg Analyses":
         return (
           <DisplayPreRegAnalysisInfo
             preRegAnalysisData={sectionData}
             field={field}
           />
         );
-      case "Registered Report":
+      case "Registered Reports":
         return (
           <DisplayRegReportInfo regReportData={sectionData} field={field} />
         );
-      case "Thesis":
+      case "Theses":
         return <DisplayThesisInfo thesisData={sectionData} field={field} />;
     }
   };
 
-  {
-    //* For each section of the form. It automatically formats them into column sizes based on the number of items in the section. *//}
-    const section = (sectionName, sectionData) => {
-      return (
-        sectionData[0] && (
-          <div className="Results__SubContainer">
-            <h1 className="Results__Title">{sectionName} Details</h1>
-            <div
-              className={
-                sectionData.length % 2 === 0 || sectionData.length === 1
-                  ? "two-column-grid"
-                  : "three-column-grid"
-              }
-            >
-              {displaySectionInfo(sectionName, sectionData)}
-            </div>
-          </div>
-        )
-      );
+  const section = (sectionName, sectionData) => {
+    const isExpanded = expandedSections.includes(sectionName);
+
+    const handleClick = (sectionName) => {
+      if (expandedSections.includes(sectionName)) {
+        setExpandedSections(
+          expandedSections.filter((section) => section !== sectionName)
+        );
+      } else {
+        setExpandedSections([...expandedSections, sectionName]);
+      }
     };
 
     return (
-      <div className="Results__Container">
-        {/* Researcher Form Display */}
-        {formData.Researcher.fullName && (
-          <div className="Results__SubContainer">
-            <h1 className="Results__Title">Researcher Details</h1>
-            <div className="Results__List">
-              {field("Name", formData.Researcher.fullName)}
-              {field("Faculty", formData.Researcher.faculty)}
-              {field("School", formData.Researcher.school)}
-              {formData.Researcher.otherSchool &&
-                field("School", formData.Researcher.otherSchool)}
-              {field("Career Stage", formData.Researcher.careerStage)}
+      sectionData[0] && (
+        <div
+          className="Results__SubContainer"
+          ref={(el) => (sectionRefs.current[sectionName] = el)}
+        >
+          <button
+            className="Results__Dropdown"
+            onClick={() => handleClick(sectionName)}
+          >
+            <div className="Results__ButtonContent">
+              <h1 className="Results__Title">{sectionName}</h1>
+              <div className="arrow-container">
+                <span
+                  className={`accordion-arrow ${isExpanded ? "expanded" : ""}`}
+                >
+                  &#x25BC;
+                </span>
+              </div>
             </div>
-          </div>
-        )}
-        {/** Project Form Display */}
-        {formData.Project.projectName && (
-          <div className="Results__SubContainer">
-            <h1 className="Results__Title">Project Details</h1>
-            <div className="Results__List">
-              {field("Project Name", formData.Project.projectName)}
-              {field("Researcher Area", formData.Project.researchArea)}
-              {field("Funder", formData.Project.funder)}
-              {formData.Project.otherFunder &&
-                field("Other Funder", formData.Project.otherFunder)}
-              {field("Length(m)", formData.Project.length)}
-            </div>
-          </div>
-        )}
-        {/** Additional Sections Display */}
-        {formData.Article[0] && section("Article", formData.Article)}
-        {formData.Monograph[0] && section("Monograph", formData.Monograph)}
-        {formData.Dataset[0] && section("Dataset", formData.Dataset)}
-        {formData.Code[0] && section("Code", formData.Code)}
-        {formData.Material[0] && section("Material", formData.Material)}
-        {formData.Protocol[0] && section("Protocol", formData.Protocol)}
-        {formData.DigitalScholarship[0] &&
-          section("Digital Scholarship", formData.DigitalScholarship)}
-        {formData.Preprint[0] && section("Pre-print", formData.Preprint)}
-        {formData.PeerRev[0] && section("Peer Review", formData.PeerRev)}
-        {formData.PreRegAnalysis[0] &&
-          section("Pre-Reg Analysis", formData.PreRegAnalysis)}
-        {formData.RegReport[0] &&
-          section("Registered Report", formData.RegReport)}
-        {formData.Thesis[0] && section("Thesis", formData.Thesis)}
-      </div>
+          </button>
+
+          {isExpanded && (
+            <div>{displaySectionInfo(sectionName, sectionData)}</div>
+          )}
+        </div>
+      )
     );
-  }
+  };
+
+  return (
+    <div className="Results__Container">
+      {/* Researcher Form Display */}
+      {formData.Researcher.fullName &&
+        section("Researcher", [
+          {
+            Name: formData.Researcher.fullName,
+            Faculty: formData.Researcher.faculty,
+            School: formData.Researcher.school,
+            Stage: formData.Researcher.careerStage,
+            OrcidID: formData.Researcher.orcidID,
+          },
+        ])}
+      {/** Project Form Display */}
+      {formData.Project.projectName &&
+        section("Project", [
+          {
+            Title: formData.Project.projectName,
+            Area: formData.Project.researchArea || "No research area selected.",
+            Funder: formData.Project.funder || "No funder selected.",
+            Length: formData.Project.length
+              ? `${formData.Project.length} months`
+              : "No project length selected.",
+          },
+        ])}
+      {/** Additional Sections Display */}
+      {formData.Article[0] && section("Articles", formData.Article)}
+      {formData.Monograph[0] && section("Monographs", formData.Monograph)}
+      {formData.Dataset[0] && section("Datasets", formData.Dataset)}
+      {formData.Code[0] && section("Codes", formData.Code)}
+      {formData.Material[0] && section("Materials", formData.Material)}
+      {formData.Protocol[0] && section("Protocols", formData.Protocol)}
+      {formData.DigitalScholarship[0] &&
+        section("Digital Scholarships", formData.DigitalScholarship)}
+      {formData.Preprint[0] && section("Pre-prints", formData.Preprint)}
+      {formData.PeerRev[0] && section("Peer Reviews", formData.PeerRev)}
+      {formData.PreRegAnalysis[0] &&
+        section("Pre-Reg Analyses", formData.PreRegAnalysis)}
+      {formData.RegReport[0] &&
+        section("Registered Reports", formData.RegReport)}
+      {formData.Thesis[0] && section("Theses", formData.Thesis)}
+    </div>
+  );
 };
 
 export default FormDataDisplay;

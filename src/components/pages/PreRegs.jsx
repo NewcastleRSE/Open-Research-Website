@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-
+import { useState } from "react";
 import PreRegModal from "../formModals/PreRegModal";
 import validate from "../../validationRules/PreRegVR";
-import str2bool from "../../util/str2bool";
+import { v4 as uuidv4 } from "uuid";
+import React from "react";
 
 function PreRegs({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
+  const [editMode, setEditMode] = useState(false);
+  const [currPreReg, setCurrPreReg] = useState({});
 
   const [preRegInfo, setPreRegInfo] = useState({
     preRegTitle: "",
@@ -15,8 +17,18 @@ function PreRegs({ formData, setFormData, display, setDisplay }) {
 
   const handleClick = (e) => {
     e.preventDefault();
-
+    if (!editMode) {
+      wipePreRegInfo();
+    }
     setDisplay(!display);
+  };
+
+  const wipePreRegInfo = () => {
+    setPreRegInfo({
+      preRegTitle: "",
+      preRegURL: "",
+      preRegDistinction: false,
+    });
   };
 
   const handleSubmit = (e) => {
@@ -26,30 +38,37 @@ function PreRegs({ formData, setFormData, display, setDisplay }) {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      preRegInfo.preRegDistinction = str2bool(preRegInfo.preRegDistinction);
+      // preRegInfo.preRegDistinction = str2bool(preRegInfo.preRegDistinction);
 
-      formData.PreRegAnalysis.push(preRegInfo);
+      if (!editMode) {
+        setFormData({
+          ...formData,
+          PreRegAnalysis: [
+            ...formData.PreRegAnalysis,
+            { ...preRegInfo, id: uuidv4() },
+          ],
+        });
+      } else {
+        const updatedPreRegs = formData.PreRegAnalysis.map((i) =>
+          i.id === currPreReg.id ? preRegInfo : i
+        );
+        const updatedFormData = {
+          ...formData,
+          PreRegAnalysis: updatedPreRegs,
+        };
+        setFormData(updatedFormData);
+      }
 
-      setPreRegInfo({
-        preRegTitle: "",
-        preRegURL: "",
-        preRegDistinction: false,
-      });
-
+      wipePreRegInfo();
       setErrors({});
       setDisplay(!display);
+      setEditMode(false);
     }
   };
 
   const handleCancel = (e) => {
     e.preventDefault();
-
-    setPreRegInfo({
-      preRegTitle: "",
-      preRegURL: "",
-      preRegDistinction: false,
-    });
-
+    wipePreRegInfo();
     setErrors({});
     setDisplay(!display);
   };
@@ -63,6 +82,19 @@ function PreRegs({ formData, setFormData, display, setDisplay }) {
     setFormData({ ...formData, PreRegAnalysis: filteredArray });
   };
 
+  const handleEdit = (e, preReg) => {
+    e.preventDefault();
+
+    setCurrPreReg(preReg);
+
+    setPreRegInfo({
+      ...preReg,
+    });
+
+    setEditMode(true);
+    setDisplay(!display);
+  };
+
   return (
     <div>
       <div>
@@ -70,6 +102,12 @@ function PreRegs({ formData, setFormData, display, setDisplay }) {
         {formData.PreRegAnalysis.map((preReg, index) => (
           <div className="output-type row" key={index}>
             <h4 className="output-title col">{preReg.preRegTitle}</h4>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
+              <p onClick={(e) => handleEdit(e, preReg)}>Edit</p>
+            </span>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, preReg)}>Remove</p>
             </span>

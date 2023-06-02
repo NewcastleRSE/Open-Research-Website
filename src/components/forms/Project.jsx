@@ -19,10 +19,10 @@ const Project = ({
       </h3>
       <TextInput
         name="projectName"
-        placeholder="Project Name"
-        value={formData.projectName}
+        placeholder="Title"
+        value={formData.title}
         onChange={(event) =>
-          setFormData({ ...formData, projectName: event.target.value })
+          setFormData({ ...formData, title: event.target.value })
         }
         error={errors.projectName}
       />
@@ -35,20 +35,14 @@ const Project = ({
         }
         error={errors.researchArea}
       />
-      <DropDownOther
+      <TextInput
         name="funder"
         placeholder="Funder"
-        options={[{ value: "EPSRC" }, { value: "UKRI" }, { value: "AHRC" }]}
         value={formData.funder}
         onChange={(event) => {
           setFormData({ ...formData, funder: event.target.value });
         }}
-        otherValue={formData.otherFunder}
-        otherOnChange={(event) => {
-          setFormData({ ...formData, otherFunder: event.target.value });
-        }}
         error={errors.funder}
-        otherError={errors.otherFunder}
       />
       <div className="row">
         <NumberInput

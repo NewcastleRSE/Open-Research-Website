@@ -1,17 +1,18 @@
-import React, { useState } from "react";
-
+import { useState } from "react";
 import ArticleModal from "../formModals/ArticleModal";
 import validate from "../../validationRules/ArticleVR";
-import str2bool from "../../util/str2bool";
+import { v4 as uuidv4 } from "uuid";
+import React from "react";
 
 function MultipleArticle({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
+  const [editMode, setEditMode] = useState(false);
 
   const [articleInfo, setArticleInfo] = useState({
     articleTitle: "",
     articleURL: "",
     articleDOI: "",
-    articleEmbargo: false,
+    articleEmbargo: "",
     articleLicense: "",
   });
 
@@ -19,7 +20,9 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
 
   const handleClick = (e) => {
     e.preventDefault();
-
+    if (!editMode) {
+      wipeArticleInfo();
+    }
     setDisplay(!display);
   };
 
@@ -30,44 +33,53 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Passing validation
-      articleInfo.articleEmbargo = str2bool(articleInfo.articleEmbargo);
+      if (!editMode) {
+        setFormData({
+          ...formData,
+          Article: [
+            ...formData.Article,
+            { ...articleInfo, id: uuidv4() }, // Add a unique ID
+          ],
+        });
+      } else {
+        const updatedArticles = formData.Article.map((i) =>
+          i.id === currArticle.id ? articleInfo : i
+        );
+        const updatedFormData = {
+          ...formData,
+          Article: updatedArticles,
+        };
+        setFormData(updatedFormData);
+      }
 
-      formData.Article.push(articleInfo);
-
-      setArticleInfo({
-        articleTitle: "",
-        articleURL: "",
-        articleDOI: "",
-        articleEmbargo: false,
-        articleLicense: "",
-      });
-
+      wipeArticleInfo();
       setErrors({});
       setDisplay(!display);
+      setEditMode(false);
     }
+  };
+
+  const wipeArticleInfo = () => {
+    setArticleInfo({
+      articleTitle: "",
+      articleURL: "",
+      articleDOI: "",
+      articleEmbargo: "",
+      articleLicense: "",
+    });
   };
 
   const handleCancel = (e) => {
     e.preventDefault();
 
-    setArticleInfo({
-      articleTitle: "",
-      articleURL: "",
-      articleDOI: "",
-      articleEmbargo: false,
-      articleLicense: "",
-    });
-
+    wipeArticleInfo();
     setErrors({});
     setDisplay(!display);
   };
 
   const handleDelete = (e, article) => {
     e.preventDefault();
-
     let filteredArray = formData.Article.filter((item) => item !== article);
-
     setFormData({ ...formData, Article: filteredArray });
   };
 
@@ -76,18 +88,9 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
 
     setCurrArticle(article);
 
-    setArticleInfo({
-      articleTitle: article.articleTitle,
-      articleURL: article.articleURL,
-      articleDOI: article.articleDOI,
-      articleEmbargo: article.articleEmbargo,
-      articleLicense: article.articleLicense,
-    });
+    setArticleInfo({ ...article });
 
-    let filteredArray = formData.Article.filter((item) => item !== article);
-
-    setFormData({ ...formData, Article: filteredArray });
-
+    setEditMode(true);
     setDisplay(!display);
   };
 

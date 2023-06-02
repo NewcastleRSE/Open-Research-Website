@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-
+import { useState } from "react";
 import ThesisModal from "../formModals/ThesisModal";
 import validate from "../../validationRules/ThesesVR";
-import str2bool from "../../util/str2bool";
+import { v4 as uuidv4 } from "uuid";
+import React from "react";
 
 function Theses({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});
+  const [editMode, setEditMode] = useState(false);
+  const [currThesis, setCurrThesis] = useState({});
 
   const [thesesInfo, setThesesInfo] = useState({
     thesisTitle: "",
@@ -17,8 +19,20 @@ function Theses({ formData, setFormData, display, setDisplay }) {
 
   const handleClick = (e) => {
     e.preventDefault();
-
+    if (!editMode) {
+      wipeThesesInfo();
+    }
     setDisplay(!display);
+  };
+
+  const wipeThesesInfo = () => {
+    setThesesInfo({
+      thesisTitle: "",
+      thesisURL: "",
+      thesisDOI: "",
+      thesisEmbargo: false,
+      thesisLicense: "",
+    });
   };
 
   const handleSubmit = (e) => {
@@ -28,34 +42,34 @@ function Theses({ formData, setFormData, display, setDisplay }) {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      thesesInfo.thesisEmbargo = str2bool(thesesInfo.thesisEmbargo);
+      // thesesInfo.thesisEmbargo = str2bool(thesesInfo.thesisEmbargo);
 
-      formData.Thesis.push(thesesInfo);
+      if (!editMode) {
+        setFormData({
+          ...formData,
+          Thesis: [...formData.Thesis, { ...thesesInfo, id: uuidv4() }],
+        });
+      } else {
+        const updatedTheses = formData.Thesis.map((i) =>
+          i.id === currThesis.id ? thesesInfo : i
+        );
+        const updatedFormData = {
+          ...formData,
+          Thesis: updatedTheses,
+        };
+        setFormData(updatedFormData);
+      }
 
-      setThesesInfo({
-        thesisTitle: "",
-        thesisURL: "",
-        thesisDOI: "",
-        thesisEmbargo: false,
-        thesisLicense: "",
-      });
-
+      wipeThesesInfo();
       setErrors({});
       setDisplay(!display);
+      setEditMode(false);
     }
   };
 
   const handleCancel = (e) => {
     e.preventDefault();
-
-    setThesesInfo({
-      thesisTitle: "",
-      thesisURL: "",
-      thesisDOI: "",
-      thesisEmbargo: false,
-      thesisLicense: "",
-    });
-
+    wipeThesesInfo();
     setErrors({});
     setDisplay(!display);
   };
@@ -67,6 +81,19 @@ function Theses({ formData, setFormData, display, setDisplay }) {
     setFormData({ ...formData, Thesis: filteredArray });
   };
 
+  const handleEdit = (e, theses) => {
+    e.preventDefault();
+
+    setCurrThesis(theses);
+
+    setThesesInfo({
+      ...theses,
+    });
+
+    setEditMode(true);
+    setDisplay(!display);
+  };
+
   return (
     <div>
       <div>
@@ -74,6 +101,12 @@ function Theses({ formData, setFormData, display, setDisplay }) {
         {formData.Thesis.map((theses, index) => (
           <div className="output-type row" key={index}>
             <h4 className="output-title col">{theses.thesisTitle}</h4>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
+              <p onClick={(e) => handleEdit(e, theses)}>Edit</p>
+            </span>
             <span className="output-delete">
               <p onClick={(e) => handleDelete(e, theses)}>Remove</p>
             </span>
