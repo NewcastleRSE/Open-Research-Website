@@ -5,7 +5,6 @@ import axios from "axios";
 import FormData from "form-data";
 import fetchResearcherWorks from "../util/fetchResearcherWorks";
 import fetchResearcherFunding from "../util/fetchResearcherFunding";
-import processOrcidData from "../util/processOrcidData";
 import { useNavigate } from "react-router-dom";
 import ResearcherInfo from "./pages/ResearcherInfo";
 import FormBuilder from "./pages/FormBuilder";
@@ -72,7 +71,6 @@ function Form() {
       title: "",
       researchArea: "",
       funder: "",
-      otherFunder: "",
       length: "",
       type: "",
       url: "",
@@ -83,14 +81,16 @@ function Form() {
         title: "test",
         researchArea: "test",
         funder: "UKRI",
-        otherFunder: "",
+        type: "",
+        url: "",
         length: 2,
       },
       {
         title: "test2",
         researchArea: "test2",
         funder: "UKRI",
-        otherFunder: "",
+        type: "",
+        url: "",
         length: 3,
       },
     ],
@@ -547,22 +547,22 @@ function Form() {
   };
 
   // fetches the orcid data for an orcid id and puts into formData in the following format { projectName, projectID }. Need the projectID to get further information after the user has authenticated.
-  const fetchOrcidData = async () => {
-    try {
-      const data = await fetchResearcherFunding();
-      const processedData = processOrcidData(data);
-      setOrcidData(processedData);
-      const updatedFormData = {
-        ...formData,
-        orcidProjects: processedData,
-      };
-      setFormData(updatedFormData);
-      console.log(formData);
-      setLoaded(true);
-    } catch (error) {
-      console.error("Error fetching researcher works:", error);
-    }
-  };
+  // const fetchOrcidData = async () => {
+  //   try {
+  //     const data = await fetchResearcherFunding();
+  //     const processedData = processOrcidData(data);
+  //     setOrcidData(processedData);
+  //     const updatedFormData = {
+  //       ...formData,
+  //       orcidProjects: processedData,
+  //     };
+  //     setFormData(updatedFormData);
+  //     console.log(formData);
+  //     setLoaded(true);
+  //   } catch (error) {
+  //     console.error("Error fetching researcher works:", error);
+  //   }
+  // };
 
   function flattenObject(obj, parentKey = "", result = {}) {
     for (let key in obj) {
@@ -582,21 +582,25 @@ function Form() {
 
   const fetchOrcidRecord = async () => {
     try {
-      const data = await getUserOrcidInfo(navigate, researcherInfo.orcidID);
-      setUserOrcidRecord(data);
-      const flatData = flattenObject(data);
-      console.log("flatData", flatData);
-      const funding = await fetchResearcherFunding(
-        navigate,
-        researcherInfo.orcidID
-      );
-      const updatedFormData = {
-        ...formData,
-        orcidProjects: funding,
-      };
-      setFormData(updatedFormData);
-      console.log(formData);
-      console.log("funding", funding);
+      if (researcherInfo.orcidID) {
+        const data = await getUserOrcidInfo(navigate, researcherInfo.orcidID);
+        setUserOrcidRecord(data);
+        const flatData = flattenObject(data);
+        console.log("flatData", flatData);
+        const funding = await fetchResearcherFunding(
+          navigate,
+          researcherInfo.orcidID
+        );
+        console.log(formData.Projects);
+        const updatedFormData = {
+          ...formData,
+          orcidProjects: funding,
+          Projects: [...formData.Projects, ...funding],
+        };
+        setFormData(updatedFormData);
+        console.log(formData);
+        console.log("funding", funding);
+      }
     } catch (error) {
       console.error("Error fetching user orcid record.");
     }
@@ -604,7 +608,6 @@ function Form() {
 
   useEffect(() => {
     if (researcherInfo.orcidID) {
-      fetchOrcidData();
       fetchOrcidRecord();
     }
   }, [researcherInfo.orcidID]);

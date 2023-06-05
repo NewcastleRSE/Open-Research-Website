@@ -90,7 +90,7 @@ function getProjectLength(funding) {
   const yearsInMonths = years * 12;
   const months =
     funding["funding-summary"][0]["end-date"].month.value -
-    funding["funding-summary"][0]["start-date"].month;
+    funding["funding-summary"][0]["start-date"].month.value;
   return months + yearsInMonths;
 }
 

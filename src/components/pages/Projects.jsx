@@ -17,13 +17,12 @@ function ProjectInfo({
   const [projects, setProjects] = useState([]);
   const [errors, setErrors] = useState({});
   const [editMode, setEditMode] = useState(false);
-  const [selectedProjectType, setSelectedProjectType] = useState("");
+  const [selectedProjectType, setSelectedProjectType] = useState(null);
 
   const [projectInfo, setProjectInfo] = useState({
     title: "",
     researchArea: "",
     funder: "",
-    otherFunder: "",
     length: "",
     type: "",
     url: "",
@@ -31,56 +30,52 @@ function ProjectInfo({
 
   // handles adding a project
   const handleAddProject = (project) => {
-    // do not refactor - copys are created for immutability.
+    // Validate the project before updating
+    let newErrors = validateProject(project);
+    if (Object.keys(newErrors).length !== 0) {
+      setErrors(newErrors);
+      return;
+    }
     // update projects
-    const updatedProjects = [...projects, project];
-    setProjects(updatedProjects);
-    // update formData with the updated projects
-    const updatedFormData = { ...formData, Projects: updatedProjects };
-    setFormData(updatedFormData);
+    const updatedProjects = [...formData.Projects, project];
+    setFormData({ ...formData, Projects: updatedProjects });
   };
 
   // handles editing a project
   const handleEditProject = (project) => {
-    // search for the project that was being edited (selectedProject) in the list of projects (proj's) and updates it with the edited version (project) if it can find it
-    const updatedProjects = formData.Projects.map((proj) =>
-      JSON.stringify(proj) === JSON.stringify(selectedProject) ? project : proj
-    );
+    // Validate the project before updating
+    let newErrors = validateProject(project);
+    if (Object.keys(newErrors).length !== 0) {
+      setErrors(newErrors);
+      return;
+    }
 
-    // can now update the selected project with the edited version
+    // update selected project
     setSelectedProject(project);
-    // update the projects list
-    setProjects(updatedProjects);
-    // update formData then set it
-    const updatedFormData = {
-      ...formData,
-      Project: project,
-      Projects: updatedProjects,
-    };
-    setFormData(updatedFormData);
+
+    // update projects list
+    const updatedProjects = formData.Projects.map((proj) =>
+      areObjectsEqual(proj, selectedProject) ? project : proj
+    );
+    setFormData({ ...formData, Projects: updatedProjects });
   };
+
+  // Compares two objects for equality
+  function areObjectsEqual(obj1, obj2) {
+    return (
+      Object.keys(obj1).length === Object.keys(obj2).length &&
+      Object.keys(obj1).every((key) => obj1[key] === obj2[key])
+    );
+  }
 
   // handles removing a project
   const handleRemove = () => {
-    // if a project has been selected continue (safeguard)
     if (selectedProject) {
-      // filters through and removes the selected project from formData
       const updatedProjects = formData.Projects.filter(
-        (project) => project.title !== selectedProject.title
+        (project) => !areObjectsEqual(project, selectedProject)
       );
-      setProjects(updatedProjects);
-      // resets the project to blank (project in this case is the selected project) also removes the project from the list of saved projects
       setFormData({
         ...formData,
-        Project: {
-          title: "",
-          researchArea: "",
-          funder: "",
-          otherFunder: "",
-          length: "",
-          type: "",
-          url: "",
-        },
         Projects: updatedProjects,
       });
       setSelectedProject(null);
@@ -93,20 +88,15 @@ function ProjectInfo({
     if (selectedProject) {
       // need to ensure edit mode is enabled to ensure the correct formData is populated into the editting form
       setEditMode(true);
-      // update the project info to match the project that needs to be editted (this will ensure the form is filled out, ready to be edited)
+      // update the project info to match the project that needs to be edited (this will ensure the form is filled out, ready to be edited)
       setProjectInfo(selectedProject);
       handleClick(e);
     }
   };
 
   useEffect(() => {
-    fetchProjects();
-  }, [formData.projects]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // fetch normal projects
-  const fetchProjects = () => {
-    setProjects(formData.Projects);
-  };
+    setFormData({ ...formData, Projects: formData.Projects });
+  }, [formData.Projects]);
 
   // handles project form pop up
   const handleClick = (e) => {
@@ -132,12 +122,11 @@ function ProjectInfo({
       }
       // wipe the project info
       wipeProjectInfo();
+      // reset errors so they don't show again when the modal opens
+      setErrors({});
+      // hide the modal
+      setDisplay(!display);
     }
-
-    // reset errors so they don't show again when the modal opens
-    setErrors({});
-    // hide the modal
-    setDisplay(!display);
   };
 
   // wipes project information
@@ -146,7 +135,6 @@ function ProjectInfo({
       title: "",
       researchArea: "",
       funder: "",
-      otherFunder: "",
       length: "",
       type: "",
       url: "",
@@ -161,6 +149,13 @@ function ProjectInfo({
     setDisplay(!display);
   };
 
+  useEffect(() => {
+    const temp = [...projects];
+    formData.orcidProjects.map((project) => temp.push(project));
+    formData.Projects.map((project) => temp.push(project));
+    setProjects(temp);
+  }, [formData.orcidProjects, formData.projects]);
+
   // displays project information (selected project) below and allows the user to edit or remove the project
   const displayProject = () => {
     if (selectedProject) {
@@ -170,8 +165,7 @@ function ProjectInfo({
           <div className={`Projects__Output ${display && "background"}`}>
             <div className="Projects__OutputTop">
               <h3 className="main_question background">Selected project:</h3>
-
-              <div className="Projects__buttons">
+              <div className={`${display && "background"} Projects__buttons`}>
                 <button
                   className={"forward Projects__Btn"}
                   onClick={(e) => handleEdit(e)}
@@ -280,21 +274,21 @@ function ProjectInfo({
     }
   };
 
-  const getOrcidTitles = () => {
-    let titles;
+  // const getOrcidTitles = () => {
+  //   let titles;
 
-    if (formData.orcidProjects.length !== 0) {
-      titles = formData.orcidProjects.map((project) => {
-        return { value: project.title, label: project.title };
-      });
-    }
+  //   if (formData.orcidProjects.length !== 0) {
+  //     titles = formData.orcidProjects.map((project) => {
+  //       return { value: project.title, label: project.title };
+  //     });
+  //   }
 
-    if (titles) {
-      return titles;
-    } else {
-      return getTitles();
-    }
-  };
+  //   if (titles) {
+  //     return titles;
+  //   } else {
+  //     return getTitles();
+  //   }
+  // };
 
   // returns normal project titles
   const getTitles = () => {
@@ -341,7 +335,7 @@ function ProjectInfo({
         </h3>
       )}
       <div role="region" aria-labelledby="page-heading">
-        {formData.orcidProjects && (
+        {/* {formData.orcidProjects && (
           <DropDownWithSearch
             id="dropdown menu for your projects"
             name="project dropdown menu"
@@ -351,7 +345,7 @@ function ProjectInfo({
             value={selectedProject?.title || ""}
             aria-label="Select Orcid project"
           />
-        )}
+        )} */}
         <DropDownWithSearch
           id="dropdown menu for your projects"
           name="project dropdown menu"

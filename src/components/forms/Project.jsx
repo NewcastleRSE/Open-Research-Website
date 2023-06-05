@@ -18,13 +18,13 @@ const Project = ({
         Please fill with your details about your project
       </h3>
       <TextInput
-        name="projectName"
+        name="title"
         placeholder="Title"
         value={formData.title}
         onChange={(event) =>
           setFormData({ ...formData, title: event.target.value })
         }
-        error={errors.projectName}
+        error={errors.title}
       />
       <TextInput
         name="researchArea"
@@ -43,6 +43,24 @@ const Project = ({
           setFormData({ ...formData, funder: event.target.value });
         }}
         error={errors.funder}
+      />
+      <TextInput
+        name="type"
+        placeholder="Type of Funding"
+        value={formData.type}
+        onChange={(event) => {
+          setFormData({ ...formData, type: event.target.value });
+        }}
+        error={errors.type}
+      />
+      <TextInput
+        name="url"
+        placeholder="Link"
+        value={formData.url}
+        onChange={(event) => {
+          setFormData({ ...formData, url: event.target.value });
+        }}
+        error={errors.URL}
       />
       <div className="row">
         <NumberInput

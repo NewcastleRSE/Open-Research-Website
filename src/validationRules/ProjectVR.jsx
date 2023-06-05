@@ -1,14 +1,17 @@
+import validateURL from "../fieldValidation/URL";
+
 export default function validateProject({
-  projectName,
+  title,
   researchArea,
   funder,
-  otherFunder,
+  type,
+  url,
   length,
 }) {
   let errors = {};
 
-  if (!projectName) {
-    errors.projectName = "Required";
+  if (!title) {
+    errors.title = "Required";
   }
 
   if (!researchArea) {
@@ -17,10 +20,12 @@ export default function validateProject({
 
   if (!funder) {
     errors.funder = "Required";
-  } else if (funder === "other") {
-    if (!otherFunder) {
-      errors.otherFunder = "Required";
-    }
+  }
+
+  errors = validateURL(errors, url);
+
+  if (!type) {
+    errors.type = "Required";
   }
 
   if (!length) {
