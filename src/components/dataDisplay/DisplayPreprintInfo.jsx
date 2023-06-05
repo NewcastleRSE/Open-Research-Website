@@ -1,3 +1,4 @@
+import React from "react";
 const DisplayPreprintInfo = ({ preprintData, field }) => {
   return preprintData.map((preprint, index) => {
     return (

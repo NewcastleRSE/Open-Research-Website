@@ -1,3 +1,4 @@
+import React from "react";
 const Toggle = ({ text, onClick }) => {
   return (
     <div>

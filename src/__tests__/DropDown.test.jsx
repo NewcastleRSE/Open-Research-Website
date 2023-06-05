@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import DropDown from "../components/formElements/DropDown";
+import React from "react";
 
 describe("Dropdown input", () => {
   it("Should not be able to select the placeholder value as an option.", () => {

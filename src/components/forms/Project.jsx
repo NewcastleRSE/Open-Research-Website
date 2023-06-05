@@ -18,13 +18,13 @@ const Project = ({
         Please fill with your details about your project
       </h3>
       <TextInput
-        name="projectName"
-        placeholder="Project Name"
-        value={formData.projectName}
+        name="title"
+        placeholder="Title"
+        value={formData.title}
         onChange={(event) =>
-          setFormData({ ...formData, projectName: event.target.value })
+          setFormData({ ...formData, title: event.target.value })
         }
-        error={errors.projectName}
+        error={errors.title}
       />
       <TextInput
         name="researchArea"
@@ -35,20 +35,32 @@ const Project = ({
         }
         error={errors.researchArea}
       />
-      <DropDownOther
+      <TextInput
         name="funder"
         placeholder="Funder"
-        options={[{ value: "EPSRC" }, { value: "UKRI" }, { value: "AHRC" }]}
         value={formData.funder}
         onChange={(event) => {
           setFormData({ ...formData, funder: event.target.value });
         }}
-        otherValue={formData.otherFunder}
-        otherOnChange={(event) => {
-          setFormData({ ...formData, otherFunder: event.target.value });
-        }}
         error={errors.funder}
-        otherError={errors.otherFunder}
+      />
+      <TextInput
+        name="type"
+        placeholder="Type of Funding"
+        value={formData.type}
+        onChange={(event) => {
+          setFormData({ ...formData, type: event.target.value });
+        }}
+        error={errors.type}
+      />
+      <TextInput
+        name="url"
+        placeholder="Link"
+        value={formData.url}
+        onChange={(event) => {
+          setFormData({ ...formData, url: event.target.value });
+        }}
+        error={errors.URL}
       />
       <div className="row">
         <NumberInput

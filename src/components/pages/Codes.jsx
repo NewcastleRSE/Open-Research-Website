@@ -2,6 +2,7 @@ import { useState } from "react";
 import CodeModal from "../formModals/CodeModal";
 import validate from "../../validationRules/CodeVR";
 import { v4 as uuidv4 } from "uuid";
+import React from "react";
 
 function Codes({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});

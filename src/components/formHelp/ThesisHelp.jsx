@@ -1,3 +1,4 @@
+import React from "react";
 const ThesisHelp = ({}) => {
   return (
     <div className="help-text">

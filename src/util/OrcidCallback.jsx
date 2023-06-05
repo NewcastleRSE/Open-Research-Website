@@ -16,7 +16,6 @@ const OrcidCallback = () => {
         .then((response) => {
           const data = response.data;
           console.log(data);
-          console.log(data);
           // set local storage
           localStorage.setItem("orcidToken", data.accessToken);
           localStorage.setItem("orcidID", data.orcid);

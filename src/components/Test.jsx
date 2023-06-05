@@ -1,5 +1,6 @@
 import DisplayArticleInfo from "./dataDisplay/DisplayArticleInfo";
 import DisplayDatasetInfo from "./dataDisplay/DisplayDatasetInfo";
+import React from "react";
 
 import { useEffect, useState, useRef } from "react";
 const Test = () => {

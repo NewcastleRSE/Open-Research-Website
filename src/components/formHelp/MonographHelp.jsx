@@ -1,3 +1,4 @@
+import React from "react";
 const MonographHelp = ({}) => {
   return (
     <div className="help-text">

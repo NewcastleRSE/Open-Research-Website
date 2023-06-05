@@ -1,4 +1,6 @@
 import { useEffect, useState, useRef } from "react";
+import React from "react";
+
 import DisplayArticleInfo from "../dataDisplay/DisplayArticleInfo";
 import DisplayCodeInfo from "../dataDisplay/DisplayCodeInfo";
 import DisplayDatasetInfo from "../dataDisplay/DisplayDatasetInfo";
@@ -154,12 +156,14 @@ const FormDataDisplay = ({ formData }) => {
           },
         ])}
       {/** Project Form Display */}
-      {formData.Project.projectName &&
+      {formData.Project.title &&
         section("Project", [
           {
-            Title: formData.Project.projectName,
+            Title: formData.Project.title,
             Area: formData.Project.researchArea || "No research area selected.",
             Funder: formData.Project.funder || "No funder selected.",
+            Url: formData.Project.url || "No url selected.",
+            Type: formData.Project.type || "No type selected.",
             Length: formData.Project.length
               ? `${formData.Project.length} months`
               : "No project length selected.",

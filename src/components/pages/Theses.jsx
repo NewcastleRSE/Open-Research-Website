@@ -2,6 +2,7 @@ import { useState } from "react";
 import ThesisModal from "../formModals/ThesisModal";
 import validate from "../../validationRules/ThesesVR";
 import { v4 as uuidv4 } from "uuid";
+import React from "react";
 
 function Theses({ formData, setFormData, display, setDisplay }) {
   const [errors, setErrors] = useState({});

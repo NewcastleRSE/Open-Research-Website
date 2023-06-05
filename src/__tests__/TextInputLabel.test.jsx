@@ -1,18 +1,18 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 
-import TextInput from "../components/formElements/TextInput";
+import TextInputLabel from "../components/formElements/TextInputLabel";
 
-describe("Text input", () => {
+describe("Text input label", () => {
   test("On initial render value should be empty.", () => {
-    render(<TextInput name="fullname" placeholder="Full Name" />);
+    render(<TextInputLabel name="fullname" placeholder="Full Name" />);
 
     // check that the value is initially empty
     expect(screen.getByPlaceholderText(/full name/i).value).toEqual("");
   });
 
   test("User should be able to type into the textbox", () => {
-    render(<TextInput name="fullname" placeholder="Full Name" />);
+    render(<TextInputLabel name="fullname" placeholder="Full Name" />);
 
     // check that the value is initially empty
     expect(screen.getByPlaceholderText(/full name/i).value).toEqual("");

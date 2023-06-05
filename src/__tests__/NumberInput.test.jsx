@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import NumberInput from "../components/formElements/NumberInput";
+import React from "react";
 
 describe("Number Input", () => {
   test("On intial render it should be empty.", () => {

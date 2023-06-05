@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import React from "react";
 
 const DropDownWithSearchBar = (props) => {
   const [searchText, setSearchText] = useState("");
@@ -56,9 +57,10 @@ const DropDownWithSearchBar = (props) => {
           <div
             key={index}
             className="dropdown-option"
+            role="listitem"
             onClick={(event) => {
               event.target.value = option.value;
-              props.onChange(event);
+              props.onChange(event, option.value);
               setSearchText(option.value);
               setShowDropdown(false);
             }}

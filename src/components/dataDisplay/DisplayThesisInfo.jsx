@@ -1,3 +1,4 @@
+import React from "react";
 const DisplayThesisInfo = ({ thesisData, field }) => {
   return thesisData.map((thesis, index) => {
     return (
