@@ -17,7 +17,7 @@ function ProjectInfo({
   const [projects, setProjects] = useState([]);
   const [errors, setErrors] = useState({});
   const [editMode, setEditMode] = useState(false);
-  const [selectedProjectType, setSelectedProjectType] = useState(null);
+  const [selectedProjectType, setSelectedProjectType] = useState("orcid");
 
   const [projectInfo, setProjectInfo] = useState({
     title: "",
@@ -150,7 +150,7 @@ function ProjectInfo({
   };
 
   useEffect(() => {
-    const temp = [...projects];
+    const temp = [];
     formData.orcidProjects.map((project) => temp.push(project));
     formData.Projects.map((project) => temp.push(project));
     setProjects(temp);
@@ -292,10 +292,12 @@ function ProjectInfo({
 
   // returns normal project titles
   const getTitles = () => {
-    if (formData.Projects.length === 0) {
+    if (projects.length === 0) {
       return [];
     }
-    return formData.Projects.map((proj) => ({ value: proj.title }));
+    const temp = [];
+    projects.map((proj) => temp.push(proj.title));
+    return temp;
   };
 
   // handles clicking on the dropdown menu
@@ -304,18 +306,21 @@ function ProjectInfo({
     const selectedProjectTitle = e.target.value;
     let selected;
     // returns the first project it finds with the same project title
-    if (projectType === "normal") {
-      setSelectedProjectType("normal");
-      selected = formData.Projects.find(
-        (project) => project.title === selectedProjectTitle
-      );
-    }
-    if (projectType === "orcid") {
-      setSelectedProjectType("orcid");
-      selected = formData.orcidProjects.find(
-        (project) => project.title === selectedProjectTitle
-      );
-    }
+    selected = projects.find(
+      (project) => project.title === selectedProjectTitle
+    );
+    // if (projectType === "normal") {
+    //   setSelectedProjectType("normal");
+    //   selected = formData.Projects.find(
+    //     (project) => project.title === selectedProjectTitle
+    //   );
+    // }
+    // if (projectType === "orcid") {
+    //   setSelectedProjectType("orcid");
+    //   selected = formData.orcidProjects.find(
+    //     (project) => project.title === selectedProjectTitle
+    //   );
+    // }
 
     const updatedFormData = { ...formData, Project: selected };
     setFormData(updatedFormData);

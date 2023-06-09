@@ -36,32 +36,32 @@ const DropDownWithSearchBar = (props) => {
     // displays only the text which includes the search text as a substring
     props.options
       .filter((option) =>
-        option.value.toLowerCase().includes(searchText.toLowerCase())
+        option.toLowerCase().includes(searchText.toLowerCase())
       )
       // maps over the filtered options
       .map((option, index) => {
         // finds the first index of the search text in the option
-        const searchIndex = option.value
+        const searchIndex = option
           .toLowerCase()
           .indexOf(searchText.toLowerCase());
         // slice the option into three strings, a before match (everything up until the search text) a match (the search text) and an after match (everything after the search text)
-        const beforeMatch = option.value.slice(0, searchIndex);
-        const match = option.value.slice(
+        const beforeMatch = option.slice(0, searchIndex);
+        const match = option.slice(
           searchIndex,
           searchIndex + searchText.length
         );
-        const afterMatch = option.value.slice(searchIndex + searchText.length);
+        const afterMatch = option.slice(searchIndex + searchText.length);
 
-        // when a user clicks on an option is updates search input with the full dropdown option text (option.value), runs the onChange handler passed from the parent component, updates the search text and hides the dropdown options
+        // when a user clicks on an option is updates search input with the full dropdown option text, runs the onChange handler passed from the parent component, updates the search text and hides the dropdown options
         return (
           <div
             key={index}
             className="dropdown-option"
             role="listitem"
             onClick={(event) => {
-              event.target.value = option.value;
-              props.onChange(event, option.value);
-              setSearchText(option.value);
+              event.target.value = option;
+              props.onChange(event, option);
+              setSearchText(option);
               setShowDropdown(false);
             }}
           >

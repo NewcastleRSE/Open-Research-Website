@@ -1,4 +1,5 @@
 import axios from "axios";
+import flattenObject from "./flattenObject";
 
 async function fetchResearcherFunding(navigate, orcid) {
   try {
@@ -16,22 +17,6 @@ async function fetchResearcherFunding(navigate, orcid) {
   } catch (error) {
     console.error("Error getting user info:", error);
   }
-}
-
-function flattenObject(obj, parentKey = "", result = {}) {
-  for (let key in obj) {
-    let newKey = `${parentKey}${parentKey ? "." : ""}${key}`;
-    if (
-      typeof obj[key] === "object" &&
-      obj[key] !== null &&
-      !Array.isArray(obj[key])
-    ) {
-      flattenObject(obj[key], newKey, result);
-    } else {
-      result[newKey] = obj[key];
-    }
-  }
-  return result;
 }
 
 /* returns an object fully formatted like so:

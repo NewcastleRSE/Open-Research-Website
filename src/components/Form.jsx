@@ -12,6 +12,8 @@ import StepCounter from "./StepCounter";
 import LeftContent from "./pages/LeftContent";
 import Summary from "./pages/Summary";
 import getUserOrcidInfo from "../util/getUserOrcidInfo";
+import sortOrcidData from "../util/fetchingOrcidData/sortOrcidData";
+import flattenObject from "../util/flattenObject";
 
 import Projects from "./pages/Projects";
 import Articles from "./pages/Articles";
@@ -145,7 +147,9 @@ function Form() {
       leftStack.push(
         <LeftContent
           heading="Articles"
-          img="https://localhost:5173/Team_Presentation_Monochromatic.svg"
+          img={`${
+            import.meta.env.VITE_LOCAL_URL
+          }/Team_Presentation_Monochromatic.svg`}
           subtext="A research article is a journal article in which the authors report on the research they did. Research articles are always primary sources. Whether or not a research article is peer reviewed depends on the journal that publishes it."
         />
       );
@@ -437,7 +441,7 @@ function Form() {
         <div>
           <LeftContent
             heading="Open Research Tool"
-            img="https://localhost:5173/img/info_graphic_1.svg"
+            img={`${import.meta.env.VITE_LOCAL_URL}/img/info_graphic_1.svg`}
             subtext="Using this tool you can learn how to increase the openess of your research. As you fill out the forms on the right, our system will take all of your input and provide advise on how best you can increase it's openess. Please be honest and include as much information as possible so that we can provide you with an accurate assessment."
           />
         </div>
@@ -546,40 +550,6 @@ function Form() {
     }
   };
 
-  // fetches the orcid data for an orcid id and puts into formData in the following format { projectName, projectID }. Need the projectID to get further information after the user has authenticated.
-  // const fetchOrcidData = async () => {
-  //   try {
-  //     const data = await fetchResearcherFunding();
-  //     const processedData = processOrcidData(data);
-  //     setOrcidData(processedData);
-  //     const updatedFormData = {
-  //       ...formData,
-  //       orcidProjects: processedData,
-  //     };
-  //     setFormData(updatedFormData);
-  //     console.log(formData);
-  //     setLoaded(true);
-  //   } catch (error) {
-  //     console.error("Error fetching researcher works:", error);
-  //   }
-  // };
-
-  function flattenObject(obj, parentKey = "", result = {}) {
-    for (let key in obj) {
-      let newKey = `${parentKey}${parentKey ? "." : ""}${key}`;
-      if (
-        typeof obj[key] === "object" &&
-        obj[key] !== null &&
-        !Array.isArray(obj[key])
-      ) {
-        flattenObject(obj[key], newKey, result);
-      } else {
-        result[newKey] = obj[key];
-      }
-    }
-    return result;
-  }
-
   const fetchOrcidRecord = async () => {
     try {
       if (researcherInfo.orcidID) {
@@ -591,15 +561,16 @@ function Form() {
           navigate,
           researcherInfo.orcidID
         );
-        console.log(formData.Projects);
         const updatedFormData = {
           ...formData,
           orcidProjects: funding,
-          Projects: [...formData.Projects, ...funding],
         };
         setFormData(updatedFormData);
-        console.log(formData);
-        console.log("funding", funding);
+        const newFormData = await sortOrcidData(
+          formData,
+          flatData["activities-summary.works.group"]
+        );
+        console.log("newformdata", newFormData);
       }
     } catch (error) {
       console.error("Error fetching user orcid record.");
@@ -630,7 +601,7 @@ function Form() {
             <div className="content-left-wrapper">
               <a href="/" id="logo">
                 <img
-                  src="https://localhost:5173/img/ncl_logo.png"
+                  src={`${import.meta.env.VITE_LOCAL_URL}/img/ncl_logo.png`}
                   alt=""
                   width="48"
                   height="56"
@@ -665,7 +636,7 @@ function Form() {
                 {/*<!-- /middle-wizard -->*/}
                 <div id="bottom-wizard">
                   {/*<!-- This button is just for the development stage-->*/}
-                  <button
+                  {/* <button
                     type="button"
                     name="skip"
                     className={`skip backward
@@ -676,7 +647,7 @@ function Form() {
                     }}
                   >
                     Skip
-                  </button>
+                  </button> */}
                   <button
                     type="button"
                     name="backward"
