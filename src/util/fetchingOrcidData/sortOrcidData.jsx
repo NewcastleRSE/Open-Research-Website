@@ -87,19 +87,7 @@ const sortData = (works, formData) => {
       case "conference-poster":
         // add to relevant formData section
         break;
-      case "dictionary-entry":
-        // add to relevant formData section
-        break;
-      case "patent":
-        // add to relevant formData section
-        break;
       case "newsletter-article":
-        // add to relevant formData section
-        break;
-      case "software":
-        // add to relevant formData section
-        break;
-      case "conference-poster":
         // add to relevant formData section
         break;
       case "dictionary-entry":
@@ -107,9 +95,6 @@ const sortData = (works, formData) => {
         break;
       case "patent":
         // format then add to relevant formData section
-        break;
-      case "newsletter-article":
-        // add to relevant formData section
         break;
       case "software":
         console.log("software entry");
