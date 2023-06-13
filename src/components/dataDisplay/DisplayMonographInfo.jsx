@@ -1,7 +1,6 @@
 import React from "react";
 
 const DisplayMonographInfo = ({ monographData, field }) => {
-  console.log(monographData);
   return monographData.map((monograph, index) => {
     return (
       <div key={index} className="Results__List">

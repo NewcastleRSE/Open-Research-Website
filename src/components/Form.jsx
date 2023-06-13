@@ -531,8 +531,6 @@ function Form() {
         },
       };
 
-      console.log(data);
-
       await axios
         .post("http://localhost:1337/api/submissions", data, config)
         .then((res) => {
@@ -561,16 +559,13 @@ function Form() {
           navigate,
           researcherInfo.orcidID
         );
-        const updatedFormData = {
-          ...formData,
-          orcidProjects: funding,
-        };
-        setFormData(updatedFormData);
+        formData.orcidProjects = funding;
         const newFormData = await sortOrcidData(
           formData,
           flatData["activities-summary.works.group"]
         );
-        console.log("newformdata", newFormData);
+        setFormData(newFormData);
+        console.log(formData);
       }
     } catch (error) {
       console.error("Error fetching user orcid record.");

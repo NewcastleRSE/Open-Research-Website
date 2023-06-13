@@ -9,11 +9,13 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
   const [editMode, setEditMode] = useState(false);
 
   const [articleInfo, setArticleInfo] = useState({
-    articleTitle: "",
-    articleURL: "",
-    articleDOI: "",
-    articleEmbargo: "",
-    articleLicense: "",
+    title: "",
+    url: "",
+    doi: "",
+    type: "",
+    url: "",
+    embargo: "",
+    license: "",
   });
 
   const [currArticle, setCurrArticle] = useState({}); // eslint-disable-line no-unused-vars
@@ -34,12 +36,11 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
 
     if (Object.keys(newErrors).length === 0) {
       if (!editMode) {
+        let temp = { ...articleInfo };
+        temp.id = uuidv4(); // add a unique identifier
         setFormData({
           ...formData,
-          Article: [
-            ...formData.Article,
-            { ...articleInfo, id: uuidv4() }, // Add a unique ID
-          ],
+          Article: [...formData.Article, temp],
         });
       } else {
         const updatedArticles = formData.Article.map((i) =>
@@ -61,11 +62,13 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
 
   const wipeArticleInfo = () => {
     setArticleInfo({
-      articleTitle: "",
-      articleURL: "",
-      articleDOI: "",
-      articleEmbargo: "",
-      articleLicense: "",
+      title: "",
+      url: "",
+      doi: "",
+      type: "",
+      url: "",
+      embargo: "",
+      license: "",
     });
   };
 
@@ -94,13 +97,15 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
     setDisplay(!display);
   };
 
+  console.log(formData);
+
   return (
     <div>
       <div>
         <h2>Articles</h2>
         {formData.Article.map((article, index) => (
           <div className="output-type row" key={index}>
-            <h4 className="output-title col">{article.articleTitle}</h4>
+            <h4 className="output-title col">{article.title}</h4>
             <span
               className="output-edit"
               style={{ cursor: "pointer", marginRight: "1rem" }}

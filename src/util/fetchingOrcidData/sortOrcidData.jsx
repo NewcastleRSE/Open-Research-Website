@@ -1,21 +1,22 @@
 import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 // this function will take some formData and the users works and then return a formData object with the updated works.
 const sortOrcidData = async (formData, works) => {
-  console.log("formData", formData);
-  console.log("works", works);
   let updatedFormData = sortData(works, formData);
-  console.log(updatedFormData);
   return updatedFormData;
 };
 
-const sortData = (works, formData) => {
-  let newFormData = formData;
-  let entry;
-  let temp;
-  works.map((group) => {
+const sortData = (works, data) => {
+  let formData = JSON.parse(JSON.stringify(data));
+  works.forEach((group) => {
     const workSummary = group["work-summary"][0];
-    console.log(workSummary.type);
+    let entry = formatData(workSummary);
+    entry.id = uuidv4();
+    entry.embargo = "";
+    entry.license = "";
+    entry.doi = "";
+
     switch (workSummary.type) {
       case "research-tool":
         // format then add to relevant formData section
@@ -24,56 +25,41 @@ const sortData = (works, formData) => {
         // add to relevant formData section
         break;
       case "book":
-        entry = formatData(workSummary);
-        temp = {
-          ...newFormData,
-          Monograph: [...newFormData.Monograph, entry],
-        };
-        newFormData = temp;
+        entry.type = "Book";
+        if (!formData.Monograph.some((e) => e.projectID === entry.projectID)) {
+          formData.Monograph.push(entry);
+        }
         break;
       case "book-chapter":
-        // entry = formatData(workSummary);
-        // temp = {
-        //   ...newFormData,
-        //   Monograph: [...newFormData.Mongraph, entry],
-        // };
-        // setNewFormData(temp);
+        entry.type = "Book Chapter";
+        if (!formData.Monograph.some((e) => e.projectID === entry.projectID)) {
+          formData.Monograph.push(entry);
+        }
         break;
       case "dissertation-thesis":
-        // entry = formatData(workSummary);
-        // temp = {
-        //   ...newFormData,
-        //   Thesis: [...newFormData.Thesis, entry],
-        // };
-        // setNewFormData(temp);
+        if (!formData.Thesis.some((e) => e.projectID === entry.projectID)) {
+          formData.Thesis.push(entry);
+        }
         break;
       case "preprint":
-        // entry = formatData(workSummary);
-        // temp = {
-        //   ...newFormData,
-        //   Preprint: [...newFormData.Preprint, entry],
-        // };
-        // setNewFormData(temp);
+        if (!formData.Preprint.some((e) => e.projectID === entry.projectID)) {
+          formData.Preprint.push(entry);
+        }
         break;
       case "supervised-student-publication":
         // add to relevant formData section
         break;
       case "review":
-        entry = formatData(workSummary);
-        temp = {
-          ...newFormData,
-          PeerRev: [...newFormData.PeerRev, entry],
-        };
-        console.log("temp", temp);
-        newFormData = temp;
+        entry.type = "Review";
+        if (!formData.PeerRev.some((e) => e.projectID === entry.projectID)) {
+          formData.PeerRev.push(entry);
+        }
         break;
       case "journal-article":
-        // entry = formatData(workSummary);
-        // temp = {
-        //   ...newFormData,
-        //   Articles: [...newFormData.Articles, entry],
-        // };
-        // setNewFormData(temp);
+        entry.type = "Journal Article";
+        if (!formData.Article.some((e) => e.projectID === entry.projectID)) {
+          formData.Article.push(entry);
+        }
         break;
       case "invention":
         // add to relevant formData section
@@ -88,7 +74,10 @@ const sortData = (works, formData) => {
         // add to relevant formData section
         break;
       case "newsletter-article":
-        // add to relevant formData section
+        entry.type = "Newsletter Article";
+        if (!formData.Article.some((e) => e.projectID === entry.projectID)) {
+          formData.Article.push(entry);
+        }
         break;
       case "dictionary-entry":
         // add to relevant formData section
@@ -97,26 +86,28 @@ const sortData = (works, formData) => {
         // format then add to relevant formData section
         break;
       case "software":
-        console.log("software entry");
-        entry = formatData(workSummary);
-        console.log("entry", entry);
-        temp = {
-          ...newFormData,
-          Code: [...newFormData.Code, entry],
-        };
-        newFormData = temp;
+        entry.type = "Software";
+        if (!formData.Code.some((e) => e.projectID === entry.projectID)) {
+          formData.Code.push(entry);
+        }
         break;
       case "conference-abstract":
         // add to relevant formData section
         break;
       case "book-review":
-        // add to relevant formData section
+        entry.type = "Book Review";
+        if (!formData.Monograph.some((e) => e.projectID === entry.projectID)) {
+          formData.Monograph.push(entry);
+        }
         break;
       case "standards-and-policy":
         // add to relevant formData section
         break;
       case "data-set":
-        // add to relevant formData section
+        entry.type = "Dataset";
+        if (!formData.Dataset.some((e) => e.projectID === entry.projectID)) {
+          formData.Dataset.push(entry);
+        }
         break;
       case "research-technique":
         // add to relevant formData section
@@ -137,7 +128,10 @@ const sortData = (works, formData) => {
         // add to relevant formData section
         break;
       case "journal-issue":
-        // add to relevant formData section
+        entry.type = "Journal Issue";
+        if (!formData.Article.some((e) => e.projectID === entry.projectID)) {
+          formData.Article.push(entry);
+        }
         break;
       case "manual":
         // add to relevant formData section
@@ -155,7 +149,10 @@ const sortData = (works, formData) => {
         // add to relevant formData section
         break;
       case "magazine-article":
-        // format then add to relevant formData section
+        entry.type = "Magazine Article";
+        if (!formData.Article.some((e) => e.projectID === entry.projectID)) {
+          formData.Article.push(entry);
+        }
         break;
       case "website":
         // add to relevant formData section
@@ -181,11 +178,10 @@ const sortData = (works, formData) => {
     }
   });
 
-  return newFormData;
+  return formData;
 };
 
 const formatData = (workSummary) => {
-  console.log("workSummary", workSummary);
   const {
     title,
     "put-code": projectID = "",
@@ -194,15 +190,17 @@ const formatData = (workSummary) => {
   } = workSummary;
 
   const urlValue = url && url.value !== undefined ? url.value : "";
-  const titleValue = title && title.value !== undefined ? title.value : "";
+  const titleValue =
+    title && title.title.value !== undefined ? title.title.value : "";
 
-  const entry = {
-    title: { value: titleValue },
+  const formattedData = {
+    title: titleValue,
     projectID,
     type,
-    url: { value: urlValue },
+    url: urlValue,
   };
-  return entry;
+
+  return formattedData;
 };
 
 export default sortOrcidData;
