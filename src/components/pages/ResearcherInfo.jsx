@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import OrcidLinkButton from "../OrcidLinkButton";
-import getUserOrcidInfo from "../../util/getUserOrcidInfo";
+import getUserOrcidInfo from "../../util/fetchingOrcidData/getUserOrcidInfo";
 import React from "react";
 
 import DropDown from "../formElements/DropDown";

@@ -1,6 +1,7 @@
 import { useState } from "react";
-import PreprintModal from "../formModals/PreprintModal";
-import validate from "../../validationRules/PreprintsVR";
+import { PreprintModal } from "../formModals/Modals";
+import validate from "../../validationRules/Validation";
+
 import { v4 as uuidv4 } from "uuid";
 import React from "react";
 
@@ -10,11 +11,13 @@ function Preprints({ formData, setFormData, display, setDisplay }) {
   const [currPreprint, setCurrPreprint] = useState({});
 
   const [preprintInfo, setPreprintInfo] = useState({
-    preprintTitle: "",
-    preprintURL: "",
-    preprintDOI: "",
-    preprintLicense: "",
-    preprintRelease: false,
+    title: "",
+    url: "",
+    doi: "",
+    license: "",
+    release: false,
+    complete: true,
+    selected: true,
   });
 
   const handleClick = (e) => {
@@ -27,11 +30,13 @@ function Preprints({ formData, setFormData, display, setDisplay }) {
 
   const wipePreprintInfo = () => {
     setPreprintInfo({
-      preprintTitle: "",
-      preprintURL: "",
-      preprintDOI: "",
-      preprintLicense: "",
-      preprintRelease: false,
+      title: "",
+      url: "",
+      doi: "",
+      license: "",
+      release: false,
+      complete: true,
+      selected: true,
     });
   };
 
@@ -105,10 +110,22 @@ function Preprints({ formData, setFormData, display, setDisplay }) {
               className="output-edit"
               style={{ cursor: "pointer", marginRight: "1rem" }}
             >
+              {preprint.selected ? (
+                <p onClick={(e) => handleToggleEntry(e, preprint)}>Deselect</p>
+              ) : (
+                <p onClick={(e) => handleToggleEntry(e, preprint)}>Select</p>
+              )}
+            </span>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
               <p onClick={(e) => handleEdit(e, preprint)}>Edit</p>
             </span>
             <span className="output-delete">
-              <p onClick={(e) => handleDelete(e, preprint)}>Remove</p>
+              {!preprint.orcid && (
+                <p onClick={(e) => handleDelete(e, preprint)}>Delete</p>
+              )}
             </span>
           </div>
         ))}
@@ -128,6 +145,7 @@ function Preprints({ formData, setFormData, display, setDisplay }) {
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
         handleCancel={handleCancel}
+        handleSave={handleSave}
         errors={errors}
       />
     </div>

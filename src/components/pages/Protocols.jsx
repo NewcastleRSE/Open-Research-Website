@@ -1,6 +1,7 @@
 import { useState } from "react";
-import ProtocolModal from "../formModals/ProtocolModal";
-import validate from "../../validationRules/ProtocolVR";
+import { ProtocolModal } from "../formModals/Modals";
+import validate from "../../validationRules/Validation";
+
 import { v4 as uuidv4 } from "uuid";
 import React from "react";
 
@@ -9,16 +10,20 @@ function Protocols({ formData, setFormData, display, setDisplay }) {
   const [editMode, setEditMode] = useState(false);
   const [currProtocol, setCurrProtocol] = useState({});
   const [protocolInfo, setProtocolInfo] = useState({
-    protocolTitle: "",
-    protocolURL: "",
-    protocolSharing: "",
+    title: "",
+    url: "",
+    sharing: "",
+    complete: true,
+    selected: true,
   });
 
   const wipeInfo = () => {
     setProtocolInfo({
-      protocolTitle: "",
-      protocolURL: "",
-      protocolSharing: "",
+      title: "",
+      url: "",
+      sharing: "",
+      complete: true,
+      selected: true,
     });
   };
 
@@ -99,10 +104,22 @@ function Protocols({ formData, setFormData, display, setDisplay }) {
               className="output-edit"
               style={{ cursor: "pointer", marginRight: "1rem" }}
             >
+              {protocol.selected ? (
+                <p onClick={(e) => handleToggleEntry(e, protocol)}>Deselect</p>
+              ) : (
+                <p onClick={(e) => handleToggleEntry(e, protocol)}>Select</p>
+              )}
+            </span>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
               <p onClick={(e) => handleEdit(e, protocol)}>Edit</p>
             </span>
             <span className="output-delete">
-              <p onClick={(e) => handleDelete(e, protocol)}>Remove</p>
+              {!protocol.orcid && (
+                <p onClick={(e) => handleDelete(e, protocol)}>Delete</p>
+              )}
             </span>
           </div>
         ))}
@@ -122,6 +139,7 @@ function Protocols({ formData, setFormData, display, setDisplay }) {
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
         handleCancel={handleCancel}
+        handleSave={handleSave}
         errors={errors}
       />
     </div>

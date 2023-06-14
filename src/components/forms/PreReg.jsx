@@ -14,18 +14,18 @@ function PreReg({ formData, setFormData, handleCancel, handleSubmit, errors }) {
       <TextInput
         name="preRegTitle"
         placeholder="Pre-registration Analysis Plan Title"
-        value={formData.preRegTitle}
+        value={formData.title}
         onChange={(event) => {
-          setFormData({ ...formData, preRegTitle: event.target.value });
+          setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
       />
       <UrlInput
         name="preRegURL"
         placeholder="Pre-registration Analysis Plan URL"
-        value={formData.preRegURL}
+        value={formData.url}
         onChange={(event) => {
-          setFormData({ ...formData, preRegURL: event.target.value });
+          setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
       />
@@ -34,14 +34,14 @@ function PreReg({ formData, setFormData, handleCancel, handleSubmit, errors }) {
         label="Is there a clear distinction between the planned research and any unplanned reseach/ analysis that was conducted?"
         a="Yes"
         b="No"
-        value={formData.preRegDistinction}
+        value={formData.distinction}
         onChange={(event) => {
           setFormData({
             ...formData,
-            preRegDistinction: event.target.value,
+            distinction: event.target.value,
           });
         }}
-        error={errors.preRegDistinction}
+        error={errors.distinction}
       />
       <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
     </>

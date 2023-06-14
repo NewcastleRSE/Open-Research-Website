@@ -1,6 +1,6 @@
 import { useState } from "react";
-import ArticleModal from "../formModals/ArticleModal";
-import validate from "../../validationRules/ArticleVR";
+import { ArticleModal } from "../formModals/Modals";
+import validate from "../../validationRules/Validation";
 import { v4 as uuidv4 } from "uuid";
 import React from "react";
 
@@ -35,7 +35,7 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
 
     let newErrors = validate(articleInfo);
     setErrors(newErrors);
-
+    console.log(newErrors);
     if (Object.keys(newErrors).length === 0) {
       if (!editMode) {
         let temp = { ...articleInfo };
@@ -65,7 +65,7 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
 
   const handleSave = (e) => {
     e.preventDefault();
-    let newErrors = validate(articleInfo);
+    let newErrors = validate(articleInfo, "Articles");
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
       articleInfo.complete = true;

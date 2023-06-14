@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import generateFeedback from "../../util/generateFeedback";
+import generateFeedback from "../../util/helperFunctions/generateFeedback";
 
 function Summary({ formData }) {
   const [feedback, setFeedback] = useState("");

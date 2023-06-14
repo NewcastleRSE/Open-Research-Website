@@ -1,6 +1,7 @@
 import { useState } from "react";
-import MaterialModal from "../formModals/MaterialModal";
-import validate from "../../validationRules/MaterialVR";
+import { MaterialModal } from "../formModals/Modals";
+import validate from "../../validationRules/Validation";
+
 import { v4 as uuidv4 } from "uuid";
 import React from "react";
 
@@ -10,10 +11,12 @@ function Materials({ formData, setFormData, display, setDisplay }) {
   const [currMaterial, setCurrMaterial] = useState({});
 
   const [materialInfo, setMaterialInfo] = useState({
-    materialTitle: "",
-    materialURL: "",
-    materialReproduction: false,
-    materialRelease: false,
+    title: "",
+    url: "",
+    reproduction: false,
+    release: false,
+    complete: true,
+    selected: true,
   });
 
   const handleClick = (e) => {
@@ -26,10 +29,12 @@ function Materials({ formData, setFormData, display, setDisplay }) {
 
   const wipeMaterialInfo = () => {
     setMaterialInfo({
-      materialTitle: "",
-      materialURL: "",
-      materialReproduction: false,
-      materialRelease: false,
+      title: "",
+      url: "",
+      reproduction: false,
+      release: false,
+      complete: true,
+      selected: true,
     });
   };
 
@@ -105,10 +110,22 @@ function Materials({ formData, setFormData, display, setDisplay }) {
               className="output-edit"
               style={{ cursor: "pointer", marginRight: "1rem" }}
             >
+              {material.selected ? (
+                <p onClick={(e) => handleToggleEntry(e, material)}>Deselect</p>
+              ) : (
+                <p onClick={(e) => handleToggleEntry(e, material)}>Select</p>
+              )}
+            </span>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
               <p onClick={(e) => handleEdit(e, material)}>Edit</p>
             </span>
             <span className="output-delete">
-              <p onClick={(e) => handleDelete(e, material)}>Remove</p>
+              {!material.orcid && (
+                <p onClick={(e) => handleDelete(e, material)}>Delete</p>
+              )}
             </span>
           </div>
         ))}
@@ -128,6 +145,7 @@ function Materials({ formData, setFormData, display, setDisplay }) {
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
         handleCancel={handleCancel}
+        handleSave={handleSave}
         errors={errors}
       />
     </div>

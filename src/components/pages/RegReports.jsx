@@ -1,6 +1,7 @@
 import { useState } from "react";
-import RegReportModal from "../formModals/RegReportModal";
-import validate from "../../validationRules/RegReportVR";
+import { RegReportModal } from "../formModals/Modals";
+import validate from "../../validationRules/Validation";
+
 import { v4 as uuidv4 } from "uuid";
 import React from "react";
 
@@ -10,11 +11,13 @@ function RegReports({ formData, setFormData, display, setDisplay }) {
   const [currRegReport, setCurrRegReport] = useState({});
 
   const [regReportInfo, setRegReportInfo] = useState({
-    regReportTitle: "",
-    regReportURL: "",
-    regReportFunding: false,
-    regReportPeerRev: false,
-    regReportChanges: false,
+    title: "",
+    url: "",
+    funding: false,
+    peerRev: false,
+    reportChanges: false,
+    complete: true,
+    selected: true,
   });
 
   const handleClick = (e) => {
@@ -27,11 +30,13 @@ function RegReports({ formData, setFormData, display, setDisplay }) {
 
   const wipeRegReportInfo = () => {
     setRegReportInfo({
-      regReportTitle: "",
-      regReportURL: "",
-      regReportFunding: false,
-      regReportPeerRev: false,
-      regReportChanges: false,
+      title: "",
+      url: "",
+      funding: false,
+      peerRev: false,
+      reportChanges: false,
+      complete: true,
+      selected: true,
     });
   };
 
@@ -110,10 +115,22 @@ function RegReports({ formData, setFormData, display, setDisplay }) {
               className="output-edit"
               style={{ cursor: "pointer", marginRight: "1rem" }}
             >
+              {regReport.selected ? (
+                <p onClick={(e) => handleToggleEntry(e, regReport)}>Deselect</p>
+              ) : (
+                <p onClick={(e) => handleToggleEntry(e, regReport)}>Select</p>
+              )}
+            </span>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
               <p onClick={(e) => handleEdit(e, regReport)}>Edit</p>
             </span>
             <span className="output-delete">
-              <p onClick={(e) => handleDelete(e, regReport)}>Remove</p>
+              {!regReport.orcid && (
+                <p onClick={(e) => handleDelete(e, regReport)}>Delete</p>
+              )}
             </span>
           </div>
         ))}
@@ -133,6 +150,7 @@ function RegReports({ formData, setFormData, display, setDisplay }) {
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
         handleCancel={handleCancel}
+        handleSave={handleSave}
         errors={errors}
       />
     </div>

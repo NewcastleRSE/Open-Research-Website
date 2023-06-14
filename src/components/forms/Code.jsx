@@ -27,6 +27,7 @@ function CodeInfo({
   formData,
   setFormData,
   handleCancel,
+  handleSave,
   handleSubmit,
   errors,
 }) {
@@ -83,7 +84,7 @@ function CodeInfo({
         onChange={(event) => {
           setFormData({ ...formData, release: event.target.value });
         }}
-        error={errors.codeRelease}
+        error={errors.release}
       />
       <BooleanInput
         name="codeConf"
@@ -94,9 +95,13 @@ function CodeInfo({
         onChange={(event) => {
           setFormData({ ...formData, conf: event.target.value });
         }}
-        error={errors.codeConf}
+        error={errors.conf}
       />
-      <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      {formData.orcid ? (
+        <ModalButtons handleSave={handleSave} handleCancel={handleCancel} />
+      ) : (
+        <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      )}{" "}
     </>
   );
 }

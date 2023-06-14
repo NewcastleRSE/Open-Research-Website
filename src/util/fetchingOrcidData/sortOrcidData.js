@@ -7,6 +7,7 @@ const sortOrcidData = async (formData, works) => {
   return updatedFormData;
 };
 
+// takes the array of works and sorts them into the correct category in formData, in the correct format.
 const sortData = (works, data) => {
   let formData = JSON.parse(JSON.stringify(data));
   works.forEach((group) => {
@@ -22,15 +23,23 @@ const sortData = (works, data) => {
     entry.metaData = "";
     entry.fair = "";
     entry.format = "";
+    entry.reproduction = "";
+    entry.response = "";
+    entry.distinction = "";
+    entry.revResponse = "";
+    entry.reportChanges = "";
+    entry.peerRev = "";
+    entry.funding = "";
     entry.selected = false;
     entry.orcid = true;
 
+    // each case is a type of work that can be submitted to Orcid. Multiple may fit into different categories. Each case gives the entry a type and then adds it to the appropriate category in formData, if it's not already there.
     switch (workSummary.type) {
       case "research-tool":
-        // format then add to relevant formData section
+        entry.type = "Research Tool";
         break;
       case "license":
-        // add to relevant formData section
+        entry.type = "License";
         break;
       case "book":
         entry.type = "Book";
@@ -55,7 +64,7 @@ const sortData = (works, data) => {
         }
         break;
       case "supervised-student-publication":
-        // add to relevant formData section
+        entry.type = "Supervised Student Publication";
         break;
       case "review":
         entry.type = "Review";
@@ -70,16 +79,16 @@ const sortData = (works, data) => {
         }
         break;
       case "invention":
-        // add to relevant formData section
+        entry.type = "Invention";
         break;
       case "artistic-performance":
-        // format then add to relevant formData section
+        entry.type = "Artistic Performance";
         break;
       case "spin-off-company":
-        // add to relevant formData section
+        entry.type = "Spin Off Company";
         break;
       case "conference-poster":
-        // add to relevant formData section
+        entry.type = "Conference Poster";
         break;
       case "newsletter-article":
         entry.type = "Newsletter Article";
@@ -88,10 +97,10 @@ const sortData = (works, data) => {
         }
         break;
       case "dictionary-entry":
-        // add to relevant formData section
+        entry.type = "Dictionary Entry";
         break;
       case "patent":
-        // format then add to relevant formData section
+        entry.type = "Patent";
         break;
       case "software":
         entry.type = "Software";
@@ -101,7 +110,7 @@ const sortData = (works, data) => {
         }
         break;
       case "conference-abstract":
-        // add to relevant formData section
+        entry.type = "Conference Abstract";
         break;
       case "book-review":
         entry.type = "Book Review";
@@ -110,7 +119,7 @@ const sortData = (works, data) => {
         }
         break;
       case "standards-and-policy":
-        // add to relevant formData section
+        entry.type = "Standards and Policy";
         break;
       case "data-set":
         entry.type = "Dataset";
@@ -119,22 +128,22 @@ const sortData = (works, data) => {
         }
         break;
       case "research-technique":
-        // add to relevant formData section
+        entry.type = "Research Technique";
         break;
       case "other":
-        // add to relevant formData section
+        entry.type = "Other";
         break;
       case "technical-standard":
-        // add to relevant formData section
+        entry.type = "Technical Standard";
         break;
       case "data-management-plan":
-        // add to relevant formData section
+        entry.type = "Data Management Plan";
         break;
       case "trademark":
-        // add to relevant formData section
+        entry.type = "Trademark";
         break;
       case "translation":
-        // add to relevant formData section
+        entry.type = "Translation";
         break;
       case "journal-issue":
         entry.type = "Journal Issue";
@@ -143,19 +152,19 @@ const sortData = (works, data) => {
         }
         break;
       case "manual":
-        // add to relevant formData section
+        entry.type = "Manual";
         break;
       case "encylopedia-entry":
-        // add to relevant formData section
+        entry.type = "Encylopedia Entry";
         break;
       case "disclosure":
-        // add to relevant formData section
+        entry.type = "Disclosure";
         break;
       case "annotation":
-        // add to relevant formData section
+        entry.type = "Annotation";
         break;
       case "physical-object":
-        // add to relevant formData section
+        entry.type = "Physical Object";
         break;
       case "magazine-article":
         entry.type = "Magazine Article";
@@ -164,25 +173,25 @@ const sortData = (works, data) => {
         }
         break;
       case "website":
-        // add to relevant formData section
+        entry.type = "Website";
         break;
       case "lecture-speech":
-        // add to relevant formData section
+        entry.type = "Lecture Speech";
         break;
       case "conference-paper":
-        // add to relevant formData section
+        entry.type = "Conference Paper";
         break;
       case "online-resource":
-        // add to relevant formData section
+        entry.type = "Online Resource";
         break;
       case "edited-book":
-        // add to relevant formData section
+        entry.type = "Edited Book";
         break;
       case "registered-copyright":
-        // add to relevant formData section
+        entry.type = "Registered Copyright";
         break;
       case "test":
-        // add to relevant formData section
+        entry.type = "Test";
         break;
     }
   });
@@ -190,6 +199,7 @@ const sortData = (works, data) => {
   return formData;
 };
 
+// Formats the data by flattening it and makes a single depth object with a title, put-code, type and url.
 const formatData = (workSummary) => {
   const {
     title,

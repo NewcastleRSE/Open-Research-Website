@@ -1,6 +1,6 @@
 import { useState } from "react";
-import DatasetModal from "../formModals/DatasetModal";
-import validate from "../../validationRules/DataVR";
+import { DatasetModal } from "../formModals/Modals";
+import validate from "../../validationRules/Validation";
 import { v4 as uuidv4 } from "uuid";
 import React from "react";
 
@@ -19,6 +19,8 @@ function Datasets({ formData, setFormData, display, setDisplay }) {
     fair: "",
     release: "",
     conf: "",
+    complete: true,
+    selected: true,
   });
 
   const wipeData = () => {
@@ -32,6 +34,8 @@ function Datasets({ formData, setFormData, display, setDisplay }) {
       fair: "",
       release: "",
       conf: "",
+      complete: true,
+      selected: true,
     });
   };
 
@@ -78,6 +82,29 @@ function Datasets({ formData, setFormData, display, setDisplay }) {
     }
   };
 
+  const handleSave = (e) => {
+    e.preventDefault();
+    let newErrors = validate(datasetInfo);
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      datasetInfo.complete = true;
+      datasetInfo.selected = true;
+      const updatedDatasets = formData.Dataset.map((i) =>
+        i.id === currData.id ? datasetInfo : i
+      );
+      const updatedFormData = {
+        ...formData,
+        Dataset: updatedDatasets,
+      };
+      setFormData(updatedFormData);
+      console.log(formData);
+
+      wipeData();
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
   const handleCancel = (e) => {
     e.preventDefault();
 
@@ -106,6 +133,27 @@ function Datasets({ formData, setFormData, display, setDisplay }) {
     setFormData({ ...formData, Dataset: filteredArray });
   };
 
+  const handleToggleEntry = (e, dataset) => {
+    e.preventDefault();
+    setDatasetInfo(dataset);
+    setCurrData(dataset);
+    if (dataset.complete) {
+      const updatedDataset = formData.Dataset.map((i) =>
+        i.id === dataset.id
+          ? { ...i, selected: !i.selected, complete: true }
+          : i
+      );
+      const updatedFormData = {
+        ...formData,
+        Dataset: updatedDataset,
+      };
+      setFormData(updatedFormData);
+    } else {
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
   return (
     <div>
       <div>
@@ -117,10 +165,22 @@ function Datasets({ formData, setFormData, display, setDisplay }) {
               className="output-edit"
               style={{ cursor: "pointer", marginRight: "1rem" }}
             >
+              {dataset.selected ? (
+                <p onClick={(e) => handleToggleEntry(e, dataset)}>Deselect</p>
+              ) : (
+                <p onClick={(e) => handleToggleEntry(e, dataset)}>Select</p>
+              )}
+            </span>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
               <p onClick={(e) => handleEdit(e, dataset)}>Edit</p>
             </span>
             <span className="output-delete">
-              <p onClick={(e) => handleDelete(e, dataset)}>Remove</p>
+              {!dataset.orcid && (
+                <p onClick={(e) => handleDelete(e, dataset)}>Delete</p>
+              )}
             </span>
           </div>
         ))}
@@ -140,6 +200,7 @@ function Datasets({ formData, setFormData, display, setDisplay }) {
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
         handleCancel={handleCancel}
+        handleSave={handleSave}
         errors={errors}
       />
     </div>

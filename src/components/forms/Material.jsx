@@ -20,18 +20,18 @@ function Material({
       <TextInput
         name="materialTitle"
         placeholder="Material Title"
-        value={formData.materialTitle}
+        value={formData.title}
         onChange={(event) => {
-          setFormData({ ...formData, materialTitle: event.target.value });
+          setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
       />
       <UrlInput
         name="materialURL"
         placeholder="Material URL"
-        value={formData.materialURL}
+        value={formData.url}
         onChange={(event) => {
-          setFormData({ ...formData, materialURL: event.target.value });
+          setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
       />
@@ -40,25 +40,25 @@ function Material({
         label="Is all the material needed to reproduce the results freely availiable?"
         a="Yes"
         b="No"
-        value={formData.materialReproduction}
+        value={formData.reproduction}
         onChange={(event) => {
           setFormData({
             ...formData,
-            materialReproduction: event.target.value,
+            reproduction: event.target.value,
           });
         }}
-        error={errors.materialReproduction}
+        error={errors.reproduction}
       />
       <BooleanInput
         name="materialRelease"
         label="Was the material released at the time of the publication of the first paper based on the materials?"
         a="Yes"
         b="No"
-        value={formData.materialRelease}
+        value={formData.release}
         onChange={(event) => {
-          setFormData({ ...formData, materialRelease: event.target.value });
+          setFormData({ ...formData, release: event.target.value });
         }}
-        error={errors.materialRelease}
+        error={errors.release}
       />
       <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
     </>

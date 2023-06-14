@@ -1,18 +1,20 @@
 import { useEffect, useState, useRef } from "react";
 import React from "react";
 
-import DisplayArticleInfo from "../dataDisplay/DisplayArticleInfo";
-import DisplayCodeInfo from "../dataDisplay/DisplayCodeInfo";
-import DisplayDatasetInfo from "../dataDisplay/DisplayDatasetInfo";
-import DisplayDigitalScholarshipInfo from "../dataDisplay/DisplayDigitalScholarship";
-import DisplayMaterialInfo from "../dataDisplay/DisplayMaterialInfo";
-import DisplayMonographInfo from "../dataDisplay/DisplayMonographInfo";
-import DisplayPeerRevInfo from "../dataDisplay/DisplayPeerRevInfo";
-import DisplayPreRegAnalysisInfo from "../dataDisplay/DisplayPreRegAnalysisInfo";
-import DisplayPreprintInfo from "../dataDisplay/DisplayPreprintInfo";
-import DisplayRegReportInfo from "../dataDisplay/DisplayRegReportInfo";
-import DisplayThesisInfo from "../dataDisplay/DisplayThesisInfo";
-import DisplayProtocolInfo from "../dataDisplay/DisplayProtocolInfo";
+import {
+  DisplayArticleInfo,
+  DisplayCodeInfo,
+  DisplayDatasetInfo,
+  DisplayDigitalScholarshipInfo,
+  DisplayMaterialInfo,
+  DisplayMonographInfo,
+  DisplayPeerRevInfo,
+  DisplayPreRegAnalysisInfo,
+  DisplayPreprintInfo,
+  DisplayRegReportInfo,
+  DisplayThesisInfo,
+  DisplayProtocolInfo,
+} from "../dataDisplay/DisplayData";
 
 const FormDataDisplay = ({ formData }) => {
   const [expandedSections, setExpandedSections] = useState([
@@ -58,63 +60,36 @@ const FormDataDisplay = ({ formData }) => {
           </div>
         );
       case "Articles":
-        return (
-          <DisplayArticleInfo articleData={selectedSections} field={field} />
-        );
+        return <DisplayArticleInfo data={selectedSections} field={field} />;
       case "Monographs":
-        return (
-          <DisplayMonographInfo
-            monographData={selectedSections}
-            field={field}
-          />
-        );
+        return <DisplayMonographInfo data={selectedSections} field={field} />;
       case "Datasets":
-        return (
-          <DisplayDatasetInfo datasetData={selectedSections} field={field} />
-        );
+        return <DisplayDatasetInfo data={selectedSections} field={field} />;
       case "Codes":
-        return <DisplayCodeInfo codeData={selectedSections} field={field} />;
+        return <DisplayCodeInfo data={selectedSections} field={field} />;
       case "Materials":
-        return (
-          <DisplayMaterialInfo materialData={selectedSections} field={field} />
-        );
+        return <DisplayMaterialInfo data={selectedSections} field={field} />;
       case "Digital Scholarships":
         return (
           <DisplayDigitalScholarshipInfo
-            digitalScholarshipData={selectedSections}
+            data={selectedSections}
             field={field}
           />
         );
       case "Protocols":
-        return (
-          <DisplayProtocolInfo protocolData={selectedSections} field={field} />
-        );
+        return <DisplayProtocolInfo data={selectedSections} field={field} />;
       case "Pre-prints":
-        return (
-          <DisplayPreprintInfo preprintData={selectedSections} field={field} />
-        );
+        return <DisplayPreprintInfo data={selectedSections} field={field} />;
       case "Peer Reviews":
-        return (
-          <DisplayPeerRevInfo peerReviewData={selectedSections} field={field} />
-        );
+        return <DisplayPeerRevInfo data={selectedSections} field={field} />;
       case "Pre-Reg Analyses":
         return (
-          <DisplayPreRegAnalysisInfo
-            preRegAnalysisData={selectedSections}
-            field={field}
-          />
+          <DisplayPreRegAnalysisInfo data={selectedSections} field={field} />
         );
       case "Registered Reports":
-        return (
-          <DisplayRegReportInfo
-            regReportData={selectedSections}
-            field={field}
-          />
-        );
+        return <DisplayRegReportInfo data={selectedSections} field={field} />;
       case "Theses":
-        return (
-          <DisplayThesisInfo thesisData={selectedSections} field={field} />
-        );
+        return <DisplayThesisInfo data={selectedSections} field={field} />;
     }
   };
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
-import MonographModal from "../formModals/MonographModal";
-import validate from "../../validationRules/MonoVR";
+import { MonographModal } from "../formModals/Modals";
+import validate from "../../validationRules/Validation";
+
 import { v4 as uuidv4 } from "uuid";
 import React from "react";
 
@@ -10,11 +11,13 @@ function Monographs({ formData, setFormData, display, setDisplay }) {
   const [currMonograph, setCurrMonograph] = useState({});
 
   const [monographInfo, setMonographInfo] = useState({
-    monographTitle: "",
-    monographURL: "",
-    monographDOI: "",
-    monographEmbargo: false,
-    monographLicense: "",
+    title: "",
+    url: "",
+    doi: "",
+    embargo: false,
+    license: "",
+    complete: true,
+    selected: true,
   });
 
   const handleClick = (e) => {
@@ -27,11 +30,13 @@ function Monographs({ formData, setFormData, display, setDisplay }) {
 
   const wipeMonographInfo = () => {
     setMonographInfo({
-      monographTitle: "",
-      monographURL: "",
-      monographDOI: "",
-      monographEmbargo: false,
-      monographLicense: "",
+      title: "",
+      url: "",
+      doi: "",
+      embargo: false,
+      license: "",
+      complete: true,
+      selected: true,
     });
   };
 
@@ -107,10 +112,22 @@ function Monographs({ formData, setFormData, display, setDisplay }) {
               className="output-edit"
               style={{ cursor: "pointer", marginRight: "1rem" }}
             >
+              {monograph.selected ? (
+                <p onClick={(e) => handleToggleEntry(e, monograph)}>Deselect</p>
+              ) : (
+                <p onClick={(e) => handleToggleEntry(e, monograph)}>Select</p>
+              )}
+            </span>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
               <p onClick={(e) => handleEdit(e, monograph)}>Edit</p>
             </span>
             <span className="output-delete">
-              <p onClick={(e) => handleDelete(e, monograph)}>Remove</p>
+              {!monograph.orcid && (
+                <p onClick={(e) => handleDelete(e, monograph)}>Delete</p>
+              )}
             </span>
           </div>
         ))}
@@ -130,6 +147,7 @@ function Monographs({ formData, setFormData, display, setDisplay }) {
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
         handleCancel={handleCancel}
+        handleSave={handleSave}
         errors={errors}
       />
     </div>

@@ -1,7 +1,7 @@
 import React from "react";
 const ProtocolHelp = ({}) => {
   return (
-    <div className="text-help">
+    <div className="help-text">
       <p className="paragraph">
         A protocol describes a formal or official record of scientific
         experimental observations in a structured format should be made freely

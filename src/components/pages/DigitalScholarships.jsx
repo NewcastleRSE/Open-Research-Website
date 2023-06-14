@@ -1,6 +1,6 @@
 import { useState } from "react";
-import DigitalScholarshipModal from "../formModals/DigitalScholarshipModal";
-import validate from "../../validationRules/DigitalScholarshipVR";
+import { DigitalScholarshipModal } from "../formModals/Modals";
+import validate from "../../validationRules/Validation";
 import { v4 as uuidv4 } from "uuid";
 import React from "react";
 
@@ -9,14 +9,23 @@ function DigitalScholarships({ formData, setFormData, display, setDisplay }) {
   const [currDs, setCurrDs] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [dsInfo, setDSInfo] = useState({
-    dsTitle: "",
-    dsURL: "",
-    dsEmbargo: false,
-    dsLicense: "",
+    title: "",
+    url: "",
+    embargo: false,
+    license: "",
+    complete: true,
+    selected: true,
   });
 
   const wipeInfo = () => {
-    setDSInfo({ dsTitle: "", dsURL: "", dsEmbargo: false, dsLicense: "" });
+    setDSInfo({
+      title: "",
+      url: "",
+      embargo: false,
+      license: "",
+      complete: true,
+      selected: true,
+    });
   };
 
   const handleClick = (e) => {
@@ -102,10 +111,20 @@ function DigitalScholarships({ formData, setFormData, display, setDisplay }) {
               className="output-edit"
               style={{ cursor: "pointer", marginRight: "1rem" }}
             >
+              {ds.selected ? (
+                <p onClick={(e) => handleToggleEntry(e, ds)}>Deselect</p>
+              ) : (
+                <p onClick={(e) => handleToggleEntry(e, ds)}>Select</p>
+              )}
+            </span>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
               <p onClick={(e) => handleEdit(e, ds)}>Edit</p>
             </span>
             <span className="output-delete">
-              <p onClick={(e) => handleDelete(e, ds)}>Remove</p>
+              {!ds.orcid && <p onClick={(e) => handleDelete(e, ds)}>Delete</p>}
             </span>
           </div>
         ))}
@@ -125,6 +144,7 @@ function DigitalScholarships({ formData, setFormData, display, setDisplay }) {
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
         handleCancel={handleCancel}
+        handleSave={handleSave}
         errors={errors}
       />
     </div>

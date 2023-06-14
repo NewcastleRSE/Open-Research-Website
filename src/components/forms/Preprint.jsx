@@ -20,36 +20,36 @@ function Preprint({
       <TextInput
         name="preprintTitle"
         placeholder="Preprint Title"
-        value={formData.preprintTitle}
+        value={formData.title}
         onChange={(event) => {
-          setFormData({ ...formData, preprintTitle: event.target.value });
+          setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
       />
       <UrlInput
         name="preprintURL"
         placeholder="Preprint URL"
-        value={formData.preprintURL}
+        value={formData.url}
         onChange={(event) => {
-          setFormData({ ...formData, preprintURL: event.target.value });
+          setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
       />
       <TextInput
         name="preprintDOI"
         placeholder="Preprint DOI"
-        value={formData.preprintDOI}
+        value={formData.doi}
         onChange={(event) => {
-          setFormData({ ...formData, preprintDOI: event.target.value });
+          setFormData({ ...formData, doi: event.target.value });
         }}
         error={errors.DOI}
       />
       <TextInput
         name="preprintLicense"
         placeholder="Preprint License"
-        value={formData.preprintLicense}
+        value={formData.license}
         onChange={(event) => {
-          setFormData({ ...formData, preprintLicense: event.target.value });
+          setFormData({ ...formData, license: event.target.value });
         }}
       />
       <BooleanInput
@@ -57,11 +57,11 @@ function Preprint({
         label="Was the preprint released at the time of first submission to a journal?"
         a="Yes"
         b="No"
-        value={formData.preprintRelease}
+        value={formData.release}
         onChange={(event) => {
-          setFormData({ ...formData, preprintRelease: event.target.value });
+          setFormData({ ...formData, release: event.target.value });
         }}
-        error={errors.preprintRelease}
+        error={errors.release}
       />
       <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
     </>

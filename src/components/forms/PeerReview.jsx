@@ -20,18 +20,18 @@ function PeerReview({
       <TextInput
         name="peerRevTitle"
         placeholder="Peer Review Title"
-        value={formData.peerRevTitle}
+        value={formData.title}
         onChange={(event) => {
-          setFormData({ ...formData, peerRevTitle: event.target.value });
+          setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
       />
       <UrlInput
         name="peerRevURL"
         placeholder="Peer Review URL"
-        value={formData.peerRevURL}
+        value={formData.url}
         onChange={(event) => {
-          setFormData({ ...formData, peerRevURL: event.target.value });
+          setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
       />
@@ -40,11 +40,11 @@ function PeerReview({
         label="Does the peer review include the authors response?"
         a="Yes"
         b="No"
-        value={formData.peerRevResponse}
+        value={formData.revResponse}
         onChange={(event) => {
-          setFormData({ ...formData, peerRevResponse: event.target.value });
+          setFormData({ ...formData, revResponse: event.target.value });
         }}
-        error={errors.peerRevResponse}
+        error={errors.revResponse}
       />
       <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
     </>

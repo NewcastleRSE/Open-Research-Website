@@ -76,7 +76,7 @@ function Dataset({
             metaData: event.target.value,
           });
         }}
-        error={errors.dataMetadata}
+        error={errors.metaData}
       />
       <BooleanInput
         name="dataFair"
@@ -90,7 +90,7 @@ function Dataset({
             fair: event.target.value,
           });
         }}
-        error={errors.dataFair}
+        error={errors.fair}
       />
       <BooleanInput
         name="dataRelease"
@@ -104,7 +104,7 @@ function Dataset({
             release: event.target.value,
           });
         }}
-        error={errors.dataRelease}
+        error={errors.release}
       />
       <BooleanInput
         name="dataConf"
@@ -118,7 +118,7 @@ function Dataset({
             conf: event.target.value,
           });
         }}
-        error={errors.dataConf}
+        error={errors.conf}
       />
       <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
     </>

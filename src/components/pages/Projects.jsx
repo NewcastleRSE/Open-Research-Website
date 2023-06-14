@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import ProjectModal from "../formModals/ProjectModal";
+import { ProjectModal } from "../formModals/Modals";
 import DropDownWithSearch from "../formElements/DropDownWithSearch";
 import validateProject from "../../validationRules/ProjectVR";
 import React from "react";

@@ -1,6 +1,7 @@
 import { useState } from "react";
-import PeerReviewModal from "../formModals/PeerReviewModal";
-import validate from "../../validationRules/PeerReviewVR";
+import { PeerReviewModal } from "../formModals/Modals";
+import validate from "../../validationRules/Validation";
+
 import { v4 as uuidv4 } from "uuid";
 import React from "react";
 
@@ -10,9 +11,11 @@ function PeerReviews({ formData, setFormData, display, setDisplay }) {
   const [currPeerRev, setCurrPeerRev] = useState({});
 
   const [peerRevInfo, setPeerRevInfo] = useState({
-    peerRevTitle: "",
-    peerRevURL: "",
-    peerRevResponse: false,
+    title: "",
+    url: "",
+    revResponse: false,
+    complete: true,
+    selected: true,
   });
 
   const handleClick = (e) => {
@@ -25,9 +28,11 @@ function PeerReviews({ formData, setFormData, display, setDisplay }) {
 
   const wipePeerRevInfo = () => {
     setPeerRevInfo({
-      peerRevTitle: "",
-      peerRevURL: "",
-      peerRevResponse: false,
+      title: "",
+      url: "",
+      revResponse: false,
+      complete: true,
+      selected: true,
     });
   };
 
@@ -101,10 +106,22 @@ function PeerReviews({ formData, setFormData, display, setDisplay }) {
               className="output-edit"
               style={{ cursor: "pointer", marginRight: "1rem" }}
             >
+              {peerRev.selected ? (
+                <p onClick={(e) => handleToggleEntry(e, peerRev)}>Deselect</p>
+              ) : (
+                <p onClick={(e) => handleToggleEntry(e, peerRev)}>Select</p>
+              )}
+            </span>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
               <p onClick={(e) => handleEdit(e, peerRev)}>Edit</p>
             </span>
             <span className="output-delete">
-              <p onClick={(e) => handleDelete(e, peerRev)}>Remove</p>
+              {!peerRev.orcid && (
+                <p onClick={(e) => handleDelete(e, peerRev)}>Delete</p>
+              )}
             </span>
           </div>
         ))}
@@ -124,6 +141,7 @@ function PeerReviews({ formData, setFormData, display, setDisplay }) {
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
         handleCancel={handleCancel}
+        handleSave={handleSave}
         errors={errors}
       />
     </div>

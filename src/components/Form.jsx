@@ -3,18 +3,15 @@ import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import FormData from "form-data";
-import fetchResearcherWorks from "../util/fetchResearcherWorks";
-import fetchResearcherFunding from "../util/fetchResearcherFunding";
 import { useNavigate } from "react-router-dom";
-import ResearcherInfo from "./pages/ResearcherInfo";
-import FormBuilder from "./pages/FormBuilder";
-import StepCounter from "./StepCounter";
-import LeftContent from "./pages/LeftContent";
-import Summary from "./pages/Summary";
-import getUserOrcidInfo from "../util/getUserOrcidInfo";
-import sortOrcidData from "../util/fetchingOrcidData/sortOrcidData";
-import flattenObject from "../util/flattenObject";
 
+// Util
+import getUserOrcidInfo from "../util/fetchingOrcidData/getUserOrcidInfo";
+import sortOrcidData from "../util/fetchingOrcidData/sortOrcidData";
+import flattenObject from "../util/helperFunctions/flattenObject";
+import fetchResearcherFunding from "../util/fetchingOrcidData/fetchResearcherFunding";
+
+// Components
 import Projects from "./pages/Projects";
 import Articles from "./pages/Articles";
 import Monographs from "./pages/Monographs";
@@ -28,11 +25,17 @@ import PeerReviews from "./pages/PeerReviews";
 import PreRegs from "./pages/PreRegs";
 import RegReports from "./pages/RegReports";
 import Theses from "./pages/Theses";
-
-import validateResearcher from "../validationRules/ResearcherVR";
-import validateBuilder from "../validationRules/BuilderVR";
 import SuccessModal from "./SuccessModal";
 import FormDataDisplay from "./pages/FormDataDisplay";
+import ResearcherInfo from "./pages/ResearcherInfo";
+import LeftContent from "./pages/LeftContent";
+import Summary from "./pages/Summary";
+import FormBuilder from "./pages/FormBuilder";
+import StepCounter from "./StepCounter";
+
+// Validation
+import validateResearcher from "../validationRules/ResearcherVR";
+import validateBuilder from "../validationRules/BuilderVR";
 
 function Form() {
   const [page, setPage] = useState(0);

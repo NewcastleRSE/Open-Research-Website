@@ -1,8 +1,8 @@
 import React from "react";
 const ProjectHelp = ({}) => {
   return (
-    <div>
-      <p>
+    <div className="help-text">
+      <p className="paragraph">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
         mattis tincidunt ipsum, et ultrices nisl feugiat eget. Maecenas et dui
         aliquet, euismod risus in, iaculis erat. Nulla mollis suscipit ligula ut
@@ -12,7 +12,7 @@ const ProjectHelp = ({}) => {
         dapibus tellus.
       </p>
 
-      <p>
+      <p className="paragraph">
         Curabitur scelerisque, nunc sodales dictum auctor, est neque rhoncus
         sem, nec luctus lacus metus non libero. Mauris eget maximus enim.
         Quisque vitae nunc vel purus tempus feugiat sed vitae lorem. Proin

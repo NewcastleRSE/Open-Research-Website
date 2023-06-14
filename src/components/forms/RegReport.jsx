@@ -19,18 +19,18 @@ function RegReport({
       <TextInput
         name="regReportTitle"
         placeholder="Registered Report Title"
-        value={formData.regReportTitle}
+        value={formData.title}
         onChange={(event) => {
-          setFormData({ ...formData, regReportTitle: event.target.value });
+          setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
       />
       <UrlInput
         name="regReportURL"
         placeholder="Registered Report URL"
-        value={formData.regReportURL}
+        value={formData.url}
         onChange={(event) => {
-          setFormData({ ...formData, regReportURL: event.target.value });
+          setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
       />
@@ -40,14 +40,14 @@ function RegReport({
         of the funded research will be submitted as a registered report?"
         a="Yes"
         b="No"
-        value={formData.regReportFunding}
+        value={formData.funding}
         onChange={(event) => {
           setFormData({
             ...formData,
-            regReportFunding: event.target.value,
+            funding: event.target.value,
           });
         }}
-        error={errors.regReportFunding}
+        error={errors.funding}
       />
       <BooleanInput
         name="regReportPeerRev"
@@ -55,14 +55,14 @@ function RegReport({
         time for the peer-review process in the project time-line documentation?"
         a="Yes"
         b="No"
-        value={formData.regReportPeerRev}
+        value={formData.peerRev}
         onChange={(event) => {
           setFormData({
             ...formData,
-            regReportPeerRev: event.target.value,
+            peerRev: event.target.value,
           });
         }}
-        error={errors.regReportPeerRev}
+        error={errors.peerRev}
       />
       <BooleanInput
         name="regReportChanges"
@@ -70,14 +70,14 @@ function RegReport({
         procedural changes that occurred as a result of peer-review feedback to the funder?"
         a="Yes"
         b="No"
-        value={formData.regReportChanges}
+        value={formData.changes}
         onChange={(event) => {
           setFormData({
             ...formData,
-            regReportChanges: event.target.value,
+            changes: event.target.value,
           });
         }}
-        error={errors.regReportChanges}
+        error={errors.changes}
       />
       <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
     </>

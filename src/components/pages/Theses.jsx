@@ -1,6 +1,6 @@
 import { useState } from "react";
-import ThesisModal from "../formModals/ThesisModal";
-import validate from "../../validationRules/ThesesVR";
+import { ThesisModal } from "../formModals/Modals";
+import validate from "../../validationRules/Validation";
 import { v4 as uuidv4 } from "uuid";
 import React from "react";
 
@@ -10,11 +10,13 @@ function Theses({ formData, setFormData, display, setDisplay }) {
   const [currThesis, setCurrThesis] = useState({});
 
   const [thesesInfo, setThesesInfo] = useState({
-    thesisTitle: "",
-    thesisURL: "",
-    thesisDOI: "",
-    thesisEmbargo: false,
-    thesisLicense: "",
+    title: "",
+    url: "",
+    doi: "",
+    embargo: false,
+    license: "",
+    complete: true,
+    selected: true,
   });
 
   const handleClick = (e) => {
@@ -27,11 +29,13 @@ function Theses({ formData, setFormData, display, setDisplay }) {
 
   const wipeThesesInfo = () => {
     setThesesInfo({
-      thesisTitle: "",
-      thesisURL: "",
-      thesisDOI: "",
-      thesisEmbargo: false,
-      thesisLicense: "",
+      title: "",
+      url: "",
+      doi: "",
+      embargo: false,
+      license: "",
+      complete: true,
+      selected: true,
     });
   };
 
@@ -105,10 +109,22 @@ function Theses({ formData, setFormData, display, setDisplay }) {
               className="output-edit"
               style={{ cursor: "pointer", marginRight: "1rem" }}
             >
+              {theses.selected ? (
+                <p onClick={(e) => handleToggleEntry(e, theses)}>Deselect</p>
+              ) : (
+                <p onClick={(e) => handleToggleEntry(e, theses)}>Select</p>
+              )}
+            </span>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
               <p onClick={(e) => handleEdit(e, theses)}>Edit</p>
             </span>
             <span className="output-delete">
-              <p onClick={(e) => handleDelete(e, theses)}>Remove</p>
+              {!theses.orcid && (
+                <p onClick={(e) => handleDelete(e, theses)}>Delete</p>
+              )}
             </span>
           </div>
         ))}
@@ -128,6 +144,7 @@ function Theses({ formData, setFormData, display, setDisplay }) {
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
         handleCancel={handleCancel}
+        handleSave={handleSave}
         errors={errors}
       />
     </div>

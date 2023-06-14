@@ -19,18 +19,18 @@ function Protocol({
       <TextInput
         name="protocolTitle"
         placeholder="Protocol Title"
-        value={formData.protocolTitle}
+        value={formData.protocolTtitleitle}
         onChange={(event) => {
-          setFormData({ ...formData, protocolTitle: event.target.value });
+          setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
       />
       <TextInput
         name="protocolURL"
         placeholder="Protocol URL"
-        value={formData.protocolURL}
+        value={formData.url}
         onChange={(event) => {
-          setFormData({ ...formData, protocolURL: event.target.value });
+          setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
       />
@@ -39,11 +39,11 @@ function Protocol({
         label="Does it facilitate sharing, editing, forking, and further development?"
         a="Yes"
         b="No"
-        value={formData.protocolSharing}
+        value={formData.sharing}
         onChange={(event) => {
-          setFormData({ ...formData, protocolSharing: event.target.value });
+          setFormData({ ...formData, sharing: event.target.value });
         }}
-        error={errors.protocolSharing}
+        error={errors.sharing}
       />
       <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
     </>

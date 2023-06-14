@@ -18,38 +18,38 @@ function Monograph({
       <TextInput
         name="monographTitle"
         placeholder="Monograph Title"
-        value={formData.monographTitle}
+        value={formData.title}
         onChange={(event) => {
-          setFormData({ ...formData, monographTitle: event.target.value });
+          setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
       />
       <UrlInput
         name="monographURL"
         placeholder="Monograph URL"
-        value={formData.monographURL}
+        value={formData.url}
         onChange={(event) => {
-          setFormData({ ...formData, monographURL: event.target.value });
+          setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
       />
       <TextInput
         name="monographDOI"
         placeholder="Monograph DOI"
-        value={formData.monographDOI}
+        value={formData.doi}
         onChange={(event) => {
-          setFormData({ ...formData, monographDOI: event.target.value });
+          setFormData({ ...formData, doi: event.target.value });
         }}
         error={errors.DOI}
       />
       <TextInput
         name="monographLicense"
         placeholder="License"
-        value={formData.monographLicense}
+        value={formData.license}
         onChange={(event) => {
           setFormData({
             ...formData,
-            monographLicense: event.target.value,
+            license: event.target.value,
           });
         }}
         error={errors.license}
@@ -59,11 +59,11 @@ function Monograph({
         label="Was there an embargo period?"
         a="Yes"
         b="No"
-        value={formData.monographEmbargo}
+        value={formData.embargo}
         onChange={(event) => {
           setFormData({
             ...formData,
-            monographEmbargo: event.target.value,
+            embargo: event.target.value,
           });
         }}
         error={errors.embargo}

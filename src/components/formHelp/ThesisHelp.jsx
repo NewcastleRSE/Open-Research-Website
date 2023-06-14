@@ -9,7 +9,7 @@ const ThesisHelp = ({}) => {
         perspective of the emerging generation of scholars.
       </p>
 
-      <p className="referene">
+      <p className="reference">
         Reference: National Academies of Sciences, Engineering, and Medicine
         2021. Developing a Toolkit for Fostering Open Science Practices:
         Proceedings of a Workshop. Washington, DC: The National Academies Press.

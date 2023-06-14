@@ -1,7 +1,7 @@
 import React from "react";
 const PreprintHelp = ({}) => {
   return (
-    <div className="text-help">
+    <div className="help-text">
       <p className="paragraph">
         Preprints allow research findings to be quickly and easily available to
         all and allows researchers to claim priority of discovery, receive

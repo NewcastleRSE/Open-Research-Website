@@ -1,6 +1,6 @@
 import { useState } from "react";
-import CodeModal from "../formModals/CodeModal";
-import validate from "../../validationRules/CodeVR";
+import { CodeModal } from "../formModals/Modals";
+import validate from "../../validationRules/Validation";
 import { v4 as uuidv4 } from "uuid";
 import React from "react";
 
@@ -17,6 +17,8 @@ function Codes({ formData, setFormData, display, setDisplay }) {
     license: "",
     release: "",
     conf: "",
+    selected: true,
+    complete: true,
   });
 
   const handleClick = (e) => {
@@ -36,6 +38,8 @@ function Codes({ formData, setFormData, display, setDisplay }) {
       license: "",
       release: "",
       conf: "",
+      selected: true,
+      completed: true,
     });
   };
 
@@ -72,6 +76,29 @@ function Codes({ formData, setFormData, display, setDisplay }) {
     }
   };
 
+  const handleSave = (e) => {
+    e.preventDefault();
+    let newErrors = validate(codeInfo);
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      codeInfo.complete = true;
+      codeInfo.selected = true;
+      const updatedCode = formData.Code.map((i) =>
+        i.id === codeInfo.id ? codeInfo : i
+      );
+      const updatedFormData = {
+        ...formData,
+        Code: updatedCode,
+      };
+      setFormData(updatedFormData);
+      console.log(formData);
+
+      wipeCodeInfo();
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
   const handleCancel = (e) => {
     e.preventDefault();
     wipeCodeInfo();
@@ -98,6 +125,25 @@ function Codes({ formData, setFormData, display, setDisplay }) {
     setDisplay(!display);
   };
 
+  const handleToggleEntry = (e, code) => {
+    e.preventDefault();
+    setCodeInfo(code);
+    setCurrCode(code);
+    if (code.complete) {
+      const updatedCode = formData.Code.map((i) =>
+        i.id === code.id ? { ...i, selected: !i.selected, complete: true } : i
+      );
+      const updatedFormData = {
+        ...formData,
+        Code: updatedCode,
+      };
+      setFormData(updatedFormData);
+    } else {
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
   return (
     <div>
       <div>
@@ -110,10 +156,22 @@ function Codes({ formData, setFormData, display, setDisplay }) {
               className="output-edit"
               style={{ cursor: "pointer", marginRight: "1rem" }}
             >
+              {code.selected ? (
+                <p onClick={(e) => handleToggleEntry(e, code)}>Deselect</p>
+              ) : (
+                <p onClick={(e) => handleToggleEntry(e, code)}>Select</p>
+              )}
+            </span>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
               <p onClick={(e) => handleEdit(e, code)}>Edit</p>
             </span>
             <span className="output-delete">
-              <p onClick={(e) => handleDelete(e, code)}>Remove</p>
+              {!code.orcid && (
+                <p onClick={(e) => handleDelete(e, code)}>Delete</p>
+              )}
             </span>
           </div>
         ))}
@@ -132,6 +190,7 @@ function Codes({ formData, setFormData, display, setDisplay }) {
         setFormData={setCodeInfo}
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
+        handleSave={handleSave}
         handleCancel={handleCancel}
         errors={errors}
       />

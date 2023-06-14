@@ -19,47 +19,47 @@ function Thesis({
       <TextInput
         name="thesisTitle"
         placeholder="Thesis Title"
-        value={formData.thesisTitle}
+        value={formData.title}
         onChange={(event) => {
-          setFormData({ ...formData, thesisTitle: event.target.value });
+          setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
       />
       <UrlInput
         name="thesisURL"
         placeholder="Thesis URL"
-        value={formData.thesisURL}
+        value={formData.url}
         onChange={(event) => {
-          setFormData({ ...formData, thesisURL: event.target.value });
+          setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
       />
       <TextInput
         name="thesisDOI"
         placeholder="Thesis DOI"
-        value={formData.thesisDOI}
+        value={formData.doi}
         onChange={(event) => {
-          setFormData({ ...formData, thesisDOI: event.target.value });
+          setFormData({ ...formData, doi: event.target.value });
         }}
         error={errors.DOI}
       />
       <TextInput
         name="thesisLicense"
         placeholder="License"
-        value={formData.thesisLicense}
+        value={formData.license}
         onChange={(event) => {
-          setFormData({ ...formData, thesisLicense: event.target.value });
+          setFormData({ ...formData, license: event.target.value });
         }}
         error={errors.license}
       />
       <BooleanInput
-        name="thesisEmargo"
+        name="thesisEmbargo"
         label="Was there an embargo period?"
         a="Yes"
         b="No"
-        value={formData.thesisEmbargo}
+        value={formData.embargo}
         onChange={(event) => {
-          setFormData({ ...formData, thesisEmbargo: event.target.value });
+          setFormData({ ...formData, embargo: event.target.value });
         }}
         error={errors.embargo}
       />

@@ -1,5 +1,5 @@
 import axios from "axios";
-import flattenObject from "./flattenObject";
+import flattenObject from "../helperFunctions/flattenObject";
 
 async function fetchResearcherFunding(navigate, orcid) {
   try {

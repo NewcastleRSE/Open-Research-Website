@@ -1,6 +1,7 @@
 import { useState } from "react";
-import PreRegModal from "../formModals/PreRegModal";
-import validate from "../../validationRules/PreRegVR";
+import { PreRegModal } from "../formModals/Modals";
+import validate from "../../validationRules/Validation";
+
 import { v4 as uuidv4 } from "uuid";
 import React from "react";
 
@@ -10,9 +11,11 @@ function PreRegs({ formData, setFormData, display, setDisplay }) {
   const [currPreReg, setCurrPreReg] = useState({});
 
   const [preRegInfo, setPreRegInfo] = useState({
-    preRegTitle: "",
-    preRegURL: "",
-    preRegDistinction: false,
+    title: "",
+    url: "",
+    distinction: false,
+    complete: true,
+    selected: true,
   });
 
   const handleClick = (e) => {
@@ -25,9 +28,11 @@ function PreRegs({ formData, setFormData, display, setDisplay }) {
 
   const wipePreRegInfo = () => {
     setPreRegInfo({
-      preRegTitle: "",
-      preRegURL: "",
-      preRegDistinction: false,
+      title: "",
+      url: "",
+      distinction: false,
+      complete: true,
+      selected: true,
     });
   };
 
@@ -106,10 +111,22 @@ function PreRegs({ formData, setFormData, display, setDisplay }) {
               className="output-edit"
               style={{ cursor: "pointer", marginRight: "1rem" }}
             >
+              {preReg.selected ? (
+                <p onClick={(e) => handleToggleEntry(e, preReg)}>Deselect</p>
+              ) : (
+                <p onClick={(e) => handleToggleEntry(e, preReg)}>Select</p>
+              )}
+            </span>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
               <p onClick={(e) => handleEdit(e, preReg)}>Edit</p>
             </span>
             <span className="output-delete">
-              <p onClick={(e) => handleDelete(e, preReg)}>Remove</p>
+              {!preReg.orcid && (
+                <p onClick={(e) => handleDelete(e, preReg)}>Delete</p>
+              )}
             </span>
           </div>
         ))}
@@ -129,6 +146,7 @@ function PreRegs({ formData, setFormData, display, setDisplay }) {
         setDisplay={setDisplay}
         handleSubmit={handleSubmit}
         handleCancel={handleCancel}
+        handleSave={handleSave}
         errors={errors}
       />
     </div>
