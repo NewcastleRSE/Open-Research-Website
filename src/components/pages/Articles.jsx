@@ -16,6 +16,7 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
     url: "",
     embargo: "",
     license: "",
+    selected: true,
   });
 
   const [currArticle, setCurrArticle] = useState({}); // eslint-disable-line no-unused-vars
@@ -69,6 +70,7 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
       url: "",
       embargo: "",
       license: "",
+      selected: true,
     });
   };
 
@@ -97,6 +99,15 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
     setDisplay(!display);
   };
 
+  const handleToggleEntry = (e, article) => {
+    e.preventDefault();
+    const updatedArticles = formData.Article.map((i) =>
+      i.id === article.id ? { ...i, selected: !i.selected } : i
+    );
+
+    setFormData({ ...formData, Article: updatedArticles });
+  };
+
   console.log(formData);
 
   return (
@@ -110,10 +121,20 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
               className="output-edit"
               style={{ cursor: "pointer", marginRight: "1rem" }}
             >
+              {article.selected ? (
+                <p onClick={(e) => handleToggleEntry(e, article)}>Deselect</p>
+              ) : (
+                <p onClick={(e) => handleToggleEntry(e, article)}>Select</p>
+              )}
+            </span>
+            <span
+              className="output-edit"
+              style={{ cursor: "pointer", marginRight: "1rem" }}
+            >
               <p onClick={(e) => handleEdit(e, article)}>Edit</p>
             </span>
             <span className="output-delete">
-              <p onClick={(e) => handleDelete(e, article)}>Remove</p>
+              <p onClick={(e) => handleDelete(e, article)}>Delete</p>
             </span>
           </div>
         ))}

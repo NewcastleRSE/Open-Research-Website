@@ -3,8 +3,8 @@ const DisplayRegReportInfo = ({ regReportData, field }) => {
   return regReportData.map((regReport, index) => {
     return (
       <div key={index} className="Results__List">
-        {field("Title", regReport.regReportTitle)}
-        {field("URL", regReport.regReportURL)}
+        {field("Title", regReport.title)}
+        {field("URL", regReport.url)}
       </div>
     );
   });

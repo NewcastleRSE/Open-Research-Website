@@ -36,7 +36,7 @@ const FormDataDisplay = ({ formData }) => {
   const field = (label, value) => {
     return (
       <div className="Results__Item">
-        <div className="Results__Label">{label}:</div>
+        <div className={`Results__Label ${!value && "red-text"}`}>{label}:</div>
         <div className="Results__Value">{value}</div>
       </div>
     );
@@ -46,6 +46,7 @@ const FormDataDisplay = ({ formData }) => {
     /* Takes a section name and section data. It uses the section name to decide upon which component to render and then sends sectionData to the component. It also needs to send the field function to correctly format the data.*/
   }
   const displaySectionInfo = (sectionName, sectionData) => {
+    const selectedSections = sectionData.filter((x) => x.selected == true);
     switch (sectionName) {
       case "Researcher":
       case "Project":
@@ -57,45 +58,63 @@ const FormDataDisplay = ({ formData }) => {
           </div>
         );
       case "Articles":
-        return <DisplayArticleInfo articleData={sectionData} field={field} />;
+        return (
+          <DisplayArticleInfo articleData={selectedSections} field={field} />
+        );
       case "Monographs":
         return (
-          <DisplayMonographInfo monographData={sectionData} field={field} />
+          <DisplayMonographInfo
+            monographData={selectedSections}
+            field={field}
+          />
         );
       case "Datasets":
-        return <DisplayDatasetInfo datasetData={sectionData} field={field} />;
+        return (
+          <DisplayDatasetInfo datasetData={selectedSections} field={field} />
+        );
       case "Codes":
-        return <DisplayCodeInfo codeData={sectionData} field={field} />;
+        return <DisplayCodeInfo codeData={selectedSections} field={field} />;
       case "Materials":
-        return <DisplayMaterialInfo materialData={sectionData} field={field} />;
+        return (
+          <DisplayMaterialInfo materialData={selectedSections} field={field} />
+        );
       case "Digital Scholarships":
         return (
           <DisplayDigitalScholarshipInfo
-            digitalScholarshipData={sectionData}
+            digitalScholarshipData={selectedSections}
             field={field}
           />
         );
       case "Protocols":
-        return <DisplayProtocolInfo protocolData={sectionData} field={field} />;
+        return (
+          <DisplayProtocolInfo protocolData={selectedSections} field={field} />
+        );
       case "Pre-prints":
-        return <DisplayPreprintInfo preprintData={sectionData} field={field} />;
+        return (
+          <DisplayPreprintInfo preprintData={selectedSections} field={field} />
+        );
       case "Peer Reviews":
         return (
-          <DisplayPeerRevInfo peerReviewData={sectionData} field={field} />
+          <DisplayPeerRevInfo peerReviewData={selectedSections} field={field} />
         );
       case "Pre-Reg Analyses":
         return (
           <DisplayPreRegAnalysisInfo
-            preRegAnalysisData={sectionData}
+            preRegAnalysisData={selectedSections}
             field={field}
           />
         );
       case "Registered Reports":
         return (
-          <DisplayRegReportInfo regReportData={sectionData} field={field} />
+          <DisplayRegReportInfo
+            regReportData={selectedSections}
+            field={field}
+          />
         );
       case "Theses":
-        return <DisplayThesisInfo thesisData={sectionData} field={field} />;
+        return (
+          <DisplayThesisInfo thesisData={selectedSections} field={field} />
+        );
     }
   };
 

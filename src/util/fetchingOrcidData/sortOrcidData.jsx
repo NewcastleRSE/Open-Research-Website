@@ -22,6 +22,7 @@ const sortData = (works, data) => {
     entry.metaData = "";
     entry.fair = "";
     entry.format = "";
+    entry.selected = false;
 
     switch (workSummary.type) {
       case "research-tool":
