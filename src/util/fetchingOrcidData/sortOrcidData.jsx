@@ -23,6 +23,7 @@ const sortData = (works, data) => {
     entry.fair = "";
     entry.format = "";
     entry.selected = false;
+    entry.orcid = true;
 
     switch (workSummary.type) {
       case "research-tool":

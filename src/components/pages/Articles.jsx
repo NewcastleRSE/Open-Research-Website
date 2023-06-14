@@ -17,6 +17,7 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
     embargo: "",
     license: "",
     selected: true,
+    complete: true,
   });
 
   const [currArticle, setCurrArticle] = useState({}); // eslint-disable-line no-unused-vars
@@ -39,6 +40,7 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
       if (!editMode) {
         let temp = { ...articleInfo };
         temp.id = uuidv4(); // add a unique identifier
+        temp.complete = true;
         setFormData({
           ...formData,
           Article: [...formData.Article, temp],
@@ -61,6 +63,29 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
     }
   };
 
+  const handleSave = (e) => {
+    e.preventDefault();
+    let newErrors = validate(articleInfo);
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      articleInfo.complete = true;
+      articleInfo.selected = true;
+      const updatedArticles = formData.Article.map((i) =>
+        i.id === currArticle.id ? articleInfo : i
+      );
+      const updatedFormData = {
+        ...formData,
+        Article: updatedArticles,
+      };
+      setFormData(updatedFormData);
+      console.log(formData);
+
+      wipeArticleInfo();
+      setErrors({});
+      setDisplay(!display);
+    }
+  };
+
   const wipeArticleInfo = () => {
     setArticleInfo({
       title: "",
@@ -71,6 +96,7 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
       embargo: "",
       license: "",
       selected: true,
+      complete: true,
     });
   };
 
@@ -101,14 +127,24 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
 
   const handleToggleEntry = (e, article) => {
     e.preventDefault();
-    const updatedArticles = formData.Article.map((i) =>
-      i.id === article.id ? { ...i, selected: !i.selected } : i
-    );
-
-    setFormData({ ...formData, Article: updatedArticles });
+    setArticleInfo(article);
+    setCurrArticle(article);
+    if (article.complete) {
+      const updatedArticles = formData.Article.map((i) =>
+        i.id === article.id
+          ? { ...i, selected: !i.selected, complete: true }
+          : i
+      );
+      const updatedFormData = {
+        ...formData,
+        Article: updatedArticles,
+      };
+      setFormData(updatedFormData);
+    } else {
+      setErrors({});
+      setDisplay(!display);
+    }
   };
-
-  console.log(formData);
 
   return (
     <div>
@@ -134,7 +170,9 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
               <p onClick={(e) => handleEdit(e, article)}>Edit</p>
             </span>
             <span className="output-delete">
-              <p onClick={(e) => handleDelete(e, article)}>Delete</p>
+              {!article.orcid && (
+                <p onClick={(e) => handleDelete(e, article)}>Delete</p>
+              )}
             </span>
           </div>
         ))}
@@ -152,6 +190,7 @@ function MultipleArticle({ formData, setFormData, display, setDisplay }) {
         formData={articleInfo}
         setFormData={setArticleInfo}
         setDisplay={setDisplay}
+        handleSave={handleSave}
         handleSubmit={handleSubmit}
         handleCancel={handleCancel}
         errors={errors}

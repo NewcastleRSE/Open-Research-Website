@@ -10,6 +10,7 @@ const ArticleModal = ({
   setFormData,
   handleCancel,
   handleSubmit,
+  handleSave,
   errors,
 }) => {
   const [showForm, setShowForm] = useState(true);
@@ -39,6 +40,7 @@ const ArticleModal = ({
                 formData={formData}
                 setFormData={setFormData}
                 handleCancel={handleCancel}
+                handleSave={handleSave}
                 handleSubmit={handleSubmit}
                 errors={errors}
               />

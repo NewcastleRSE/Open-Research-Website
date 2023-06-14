@@ -10,6 +10,7 @@ const Article = ({
   setFormData,
   handleCancel,
   handleSubmit,
+  handleSave,
   errors,
 }) => {
   return (
@@ -79,7 +80,11 @@ const Article = ({
         }}
         error={errors.embargo}
       />
-      <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      {formData.orcid ? (
+        <ModalButtons handleSave={handleSave} handleCancel={handleCancel} />
+      ) : (
+        <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      )}
     </>
   );
 };

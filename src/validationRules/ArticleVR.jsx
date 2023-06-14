@@ -6,16 +6,16 @@ import validateLicense from "../fieldValidation/License";
 export default function validate(values) {
   let errors = {};
 
-  errors = validateTitle(errors, values.articleTitle);
+  errors = validateTitle(errors, values.title);
 
-  errors = validateURL(errors, values.articleURL);
+  errors = validateURL(errors, values.url);
 
-  errors = validateDOI(errors, values.articleDOI);
+  errors = validateDOI(errors, values.doi);
 
-  errors = validateLicense(errors, values.articleLicense);
+  errors = validateLicense(errors, values.license);
 
   // Embargo
-  if (!values.articleEmbargo) {
+  if (!values.embargo) {
     errors.embargo = "Required";
   }
 
