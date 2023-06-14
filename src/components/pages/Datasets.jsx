@@ -10,28 +10,28 @@ function Datasets({ formData, setFormData, display, setDisplay }) {
   const [editMode, setEditMode] = useState(false);
 
   const [datasetInfo, setDatasetInfo] = useState({
-    dataTitle: "",
-    dataURL: "",
-    dataDOI: "",
+    title: "",
+    url: "",
+    doi: "",
     format: "",
-    dataLicense: "",
-    dataMetadata: "",
-    dataFair: "",
-    dataRelease: "",
-    dataConf: "",
+    license: "",
+    metaData: "",
+    fair: "",
+    release: "",
+    conf: "",
   });
 
   const wipeData = () => {
     setDatasetInfo({
-      dataTitle: "",
-      dataURL: "",
-      dataDOI: "",
+      title: "",
+      url: "",
+      doi: "",
       format: "",
-      dataLicense: "",
-      dataMetadata: "",
-      dataFair: "",
-      dataRelease: "",
-      dataConf: "",
+      license: "",
+      metaData: "",
+      fair: "",
+      release: "",
+      conf: "",
     });
   };
 
@@ -112,7 +112,7 @@ function Datasets({ formData, setFormData, display, setDisplay }) {
         <h2>Datasets</h2>
         {formData.Dataset.map((dataset, index) => (
           <div className="output-type row" key={index}>
-            <h4 className="output-title col">{dataset.dataTitle}</h4>
+            <h4 className="output-title col">{dataset.title}</h4>
             <span
               className="output-edit"
               style={{ cursor: "pointer", marginRight: "1rem" }}

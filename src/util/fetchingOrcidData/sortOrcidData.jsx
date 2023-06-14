@@ -12,10 +12,16 @@ const sortData = (works, data) => {
   works.forEach((group) => {
     const workSummary = group["work-summary"][0];
     let entry = formatData(workSummary);
+    // add all of the parameters required, even if that specific entry doesn't require those parameters. The forms will only use what is needed.
     entry.id = uuidv4();
     entry.embargo = "";
     entry.license = "";
     entry.doi = "";
+    entry.release = "";
+    entry.conf = "";
+    entry.metaData = "";
+    entry.fair = "";
+    entry.format = "";
 
     switch (workSummary.type) {
       case "research-tool":
@@ -87,6 +93,7 @@ const sortData = (works, data) => {
         break;
       case "software":
         entry.type = "Software";
+
         if (!formData.Code.some((e) => e.projectID === entry.projectID)) {
           formData.Code.push(entry);
         }

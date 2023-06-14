@@ -10,13 +10,13 @@ function Codes({ formData, setFormData, display, setDisplay }) {
   const [currCode, setCurrCode] = useState({});
 
   const [codeInfo, setCodeInfo] = useState({
-    codeTitle: "",
-    codeURL: "",
-    codeDOI: "",
+    title: "",
+    url: "",
+    doi: "",
     openSource: false,
-    codeLicense: "",
-    codeRelease: "",
-    codeConf: "",
+    license: "",
+    release: "",
+    conf: "",
   });
 
   const handleClick = (e) => {
@@ -29,13 +29,13 @@ function Codes({ formData, setFormData, display, setDisplay }) {
 
   const wipeCodeInfo = () => {
     setCodeInfo({
-      codeTitle: "",
-      codeURL: "",
-      codeDOI: "",
+      title: "",
+      url: "",
+      doi: "",
       openSource: false,
-      codeLicense: "",
-      codeRelease: "",
-      codeConf: "",
+      license: "",
+      release: "",
+      conf: "",
     });
   };
 
@@ -104,7 +104,8 @@ function Codes({ formData, setFormData, display, setDisplay }) {
         <h2>Code</h2>
         {formData.Code.map((code, index) => (
           <div className="output-type row" key={index}>
-            <h4 className="output-title col">{code.codeTitle}</h4>
+            <h4 className="output-title col">{code.title}</h4>
+            {/* <h4 className="output-title col">{code.type}</h4> */}
             <span
               className="output-edit"
               style={{ cursor: "pointer", marginRight: "1rem" }}

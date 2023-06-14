@@ -11,9 +11,9 @@ const DisplayLicense = ({ formData, setFormData, errors }) => {
       <TextInput
         name="license"
         placeholder="License"
-        value={formData.codeLicense}
+        value={formData.license}
         onChange={(event) =>
-          setFormData({ ...formData, codeLicense: event.target.value })
+          setFormData({ ...formData, license: event.target.value })
         }
         error={errors.license}
       />
@@ -38,27 +38,27 @@ function CodeInfo({
       <TextInput
         name="codeTitle"
         placeholder="Code Title"
-        value={formData.codeTitle}
+        value={formData.title}
         onChange={(event) =>
-          setFormData({ ...formData, codeTitle: event.target.value })
+          setFormData({ ...formData, title: event.target.value })
         }
         error={errors.title}
       />
       <UrlInput
         name="codeURL"
         placeholder="Code URL"
-        value={formData.codeURL}
+        value={formData.url}
         onChange={(event) =>
-          setFormData({ ...formData, codeURL: event.target.value })
+          setFormData({ ...formData, url: event.target.value })
         }
         error={errors.URL}
       />
       <TextInput
         name="codeDOI"
         placeholder="Code DOI"
-        value={formData.codeDOI}
+        value={formData.doi}
         onChange={(event) =>
-          setFormData({ ...formData, codeDOI: event.target.value })
+          setFormData({ ...formData, doi: event.target.value })
         }
         error={errors.DOI}
       />
@@ -79,9 +79,9 @@ function CodeInfo({
         label="Was it released no later than the publication of the first paper that uses it?"
         a="Yes"
         b="No"
-        value={formData.codeRelease}
+        value={formData.release}
         onChange={(event) => {
-          setFormData({ ...formData, codeRelease: event.target.value });
+          setFormData({ ...formData, release: event.target.value });
         }}
         error={errors.codeRelease}
       />
@@ -90,9 +90,9 @@ function CodeInfo({
         label="Is independant confirmation of results possible with this code?"
         a="Yes"
         b="No"
-        value={formData.codeConf}
+        value={formData.conf}
         onChange={(event) => {
-          setFormData({ ...formData, codeConf: event.target.value });
+          setFormData({ ...formData, conf: event.target.value });
         }}
         error={errors.codeConf}
       />

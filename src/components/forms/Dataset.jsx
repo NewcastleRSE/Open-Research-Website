@@ -21,27 +21,27 @@ function Dataset({
       <TextInput
         name="dataTitle"
         placeholder="Data Title"
-        value={formData.dataTitle}
+        value={formData.title}
         onChange={(event) => {
-          setFormData({ ...formData, dataTitle: event.target.value });
+          setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
       />
       <UrlInput
         name="dataURL"
         placeholder="Data URL"
-        value={formData.dataURL}
+        value={formData.url}
         onChange={(event) => {
-          setFormData({ ...formData, dataURL: event.target.value });
+          setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
       />
       <TextInput
         name="dataDOI"
         placeholder="Data DOI"
-        value={formData.dataDOI}
+        value={formData.doi}
         onChange={(event) => {
-          setFormData({ ...formData, dataDOI: event.target.value });
+          setFormData({ ...formData, doi: event.target.value });
         }}
         error={errors.DOI}
       />
@@ -58,9 +58,9 @@ function Dataset({
       <TextInput
         name="dataLicense"
         placeholder="Data License"
-        value={formData.dataLicense}
+        value={formData.license}
         onChange={(event) => {
-          setFormData({ ...formData, dataLicense: event.target.value });
+          setFormData({ ...formData, license: event.target.value });
         }}
         error={errors.license}
       />
@@ -69,11 +69,11 @@ function Dataset({
         label="Does it include the necessary metadata?"
         a="Yes"
         b="No"
-        value={formData.dataMetadata}
+        value={formData.metaData}
         onChange={(event) => {
           setFormData({
             ...formData,
-            dataMetadata: event.target.value,
+            metaData: event.target.value,
           });
         }}
         error={errors.dataMetadata}
@@ -83,11 +83,11 @@ function Dataset({
         label="Have efforts been made to maximize F.A.I.R. principles?"
         a="Yes"
         b="No"
-        value={formData.dataFair}
+        value={formData.fair}
         onChange={(event) => {
           setFormData({
             ...formData,
-            dataFair: event.target.value,
+            fair: event.target.value,
           });
         }}
         error={errors.dataFair}
@@ -97,11 +97,11 @@ function Dataset({
         label="Was it released no later than the publication of the first paper that uses it?"
         a="Yes"
         b="No"
-        value={formData.dataRelease}
+        value={formData.release}
         onChange={(event) => {
           setFormData({
             ...formData,
-            dataRelease: event.target.value,
+            release: event.target.value,
           });
         }}
         error={errors.dataRelease}
@@ -111,11 +111,11 @@ function Dataset({
         label="Is independant confirmation of results possible with this data?"
         a="Yes"
         b="No"
-        value={formData.dataConf}
+        value={formData.conf}
         onChange={(event) => {
           setFormData({
             ...formData,
-            dataConf: event.target.value,
+            conf: event.target.value,
           });
         }}
         error={errors.dataConf}
