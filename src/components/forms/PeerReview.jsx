@@ -4,12 +4,15 @@ import TextInput from "../formElements/TextInput";
 import UrlInput from "../formElements/UrlInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
+import DropDown from "../formElements/DropDown";
+import sectionTypes from "../../util/data/sectionTypes";
 
 function PeerReview({
   formData,
   setFormData,
   handleCancel,
   handleSubmit,
+  handleSave,
   errors,
 }) {
   return (
@@ -35,6 +38,20 @@ function PeerReview({
         }}
         error={errors.URL}
       />
+      {sectionTypes.PeerRev.length !== 0 && (
+        <DropDown
+          name="peerRev-type"
+          placeholder={formData.type ? formData.type : "Type"}
+          options={sectionTypes.PeerRev.map((i) => {
+            return { value: i };
+          })}
+          value={formData.type}
+          onChange={(event) => {
+            setFormData({ ...formData, type: event.target.value });
+          }}
+          id="peerRev-type"
+        />
+      )}
       <BooleanInput
         name="peerRevResponse"
         label="Does the peer review include the authors response?"
@@ -46,7 +63,11 @@ function PeerReview({
         }}
         error={errors.revResponse}
       />
-      <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      {formData.orcid ? (
+        <ModalButtons handleSave={handleSave} handleCancel={handleCancel} />
+      ) : (
+        <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      )}
     </>
   );
 }

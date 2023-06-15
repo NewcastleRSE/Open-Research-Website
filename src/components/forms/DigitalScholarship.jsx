@@ -4,11 +4,14 @@ import UrlInput from "../formElements/UrlInput";
 import BooleanInput from "../formElements/BooleanInput";
 import TextInput from "../formElements/TextInput";
 import ModalButtons from "../formElements/ModalButtons";
+import DropDown from "../formElements/DropDown";
+import sectionTypes from "../../util/data/sectionTypes";
 
 function DigitalScholarship({
   formData,
   setFormData,
   handleSubmit,
+  handleSave,
   handleCancel,
   errors,
 }) {
@@ -44,6 +47,20 @@ function DigitalScholarship({
         }}
         error={errors.license}
       />
+      {sectionTypes.DigitalScholarship.length !== 0 && (
+        <DropDown
+          name="ds-type"
+          placeholder={formData.type ? formData.type : "Type"}
+          options={sectionTypes.DigitalScholarship.map((i) => {
+            return { value: i };
+          })}
+          value={formData.type}
+          onChange={(event) => {
+            setFormData({ ...formData, type: event.target.value });
+          }}
+          id="ds-type"
+        />
+      )}
       <BooleanInput
         name="dsEmargo"
         label="Was there an embargo period?"
@@ -55,7 +72,11 @@ function DigitalScholarship({
         }}
         error={errors.embargo}
       />
-      <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      {formData.orcid ? (
+        <ModalButtons handleSave={handleSave} handleCancel={handleCancel} />
+      ) : (
+        <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      )}
     </>
   );
 }

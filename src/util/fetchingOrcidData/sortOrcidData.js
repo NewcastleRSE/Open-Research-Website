@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import sectionTypes from "../data/sectionTypes";
 
 // this function will take some formData and the users works and then return a formData object with the updated works.
 const sortOrcidData = async (formData, works) => {
@@ -7,29 +8,15 @@ const sortOrcidData = async (formData, works) => {
   return updatedFormData;
 };
 
+// REFACTOR THIS SO THAT IT'S A SWITCH STATEMENT THAT LOOKS AT EACH TYPE BY CHECKING WHICH SECTION THE WORKS TYPE IS IN USING SECTIONTYPES.JSON
+
 // takes the array of works and sorts them into the correct category in formData, in the correct format.
 const sortData = (works, data) => {
   let formData = JSON.parse(JSON.stringify(data));
   works.forEach((group) => {
     const workSummary = group["work-summary"][0];
     let entry = formatData(workSummary);
-    // add all of the parameters required, even if that specific entry doesn't require those parameters. The forms will only use what is needed.
     entry.id = uuidv4();
-    entry.embargo = "";
-    entry.license = "";
-    entry.doi = "";
-    entry.release = "";
-    entry.conf = "";
-    entry.metaData = "";
-    entry.fair = "";
-    entry.format = "";
-    entry.reproduction = "";
-    entry.response = "";
-    entry.distinction = "";
-    entry.revResponse = "";
-    entry.reportChanges = "";
-    entry.peerRev = "";
-    entry.funding = "";
     entry.selected = false;
     entry.orcid = true;
 
@@ -54,11 +41,13 @@ const sortData = (works, data) => {
         }
         break;
       case "dissertation-thesis":
+        entry.type = "Dissertation";
         if (!formData.Thesis.some((e) => e.projectID === entry.projectID)) {
           formData.Thesis.push(entry);
         }
         break;
       case "preprint":
+        entry.type = "Preprint";
         if (!formData.Preprint.some((e) => e.projectID === entry.projectID)) {
           formData.Preprint.push(entry);
         }
@@ -104,7 +93,6 @@ const sortData = (works, data) => {
         break;
       case "software":
         entry.type = "Software";
-
         if (!formData.Code.some((e) => e.projectID === entry.projectID)) {
           formData.Code.push(entry);
         }
@@ -138,6 +126,9 @@ const sortData = (works, data) => {
         break;
       case "data-management-plan":
         entry.type = "Data Management Plan";
+        if (!formData.Dataset.some((e) => e.projectID === entry.projectID)) {
+          formData.Dataset.push(entry);
+        }
         break;
       case "trademark":
         entry.type = "Trademark";
@@ -180,12 +171,18 @@ const sortData = (works, data) => {
         break;
       case "conference-paper":
         entry.type = "Conference Paper";
+        if (!formData.Monograph.some((e) => e.projectID === entry.projectID)) {
+          formData.Monograph.push(entry);
+        }
         break;
       case "online-resource":
         entry.type = "Online Resource";
         break;
       case "edited-book":
         entry.type = "Edited Book";
+        if (!formData.Monograph.some((e) => e.projectID === entry.projectID)) {
+          formData.Monograph.push(entry);
+        }
         break;
       case "registered-copyright":
         entry.type = "Registered Copyright";

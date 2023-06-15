@@ -3,7 +3,8 @@ import UrlInput from "../formElements/UrlInput";
 import TextInput from "../formElements/TextInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
-import Dropdown from "../formElements/DropDown";
+import DropDown from "../formElements/DropDown";
+import sectionTypes from "../../util/data/sectionTypes";
 
 const Article = ({
   formData,
@@ -45,21 +46,20 @@ const Article = ({
         }}
         error={errors.DOI}
       />
-      <Dropdown
-        name="article-type"
-        placeholder={formData.type ? formData.type : "Type"}
-        options={[
-          { value: "Newspaper Article" },
-          { value: "Journal Article" },
-          { value: "Journal Issue" },
-          { value: "Magazine Article" },
-        ]}
-        value={formData.type}
-        onChange={(event) => {
-          setFormData({ ...formData, type: event.target.value });
-        }}
-        id="article-type"
-      />
+      {sectionTypes.Article.length !== 0 && (
+        <DropDown
+          name="article-type"
+          placeholder={formData.type ? formData.type : "Type"}
+          options={sectionTypes.Article.map((i) => {
+            return { value: i };
+          })}
+          value={formData.type}
+          onChange={(event) => {
+            setFormData({ ...formData, type: event.target.value });
+          }}
+          id="article-type"
+        />
+      )}
       <TextInput
         name="articleLicense"
         placeholder="License"

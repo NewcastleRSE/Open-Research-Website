@@ -4,12 +4,15 @@ import TextInput from "../formElements/TextInput";
 import UrlInput from "../formElements/UrlInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
+import DropDown from "../formElements/DropDown";
+import sectionTypes from "../../util/data/sectionTypes";
 
 function Material({
   formData,
   setFormData,
   handleCancel,
   handleSubmit,
+  handleSave,
   errors,
 }) {
   return (
@@ -35,6 +38,20 @@ function Material({
         }}
         error={errors.URL}
       />
+      {sectionTypes.Material.length !== 0 && (
+        <DropDown
+          name="material-type"
+          placeholder={formData.type ? formData.type : "Type"}
+          options={sectionTypes.Material.map((i) => {
+            return { value: i };
+          })}
+          value={formData.type}
+          onChange={(event) => {
+            setFormData({ ...formData, type: event.target.value });
+          }}
+          id="material-type"
+        />
+      )}
       <BooleanInput
         name="materialReproduction"
         label="Is all the material needed to reproduce the results freely availiable?"
@@ -60,7 +77,11 @@ function Material({
         }}
         error={errors.release}
       />
-      <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      {formData.orcid ? (
+        <ModalButtons handleSave={handleSave} handleCancel={handleCancel} />
+      ) : (
+        <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      )}
     </>
   );
 }

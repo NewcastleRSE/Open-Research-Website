@@ -4,12 +4,15 @@ import UrlInput from "../formElements/UrlInput";
 import TextInput from "../formElements/TextInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
+import DropDown from "../formElements/DropDown";
+import sectionTypes from "../../util/data/sectionTypes";
 
 function Preprint({
   formData,
   setFormData,
   handleSubmit,
   handleCancel,
+  handleSave,
   errors,
 }) {
   return (
@@ -52,6 +55,20 @@ function Preprint({
           setFormData({ ...formData, license: event.target.value });
         }}
       />
+      {sectionTypes.Preprint.length !== 0 && (
+        <DropDown
+          name="preprint-type"
+          placeholder={formData.type ? formData.type : "Type"}
+          options={sectionTypes.Preprint.map((i) => {
+            return { value: i };
+          })}
+          value={formData.type}
+          onChange={(event) => {
+            setFormData({ ...formData, type: event.target.value });
+          }}
+          id="preprint-type"
+        />
+      )}
       <BooleanInput
         name="preprintRelease"
         label="Was the preprint released at the time of first submission to a journal?"
@@ -63,7 +80,11 @@ function Preprint({
         }}
         error={errors.release}
       />
-      <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      {formData.orcid ? (
+        <ModalButtons handleSave={handleSave} handleCancel={handleCancel} />
+      ) : (
+        <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      )}
     </>
   );
 }

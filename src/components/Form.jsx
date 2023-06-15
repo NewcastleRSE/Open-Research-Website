@@ -5,6 +5,11 @@ import axios from "axios";
 import FormData from "form-data";
 import { useNavigate } from "react-router-dom";
 
+// Data
+import blankFormData from "../util/data/blankFormData";
+import blankFormBuilder from "../util/data/blankFormBuilder";
+import blankResearchInfo from "../util/data/blankResearchInfo";
+
 // Util
 import getUserOrcidInfo from "../util/fetchingOrcidData/getUserOrcidInfo";
 import sortOrcidData from "../util/fetchingOrcidData/sortOrcidData";
@@ -12,19 +17,22 @@ import flattenObject from "../util/helperFunctions/flattenObject";
 import fetchResearcherFunding from "../util/fetchingOrcidData/fetchResearcherFunding";
 
 // Components
+import {
+  Articles,
+  Monographs,
+  Datasets,
+  Codes,
+  Materials,
+  Protocols,
+  DigitalScholarships,
+  Preprints,
+  PeerReviews,
+  PreRegs,
+  RegReports,
+  Theses,
+} from "./pages/DataSection";
+
 import Projects from "./pages/Projects";
-import Articles from "./pages/Articles";
-import Monographs from "./pages/Monographs";
-import Datasets from "./pages/Datasets";
-import Codes from "./pages/Codes";
-import Materials from "./pages/Materials";
-import Protocols from "./pages/Protocols";
-import DigitalScholarships from "./pages/DigitalScholarships";
-import Preprints from "./pages/Preprints";
-import PeerReviews from "./pages/PeerReviews";
-import PreRegs from "./pages/PreRegs";
-import RegReports from "./pages/RegReports";
-import Theses from "./pages/Theses";
 import SuccessModal from "./SuccessModal";
 import FormDataDisplay from "./pages/FormDataDisplay";
 import ResearcherInfo from "./pages/ResearcherInfo";
@@ -39,7 +47,6 @@ import validateBuilder from "../validationRules/BuilderVR";
 
 function Form() {
   const [page, setPage] = useState(0);
-
   const [display, setDisplay] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [errors, setErrors] = useState({});
@@ -47,89 +54,12 @@ function Form() {
   const [selectedProjectIndex, setSelectedProjectIndex] = useState();
   const [loaded, setLoaded] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [saved, setSaved] = useState(false);
   const navigate = useNavigate();
-  const [userOrcidRecord, setUserOrcidRecord] = useState();
-  const [researcherInfo, setResearcherInfo] = useState({
-    fullName: "",
-    faculty: "",
-    school: "",
-    otherSchool: "",
-    careerStage: "",
-    orcidID: "",
-    orcidLinked: "",
-  });
 
-  const [formData, setFormData] = useState({
-    uuid: "",
-
-    Researcher: {
-      fullName: "",
-      faculty: "",
-      school: "",
-      otherSchool: "",
-      careerStage: "",
-      orcidID: "",
-    },
-
-    Project: {
-      title: "",
-      researchArea: "",
-      funder: "",
-      length: "",
-      type: "",
-      url: "",
-    },
-
-    Projects: [
-      {
-        title: "test",
-        researchArea: "test",
-        funder: "UKRI",
-        type: "",
-        url: "",
-        length: 2,
-      },
-      {
-        title: "test2",
-        researchArea: "test2",
-        funder: "UKRI",
-        type: "",
-        url: "",
-        length: 3,
-      },
-    ],
-
-    orcidProjects: [],
-
-    Article: [],
-    Monograph: [],
-    Dataset: [],
-    Code: [],
-    Material: [],
-    Protocol: [],
-    DigitalScholarship: [],
-    Preprint: [],
-    PeerRev: [],
-    PreRegAnalysis: [],
-    RegReport: [],
-    Thesis: [],
-  });
-
-  const [formBuilder, setFormBuilder] = useState({
-    article: false,
-    monograph: false,
-    dataset: false,
-    code: false,
-    researchMaterial: false,
-    protocol: false,
-    digitalScholarship: false,
-    preprints: false,
-    openPeerReview: false,
-    analysisPlan: false,
-    registeredReport: false,
-    dissertation: false,
-  });
+  // Form Data
+  const [researcherInfo, setResearcherInfo] = useState(blankResearchInfo);
+  const [formData, setFormData] = useState(blankFormData);
+  const [formBuilder, setFormBuilder] = useState(blankFormBuilder);
 
   const [displayModal, setDisplayModal] = useState(false);
 
@@ -554,10 +484,12 @@ function Form() {
   const fetchOrcidRecord = async () => {
     try {
       if (researcherInfo.orcidID) {
+        // Get the unformatted users data from orcid
         const data = await getUserOrcidInfo(navigate, researcherInfo.orcidID);
-        setUserOrcidRecord(data);
+        console.log("Users orcid data:", data);
+        // Flatten the data (format it)
         const flatData = flattenObject(data);
-        console.log("flatData", flatData);
+        console.log("Formatted orcid data:", flatData);
         const funding = await fetchResearcherFunding(
           navigate,
           researcherInfo.orcidID
@@ -568,7 +500,6 @@ function Form() {
           flatData["activities-summary.works.group"]
         );
         setFormData(newFormData);
-        console.log(formData);
       }
     } catch (error) {
       console.error("Error fetching user orcid record.");

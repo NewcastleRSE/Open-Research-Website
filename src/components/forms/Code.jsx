@@ -4,6 +4,8 @@ import UrlInput from "../formElements/UrlInput";
 import TextInput from "../formElements/TextInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
+import sectionTypes from "../../util/data/sectionTypes";
+import DropDown from "../formElements/DropDown";
 
 const DisplayLicense = ({ formData, setFormData, errors }) => {
   if (formData.openSource === "Yes") {
@@ -63,6 +65,20 @@ function CodeInfo({
         }
         error={errors.DOI}
       />
+      {sectionTypes.Code.length !== 0 && (
+        <DropDown
+          name="code-type"
+          placeholder={formData.type ? formData.type : "Type"}
+          options={sectionTypes.Code.map((i) => {
+            return { value: i };
+          })}
+          value={formData.type}
+          onChange={(event) => {
+            setFormData({ ...formData, type: event.target.value });
+          }}
+          id="code-type"
+        />
+      )}
       <BooleanInput
         name="openSource"
         label="Is it open source?"
@@ -101,7 +117,7 @@ function CodeInfo({
         <ModalButtons handleSave={handleSave} handleCancel={handleCancel} />
       ) : (
         <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
-      )}{" "}
+      )}
     </>
   );
 }

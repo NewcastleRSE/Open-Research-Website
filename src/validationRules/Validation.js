@@ -5,6 +5,7 @@ import validateLicense from "../fieldValidation/License";
 import validationRequirements from "../util/data/validationRequirements";
 
 export default function validate(values, section) {
+  console.log(values, section);
   let errors = {};
 
   // Validate required fields for this section
@@ -15,22 +16,19 @@ export default function validate(values, section) {
     }
   }
 
-  // Additional specific validation rules
-  if (values.title) {
-    errors = validateTitle(errors, values.title);
-  }
+  // General validation - all entries have these
+  errors = validateTitle(errors, values.title);
+  errors = validateURL(errors, values.url);
 
-  if (values.url) {
-    errors = validateURL(errors, values.url);
-  }
-
-  if (values.doi) {
+  // Specific validation - not all entries have these
+  if (validationRequirements[section].doi) {
     errors = validateDOI(errors, values.doi);
   }
-
-  if (values.license) {
+  if (validationRequirements[section].license) {
     errors = validateLicense(errors, values.license);
   }
+
+  console.log(errors);
 
   return errors;
 }

@@ -48,7 +48,9 @@ const FormDataDisplay = ({ formData }) => {
     /* Takes a section name and section data. It uses the section name to decide upon which component to render and then sends sectionData to the component. It also needs to send the field function to correctly format the data.*/
   }
   const displaySectionInfo = (sectionName, sectionData) => {
-    const selectedSections = sectionData.filter((x) => x.selected == true);
+    const selectedSections = sectionData
+      .filter((x) => x.selected === true)
+      .sort((a, b) => a.title.localeCompare(b.title));
     switch (sectionName) {
       case "Researcher":
       case "Project":
@@ -61,14 +63,10 @@ const FormDataDisplay = ({ formData }) => {
         );
       case "Articles":
         return <DisplayArticleInfo data={selectedSections} field={field} />;
-      case "Monographs":
-        return <DisplayMonographInfo data={selectedSections} field={field} />;
-      case "Datasets":
-        return <DisplayDatasetInfo data={selectedSections} field={field} />;
       case "Codes":
         return <DisplayCodeInfo data={selectedSections} field={field} />;
-      case "Materials":
-        return <DisplayMaterialInfo data={selectedSections} field={field} />;
+      case "Datasets":
+        return <DisplayDatasetInfo data={selectedSections} field={field} />;
       case "Digital Scholarships":
         return (
           <DisplayDigitalScholarshipInfo
@@ -76,16 +74,20 @@ const FormDataDisplay = ({ formData }) => {
             field={field}
           />
         );
-      case "Protocols":
-        return <DisplayProtocolInfo data={selectedSections} field={field} />;
-      case "Pre-prints":
-        return <DisplayPreprintInfo data={selectedSections} field={field} />;
       case "Peer Reviews":
         return <DisplayPeerRevInfo data={selectedSections} field={field} />;
+      case "Pre-prints":
+        return <DisplayPreprintInfo data={selectedSections} field={field} />;
       case "Pre-Reg Analyses":
         return (
           <DisplayPreRegAnalysisInfo data={selectedSections} field={field} />
         );
+      case "Protocols":
+        return <DisplayProtocolInfo data={selectedSections} field={field} />;
+      case "Materials":
+        return <DisplayMaterialInfo data={selectedSections} field={field} />;
+      case "Monographs":
+        return <DisplayMonographInfo data={selectedSections} field={field} />;
       case "Registered Reports":
         return <DisplayRegReportInfo data={selectedSections} field={field} />;
       case "Theses":

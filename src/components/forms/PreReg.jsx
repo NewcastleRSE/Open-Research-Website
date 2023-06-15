@@ -4,8 +4,16 @@ import TextInput from "../formElements/TextInput";
 import UrlInput from "../formElements/UrlInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
+import DropDown from "../formElements/DropDown";
 
-function PreReg({ formData, setFormData, handleCancel, handleSubmit, errors }) {
+function PreReg({
+  formData,
+  setFormData,
+  handleCancel,
+  handleSubmit,
+  handleSave,
+  errors,
+}) {
   return (
     <>
       <h3 className="main_question">
@@ -29,6 +37,20 @@ function PreReg({ formData, setFormData, handleCancel, handleSubmit, errors }) {
         }}
         error={errors.URL}
       />
+      {sectionTypes.PreReg.length !== 0 && (
+        <DropDown
+          name="preReg-type"
+          placeholder={formData.type ? formData.type : "Type"}
+          options={sectionTypes.PreReg.map((i) => {
+            return { value: i };
+          })}
+          value={formData.type}
+          onChange={(event) => {
+            setFormData({ ...formData, type: event.target.value });
+          }}
+          id="preReg-type"
+        />
+      )}
       <BooleanInput
         name="preRegDistinction"
         label="Is there a clear distinction between the planned research and any unplanned reseach/ analysis that was conducted?"
@@ -43,7 +65,11 @@ function PreReg({ formData, setFormData, handleCancel, handleSubmit, errors }) {
         }}
         error={errors.distinction}
       />
-      <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      {formData.orcid ? (
+        <ModalButtons handleSave={handleSave} handleCancel={handleCancel} />
+      ) : (
+        <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      )}
     </>
   );
 }

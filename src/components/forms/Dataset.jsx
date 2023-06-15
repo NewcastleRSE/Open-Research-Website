@@ -5,12 +5,14 @@ import TextInput from "../formElements/TextInput";
 import DropDown from "../formElements/DropDown";
 import ModalButtons from "../formElements/ModalButtons";
 import BooleanInput from "../formElements/BooleanInput";
+import sectionTypes from "../../util/data/sectionTypes";
 
 function Dataset({
   formData,
   setFormData,
   handleCancel,
   handleSubmit,
+  handleSave,
   errors,
 }) {
   return (
@@ -55,6 +57,20 @@ function Dataset({
         }}
         error={errors.format}
       />
+      {sectionTypes.Dataset.length !== 0 && (
+        <DropDown
+          name="dataset-type"
+          placeholder={formData.type ? formData.type : "Type"}
+          options={sectionTypes.Dataset.map((i) => {
+            return { value: i };
+          })}
+          value={formData.type}
+          onChange={(event) => {
+            setFormData({ ...formData, type: event.target.value });
+          }}
+          id="dataset-type"
+        />
+      )}
       <TextInput
         name="dataLicense"
         placeholder="Data License"
@@ -120,7 +136,11 @@ function Dataset({
         }}
         error={errors.conf}
       />
-      <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      {formData.orcid ? (
+        <ModalButtons handleSave={handleSave} handleCancel={handleCancel} />
+      ) : (
+        <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      )}
     </>
   );
 }

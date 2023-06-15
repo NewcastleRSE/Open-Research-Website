@@ -4,13 +4,15 @@ import TextInput from "../formElements/TextInput";
 import UrlInput from "../formElements/UrlInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
+import DropDown from "../formElements/DropDown";
+import sectionTypes from "../../util/data/sectionTypes";
 
 function RegReport({
   formData,
   setFormData,
-
   handleCancel,
   handleSubmit,
+  handleSave,
   errors,
 }) {
   return (
@@ -34,6 +36,20 @@ function RegReport({
         }}
         error={errors.URL}
       />
+      {sectionTypes.RegReport.length !== 0 && (
+        <DropDown
+          name="regReport-type"
+          placeholder={formData.type ? formData.type : "Type"}
+          options={sectionTypes.RegReport.map((i) => {
+            return { value: i };
+          })}
+          value={formData.type}
+          onChange={(event) => {
+            setFormData({ ...formData, type: event.target.value });
+          }}
+          id="regReport-type"
+        />
+      )}
       <BooleanInput
         name="regReportFunding"
         label="Have you indicated which parts
@@ -79,7 +95,11 @@ function RegReport({
         }}
         error={errors.changes}
       />
-      <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      {formData.orcid ? (
+        <ModalButtons handleSave={handleSave} handleCancel={handleCancel} />
+      ) : (
+        <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      )}
     </>
   );
 }

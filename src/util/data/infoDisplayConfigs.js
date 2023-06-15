@@ -6,7 +6,7 @@ export default {
   Codes: ["Title", "URL", "DOI", "Type", "Open Source"],
   Materials: ["Title", "URL", "Type"],
   DigitalScholarships: ["Title", "URL", "DOI", "Type", "Embargo", "License"],
-  Protocols: ["Title", "URL", "DOI", "Type"],
+  Protocols: ["Title", "URL", "Type"],
   Preprints: ["Title", "URL", "DOI", "Type"],
   PeerReviews: ["Title", "URL", "Type"],
   PreRegAnalyses: ["Title", "URL", "Type"],

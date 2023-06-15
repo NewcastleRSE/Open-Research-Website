@@ -4,13 +4,15 @@ import UrlInput from "../formElements/UrlInput";
 import TextInput from "../formElements/TextInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
+import DropDown from "../formElements/DropDown";
+import sectionTypes from "../../util/data/sectionTypes";
 
 function Thesis({
   formData,
   setFormData,
-
   handleCancel,
   handleSubmit,
+  handleSave,
   errors,
 }) {
   return (
@@ -52,6 +54,20 @@ function Thesis({
         }}
         error={errors.license}
       />
+      {sectionTypes.Thesis.length !== 0 && (
+        <DropDown
+          name="thesis-type"
+          placeholder={formData.type ? formData.type : "Type"}
+          options={sectionTypes.Thesis.map((i) => {
+            return { value: i };
+          })}
+          value={formData.type}
+          onChange={(event) => {
+            setFormData({ ...formData, type: event.target.value });
+          }}
+          id="thesis-type"
+        />
+      )}
       <BooleanInput
         name="thesisEmbargo"
         label="Was there an embargo period?"
@@ -63,7 +79,11 @@ function Thesis({
         }}
         error={errors.embargo}
       />
-      <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      {formData.orcid ? (
+        <ModalButtons handleSave={handleSave} handleCancel={handleCancel} />
+      ) : (
+        <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      )}
     </>
   );
 }

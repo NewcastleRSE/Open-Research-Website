@@ -1,16 +1,16 @@
 // validation data
 // each array contains the boolean values that are required to create an entry for each section
 export default {
-  Articles: ["embargo"],
-  Codes: ["openSource", "release", "conf"],
-  Datasets: ["format", "metaData", "fair", "release", "conf"],
-  DigitalScholarships: ["embargo"],
+  Articles: ["doi", "license", "embargo"],
+  Codes: ["doi", "openSource", "release", "conf"],
+  Datasets: ["doi", "license", "format", "metaData", "fair", "release", "conf"],
+  DigitalScholarships: ["license", "embargo"],
   Materials: ["reproduction", "release"],
-  Monographs: ["doi", "embargo"],
+  Monographs: ["doi", "license", "embargo"],
   PeerReviews: ["revResponse"],
-  Preprints: ["release"],
+  Preprints: ["doi", "license", "release"],
   PreRegAnalyses: ["distinction"],
   Protocols: ["sharing"],
   RegisteredReports: ["funding", "peerRev", "changes"],
-  Theses: ["format", "embargo"],
+  Theses: ["doi", "license", "format", "embargo"],
 };

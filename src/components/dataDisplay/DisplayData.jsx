@@ -1,80 +1,62 @@
 import manageDataDisplay from "../hoc/manageDataDisplay";
 
-// Article
-const DisplayArticleInfo = manageDataDisplay([
+// props which will apply to all sections
+const defaultProps = [
   { label: "Title", prop: "title" },
   { label: "URL", prop: "url" },
-  { label: "DOI", prop: "doi" },
   { label: "Type", prop: "type" },
-  { label: "Embargo", prop: "embargo" },
-  { label: "License", prop: "license" },
+];
+
+// specific props
+const doi = [{ label: "DOI", prop: "doi" }];
+const embargo = [{ label: "Embargo", prop: "embargo" }];
+const license = [{ label: "License", prop: "license" }];
+const openSource = [{ label: "Open Source", prop: "openSource" }];
+const format = [{ label: "Format", prop: "format" }];
+
+const DisplayArticleInfo = manageDataDisplay([
+  ...defaultProps,
+  ...doi,
+  ...embargo,
+  ...license,
 ]);
-// Code
 const DisplayCodeInfo = manageDataDisplay([
-  "Title",
-  "URL",
-  "DOI",
-  "Type",
-  "Open Source",
+  ...defaultProps,
+  ...doi,
+  ...openSource,
 ]);
-// Dataset
 const DisplayDatasetInfo = manageDataDisplay([
-  "Title",
-  "URL",
-  "DOI",
-  "Type",
-  "Format",
-  "License",
+  ...defaultProps,
+  ...format,
+  ...license,
 ]);
-// Digital Scholarship
 const DisplayDigitalScholarshipInfo = manageDataDisplay([
-  "Title",
-  "URL",
-  "DOI",
-  "Type",
-  "Embargo",
-  "License",
+  ...defaultProps,
+  ...doi,
+  ...embargo,
+  ...license,
 ]);
-// Material
-const DisplayMaterialInfo = manageDataDisplay(["Title", "URL", "Type"]);
-// Monograph
+const DisplayMaterialInfo = manageDataDisplay([...defaultProps]);
 const DisplayMonographInfo = manageDataDisplay([
-  "Title",
-  "URL",
-  "DOI",
-  "Type",
-  "Embargo",
-  "License",
+  ...defaultProps,
+  ...doi,
+  ...embargo,
+  ...license,
 ]);
-// Peer Review
-const DisplayPeerRevInfo = manageDataDisplay(["Title", "URL", "Type"]);
-// Preprint
+const DisplayPeerRevInfo = manageDataDisplay([...defaultProps]);
 const DisplayPreprintInfo = manageDataDisplay([
-  "Title",
-  "URL",
-  "DOI",
-  "Type",
-  "License",
+  ...defaultProps,
+  ...doi,
+  ...license,
 ]);
-// Pre Regs
-const DisplayPreRegAnalysisInfo = manageDataDisplay([
-  "Title",
-  "URL",
-  "DOI",
-  "Type",
-]);
-// Protocol
-const DisplayProtocolInfo = manageDataDisplay(["Title", "URL", "DOI", "Type"]);
-// Reg Report
-const DisplayRegReportInfo = manageDataDisplay(["Title", "URL", "Type"]);
-// Thesis
+const DisplayPreRegAnalysisInfo = manageDataDisplay([...defaultProps, ...doi]);
+const DisplayProtocolInfo = manageDataDisplay([...defaultProps, ...doi]);
+const DisplayRegReportInfo = manageDataDisplay([...defaultProps]);
 const DisplayThesisInfo = manageDataDisplay([
-  "Title",
-  "URL",
-  "DOI",
-  "Type",
-  "Format",
-  "License",
+  ...defaultProps,
+  ...doi,
+  ...format,
+  ...license,
 ]);
 
 export {
