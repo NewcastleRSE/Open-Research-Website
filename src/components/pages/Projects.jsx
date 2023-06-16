@@ -3,6 +3,7 @@ import { ProjectModal } from "../formModals/Modals";
 import DropDownWithSearch from "../formElements/DropDownWithSearch";
 import validateProject from "../../validationRules/ProjectVR";
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 
 function ProjectInfo({
   formData,
@@ -36,7 +37,7 @@ function ProjectInfo({
       setErrors(newErrors);
       return;
     }
-    // update projects
+    project.id = uuidv4();
     const updatedProjects = [...formData.Projects, project];
     setFormData({ ...formData, Projects: updatedProjects });
   };
@@ -57,7 +58,12 @@ function ProjectInfo({
     const updatedProjects = formData.Projects.map((proj) =>
       areObjectsEqual(proj, selectedProject) ? project : proj
     );
-    setFormData({ ...formData, Projects: updatedProjects });
+
+    setFormData({
+      ...formData,
+      Projects: updatedProjects,
+      Project: selectedProject,
+    });
   };
 
   // Compares two objects for equality
@@ -93,7 +99,6 @@ function ProjectInfo({
       handleClick(e);
     }
   };
-
   useEffect(() => {
     setFormData({ ...formData, Projects: formData.Projects });
   }, [formData.Projects]);

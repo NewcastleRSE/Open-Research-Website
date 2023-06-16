@@ -1,5 +1,6 @@
 import axios from "axios";
 import flattenObject from "../helperFunctions/flattenObject";
+import { v4 as uuidv4 } from "uuid";
 
 async function fetchResearcherFunding(navigate, orcid) {
   try {
@@ -11,6 +12,8 @@ async function fetchResearcherFunding(navigate, orcid) {
     console.log("userrecord", userRecord);
     const funding = userRecord["activities-summary.fundings.group"];
     const formattedFunding = formatFundingData(funding);
+    formattedFunding.map((i) => (i.id = uuidv4()));
+    console.log(formattedFunding);
     navigate("/");
     console.log("formattedFunding", formattedFunding);
     return formattedFunding;
