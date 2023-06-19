@@ -33,6 +33,7 @@ const FormDataDisplay = ({ formData }) => {
     "Registered Reports",
     "Theses",
   ]);
+  console.log(formData);
   const sectionRefs = useRef({});
   useEffect(() => {}), [formData];
   const field = (label, value) => {

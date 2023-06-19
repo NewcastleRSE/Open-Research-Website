@@ -15,10 +15,10 @@ function ProjectInfo({
   loaded,
   setLoaded,
 }) {
+  // projects is a combination of the orcid projects and the normal projects
   const [projects, setProjects] = useState([]);
   const [errors, setErrors] = useState({});
   const [editMode, setEditMode] = useState(false);
-  const [selectedProjectType, setSelectedProjectType] = useState("orcid");
 
   const [projectInfo, setProjectInfo] = useState({
     title: "",
@@ -27,6 +27,7 @@ function ProjectInfo({
     length: "",
     type: "",
     url: "",
+    id: "",
   });
 
   // handles adding a project
@@ -35,9 +36,11 @@ function ProjectInfo({
     let newErrors = validateProject(project);
     if (Object.keys(newErrors).length !== 0) {
       setErrors(newErrors);
+      console.log(errors);
       return;
     }
     project.id = uuidv4();
+    // update the form object
     const updatedProjects = [...formData.Projects, project];
     setFormData({ ...formData, Projects: updatedProjects });
   };
@@ -101,7 +104,9 @@ function ProjectInfo({
   };
   useEffect(() => {
     setFormData({ ...formData, Projects: formData.Projects });
-  }, [formData.Projects]);
+    const allProjects = [...formData.Projects, ...formData.orcidProjects];
+    setProjects(allProjects);
+  }, [formData.Projects, formData.orcidProjects]);
 
   // handles project form pop up
   const handleClick = (e) => {
@@ -143,6 +148,7 @@ function ProjectInfo({
       length: "",
       type: "",
       url: "",
+      id: "",
     });
   };
 
@@ -279,57 +285,17 @@ function ProjectInfo({
     }
   };
 
-  // const getOrcidTitles = () => {
-  //   let titles;
-
-  //   if (formData.orcidProjects.length !== 0) {
-  //     titles = formData.orcidProjects.map((project) => {
-  //       return { value: project.title, label: project.title };
-  //     });
-  //   }
-
-  //   if (titles) {
-  //     return titles;
-  //   } else {
-  //     return getTitles();
-  //   }
-  // };
-
-  // returns normal project titles
-  const getTitles = () => {
-    if (projects.length === 0) {
-      return [];
-    }
-    const temp = [];
-    projects.map((proj) => temp.push(proj.title));
-    return temp;
-  };
-
   // handles clicking on the dropdown menu
-  const handleDropdownChange = (e, projectType) => {
+  const handleDropdownChange = (e) => {
     // sets the selected project to whatever the user clicks on
-    const selectedProjectTitle = e.target.value;
-    let selected;
+    const selectedProjectID = e.target.value;
     // returns the first project it finds with the same project title
-    selected = projects.find(
-      (project) => project.title === selectedProjectTitle
+    const selectedProject = projects.find(
+      (project) => project.id === selectedProjectID
     );
-    // if (projectType === "normal") {
-    //   setSelectedProjectType("normal");
-    //   selected = formData.Projects.find(
-    //     (project) => project.title === selectedProjectTitle
-    //   );
-    // }
-    // if (projectType === "orcid") {
-    //   setSelectedProjectType("orcid");
-    //   selected = formData.orcidProjects.find(
-    //     (project) => project.title === selectedProjectTitle
-    //   );
-    // }
-
-    const updatedFormData = { ...formData, Project: selected };
+    const updatedFormData = { ...formData, Project: selectedProject };
     setFormData(updatedFormData);
-    setSelectedProject(selected);
+    setSelectedProject(selectedProject);
   };
 
   return (
@@ -345,23 +311,12 @@ function ProjectInfo({
         </h3>
       )}
       <div role="region" aria-labelledby="page-heading">
-        {/* {formData.orcidProjects && (
-          <DropDownWithSearch
-            id="dropdown menu for your projects"
-            name="project dropdown menu"
-            placeholder="Orcid Projects"
-            options={getOrcidTitles()}
-            onChange={(e) => handleDropdownChange(e, "orcid")}
-            value={selectedProject?.title || ""}
-            aria-label="Select Orcid project"
-          />
-        )} */}
         <DropDownWithSearch
           id="dropdown menu for your projects"
           name="project dropdown menu"
           placeholder="Projects"
-          options={getTitles()}
-          onChange={(e) => handleDropdownChange(e, "normal")}
+          options={projects}
+          onChange={(e) => handleDropdownChange(e)}
           value={selectedProject?.title || ""}
           aria-label="Select project"
         />
