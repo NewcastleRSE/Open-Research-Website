@@ -62,7 +62,7 @@ function ProjectInfo({
     setFormData({
       ...formData,
       Projects: updatedProjects,
-      Project: selectedProject,
+      Project: project,
     });
   };
 
