@@ -4,13 +4,15 @@ import UrlInput from "../formElements/UrlInput";
 import TextInput from "../formElements/TextInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
+import DropDown from "../formElements/DropDown";
+import sectionTypes from "../../util/data/sectionTypes";
 
 function Thesis({
   formData,
   setFormData,
-
   handleCancel,
   handleSubmit,
+  handleSave,
   errors,
 }) {
   return (
@@ -19,51 +21,69 @@ function Thesis({
       <TextInput
         name="thesisTitle"
         placeholder="Thesis Title"
-        value={formData.thesisTitle}
+        value={formData.title}
         onChange={(event) => {
-          setFormData({ ...formData, thesisTitle: event.target.value });
+          setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
       />
       <UrlInput
         name="thesisURL"
         placeholder="Thesis URL"
-        value={formData.thesisURL}
+        value={formData.url}
         onChange={(event) => {
-          setFormData({ ...formData, thesisURL: event.target.value });
+          setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
       />
       <TextInput
         name="thesisDOI"
         placeholder="Thesis DOI"
-        value={formData.thesisDOI}
+        value={formData.doi}
         onChange={(event) => {
-          setFormData({ ...formData, thesisDOI: event.target.value });
+          setFormData({ ...formData, doi: event.target.value });
         }}
         error={errors.DOI}
       />
       <TextInput
         name="thesisLicense"
         placeholder="License"
-        value={formData.thesisLicense}
+        value={formData.license}
         onChange={(event) => {
-          setFormData({ ...formData, thesisLicense: event.target.value });
+          setFormData({ ...formData, license: event.target.value });
         }}
         error={errors.license}
       />
+      {sectionTypes.Thesis.length !== 0 && (
+        <DropDown
+          name="thesis-type"
+          placeholder={formData.type ? formData.type : "Type"}
+          options={sectionTypes.Thesis.map((i) => {
+            return { value: i };
+          })}
+          value={formData.type}
+          onChange={(event) => {
+            setFormData({ ...formData, type: event.target.value });
+          }}
+          id="thesis-type"
+        />
+      )}
       <BooleanInput
-        name="thesisEmargo"
+        name="thesisEmbargo"
         label="Was there an embargo period?"
         a="Yes"
         b="No"
-        value={formData.thesisEmbargo}
+        value={formData.embargo}
         onChange={(event) => {
-          setFormData({ ...formData, thesisEmbargo: event.target.value });
+          setFormData({ ...formData, embargo: event.target.value });
         }}
         error={errors.embargo}
       />
-      <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      {formData.orcid ? (
+        <ModalButtons handleSave={handleSave} handleCancel={handleCancel} />
+      ) : (
+        <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      )}
     </>
   );
 }

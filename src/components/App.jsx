@@ -2,9 +2,8 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Form from "./Form";
-import Outputs from "./Outputs";
 import About from "./About";
-import OrcidCallback from "../util/OrcidCallback";
+import OrcidCallback from "../util/tokenManagement/OrcidCallback";
 import Login from "./Login";
 
 function App() {
@@ -12,7 +11,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Form />} />
-        <Route path="/outputs/:id" element={<Outputs />} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/callback" element={<OrcidCallback />} />

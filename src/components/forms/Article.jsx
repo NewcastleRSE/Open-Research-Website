@@ -3,12 +3,15 @@ import UrlInput from "../formElements/UrlInput";
 import TextInput from "../formElements/TextInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
+import DropDown from "../formElements/DropDown";
+import sectionTypes from "../../util/data/sectionTypes";
 
 const Article = ({
   formData,
   setFormData,
   handleCancel,
   handleSubmit,
+  handleSave,
   errors,
 }) => {
   return (
@@ -19,36 +22,50 @@ const Article = ({
       <TextInput
         name="articleTitle"
         placeholder="Article Title"
-        value={formData.articleTitle}
+        value={formData.title}
         onChange={(event) => {
-          setFormData({ ...formData, articleTitle: event.target.value });
+          setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
       />
       <UrlInput
         name="articleURL"
         placeholder="Article URL"
-        value={formData.articleURL}
+        value={formData.url}
         onChange={(event) => {
-          setFormData({ ...formData, articleURL: event.target.value });
+          setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
       />
       <TextInput
         name="articleDOI"
         placeholder="Article DOI"
-        value={formData.articleDOI}
+        value={formData.doi}
         onChange={(event) => {
-          setFormData({ ...formData, articleDOI: event.target.value });
+          setFormData({ ...formData, doi: event.target.value });
         }}
         error={errors.DOI}
       />
+      {sectionTypes.Article.length !== 0 && (
+        <DropDown
+          name="article-type"
+          placeholder={formData.type ? formData.type : "Type"}
+          options={sectionTypes.Article.map((i) => {
+            return { value: i };
+          })}
+          value={formData.type}
+          onChange={(event) => {
+            setFormData({ ...formData, type: event.target.value });
+          }}
+          id="article-type"
+        />
+      )}
       <TextInput
         name="articleLicense"
         placeholder="License"
-        value={formData.articleLicense}
+        value={formData.license}
         onChange={(event) => {
-          setFormData({ ...formData, articleLicense: event.target.value });
+          setFormData({ ...formData, license: event.target.value });
         }}
         error={errors.license}
       />
@@ -57,13 +74,17 @@ const Article = ({
         label="Was there an embargo period?"
         a="Yes"
         b="No"
-        value={formData.articleEmbargo}
+        value={formData.embargo}
         onChange={(event) => {
-          setFormData({ ...formData, articleEmbargo: event.target.value });
+          setFormData({ ...formData, embargo: event.target.value });
         }}
         error={errors.embargo}
       />
-      <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      {formData.orcid ? (
+        <ModalButtons handleSave={handleSave} handleCancel={handleCancel} />
+      ) : (
+        <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      )}
     </>
   );
 };

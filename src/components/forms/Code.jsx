@@ -4,6 +4,8 @@ import UrlInput from "../formElements/UrlInput";
 import TextInput from "../formElements/TextInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
+import sectionTypes from "../../util/data/sectionTypes";
+import DropDown from "../formElements/DropDown";
 
 const DisplayLicense = ({ formData, setFormData, errors }) => {
   if (formData.openSource === "Yes") {
@@ -11,9 +13,9 @@ const DisplayLicense = ({ formData, setFormData, errors }) => {
       <TextInput
         name="license"
         placeholder="License"
-        value={formData.codeLicense}
+        value={formData.license}
         onChange={(event) =>
-          setFormData({ ...formData, codeLicense: event.target.value })
+          setFormData({ ...formData, license: event.target.value })
         }
         error={errors.license}
       />
@@ -27,6 +29,7 @@ function CodeInfo({
   formData,
   setFormData,
   handleCancel,
+  handleSave,
   handleSubmit,
   errors,
 }) {
@@ -38,30 +41,44 @@ function CodeInfo({
       <TextInput
         name="codeTitle"
         placeholder="Code Title"
-        value={formData.codeTitle}
+        value={formData.title}
         onChange={(event) =>
-          setFormData({ ...formData, codeTitle: event.target.value })
+          setFormData({ ...formData, title: event.target.value })
         }
         error={errors.title}
       />
       <UrlInput
         name="codeURL"
         placeholder="Code URL"
-        value={formData.codeURL}
+        value={formData.url}
         onChange={(event) =>
-          setFormData({ ...formData, codeURL: event.target.value })
+          setFormData({ ...formData, url: event.target.value })
         }
         error={errors.URL}
       />
       <TextInput
         name="codeDOI"
         placeholder="Code DOI"
-        value={formData.codeDOI}
+        value={formData.doi}
         onChange={(event) =>
-          setFormData({ ...formData, codeDOI: event.target.value })
+          setFormData({ ...formData, doi: event.target.value })
         }
         error={errors.DOI}
       />
+      {sectionTypes.Code.length !== 0 && (
+        <DropDown
+          name="code-type"
+          placeholder={formData.type ? formData.type : "Type"}
+          options={sectionTypes.Code.map((i) => {
+            return { value: i };
+          })}
+          value={formData.type}
+          onChange={(event) => {
+            setFormData({ ...formData, type: event.target.value });
+          }}
+          id="code-type"
+        />
+      )}
       <BooleanInput
         name="openSource"
         label="Is it open source?"
@@ -79,24 +96,28 @@ function CodeInfo({
         label="Was it released no later than the publication of the first paper that uses it?"
         a="Yes"
         b="No"
-        value={formData.codeRelease}
+        value={formData.release}
         onChange={(event) => {
-          setFormData({ ...formData, codeRelease: event.target.value });
+          setFormData({ ...formData, release: event.target.value });
         }}
-        error={errors.codeRelease}
+        error={errors.release}
       />
       <BooleanInput
         name="codeConf"
         label="Is independant confirmation of results possible with this code?"
         a="Yes"
         b="No"
-        value={formData.codeConf}
+        value={formData.conf}
         onChange={(event) => {
-          setFormData({ ...formData, codeConf: event.target.value });
+          setFormData({ ...formData, conf: event.target.value });
         }}
-        error={errors.codeConf}
+        error={errors.conf}
       />
-      <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      {formData.orcid ? (
+        <ModalButtons handleSave={handleSave} handleCancel={handleCancel} />
+      ) : (
+        <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      )}
     </>
   );
 }

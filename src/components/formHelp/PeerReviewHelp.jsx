@@ -1,7 +1,7 @@
 import React from "react";
 const PeerReviewHelp = ({}) => {
   return (
-    <div className="text-help">
+    <div className="help-text">
       <p className="paragraph">
         Open peer review two main traits are “open identities”, where both
         authors and reviewers are aware of each other’s identities (i.e.,

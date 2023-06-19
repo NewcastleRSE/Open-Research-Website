@@ -1,7 +1,7 @@
 import axios from "axios";
-import getOrcidAccessToken from "../util/getOrcidAccessToken";
+import getAccessToken from "../util/tokenManagement/getOrcidAccessToken";
 import { Route, useNavigate } from "react-router-dom";
-import getMicrosoftAccessToken from "../util/getMicrosoftAccessToken";
+import getMicrosoftAccessToken from "../util/tokenManagement/getMicrosoftAccessToken";
 import { useEffect } from "react";
 
 const Login = () => {

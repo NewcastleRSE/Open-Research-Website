@@ -3,38 +3,50 @@ import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import FormData from "form-data";
-import fetchResearcherWorks from "../util/fetchResearcherWorks";
-import fetchResearcherFunding from "../util/fetchResearcherFunding";
 import { useNavigate } from "react-router-dom";
-import ResearcherInfo from "./pages/ResearcherInfo";
-import FormBuilder from "./pages/FormBuilder";
-import StepCounter from "./StepCounter";
-import LeftContent from "./pages/LeftContent";
-import Summary from "./pages/Summary";
-import getUserOrcidInfo from "../util/getUserOrcidInfo";
+
+// Data
+import blankFormData from "../util/data/blankFormData";
+import blankFormBuilder from "../util/data/blankFormBuilder";
+import blankResearchInfo from "../util/data/blankResearchInfo";
+
+// Util
+import getUserOrcidInfo from "../util/fetchingOrcidData/getUserOrcidInfo";
+import sortOrcidData from "../util/fetchingOrcidData/sortOrcidData";
+import flattenObject from "../util/helperFunctions/flattenObject";
+import fetchResearcherFunding from "../util/fetchingOrcidData/fetchResearcherFunding";
+
+// Components
+import {
+  Articles,
+  Monographs,
+  Datasets,
+  Codes,
+  Materials,
+  Protocols,
+  DigitalScholarships,
+  Preprints,
+  PeerReviews,
+  PreRegs,
+  RegReports,
+  Theses,
+} from "./pages/DataSection";
 
 import Projects from "./pages/Projects";
-import Articles from "./pages/Articles";
-import Monographs from "./pages/Monographs";
-import Datasets from "./pages/Datasets";
-import Codes from "./pages/Codes";
-import Materials from "./pages/Materials";
-import Protocols from "./pages/Protocols";
-import DigitalScholarships from "./pages/DigitalScholarships";
-import Preprints from "./pages/Preprints";
-import PeerReviews from "./pages/PeerReviews";
-import PreRegs from "./pages/PreRegs";
-import RegReports from "./pages/RegReports";
-import Theses from "./pages/Theses";
-
-import validateResearcher from "../validationRules/ResearcherVR";
-import validateBuilder from "../validationRules/BuilderVR";
 import SuccessModal from "./SuccessModal";
 import FormDataDisplay from "./pages/FormDataDisplay";
+import ResearcherInfo from "./pages/ResearcherInfo";
+import LeftContent from "./pages/LeftContent";
+import Summary from "./pages/Summary";
+import FormBuilder from "./pages/FormBuilder";
+import StepCounter from "./StepCounter";
+
+// Validation
+import validateResearcher from "../validationRules/ResearcherVR";
+import validateBuilder from "../validationRules/BuilderVR";
 
 function Form() {
   const [page, setPage] = useState(0);
-
   const [display, setDisplay] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [errors, setErrors] = useState({});
@@ -42,89 +54,12 @@ function Form() {
   const [selectedProjectIndex, setSelectedProjectIndex] = useState();
   const [loaded, setLoaded] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [saved, setSaved] = useState(false);
   const navigate = useNavigate();
-  const [userOrcidRecord, setUserOrcidRecord] = useState();
-  const [researcherInfo, setResearcherInfo] = useState({
-    fullName: "",
-    faculty: "",
-    school: "",
-    otherSchool: "",
-    careerStage: "",
-    orcidID: "",
-    orcidLinked: "",
-  });
 
-  const [formData, setFormData] = useState({
-    uuid: "",
-
-    Researcher: {
-      fullName: "",
-      faculty: "",
-      school: "",
-      otherSchool: "",
-      careerStage: "",
-      orcidID: "",
-    },
-
-    Project: {
-      title: "",
-      researchArea: "",
-      funder: "",
-      length: "",
-      type: "",
-      url: "",
-    },
-
-    Projects: [
-      {
-        title: "test",
-        researchArea: "test",
-        funder: "UKRI",
-        type: "",
-        url: "",
-        length: 2,
-      },
-      {
-        title: "test2",
-        researchArea: "test2",
-        funder: "UKRI",
-        type: "",
-        url: "",
-        length: 3,
-      },
-    ],
-
-    orcidProjects: [],
-
-    Article: [],
-    Monograph: [],
-    Dataset: [],
-    Code: [],
-    Material: [],
-    Protocol: [],
-    DigitalScholarship: [],
-    Preprint: [],
-    PeerRev: [],
-    PreRegAnalysis: [],
-    RegReport: [],
-    Thesis: [],
-  });
-
-  const [formBuilder, setFormBuilder] = useState({
-    article: false,
-    monograph: false,
-    dataset: false,
-    code: false,
-    researchMaterial: false,
-    protocol: false,
-    digitalScholarship: false,
-    preprints: false,
-    openPeerReview: false,
-    analysisPlan: false,
-    registeredReport: false,
-    dissertation: false,
-  });
+  // Form Data
+  const [researcherInfo, setResearcherInfo] = useState(blankResearchInfo);
+  const [formData, setFormData] = useState(blankFormData);
+  const [formBuilder, setFormBuilder] = useState(blankFormBuilder);
 
   const [displayModal, setDisplayModal] = useState(false);
 
@@ -145,7 +80,9 @@ function Form() {
       leftStack.push(
         <LeftContent
           heading="Articles"
-          img="https://localhost:5173/Team_Presentation_Monochromatic.svg"
+          img={`${
+            import.meta.env.VITE_LOCAL_URL
+          }/Team_Presentation_Monochromatic.svg`}
           subtext="A research article is a journal article in which the authors report on the research they did. Research articles are always primary sources. Whether or not a research article is peer reviewed depends on the journal that publishes it."
         />
       );
@@ -437,7 +374,7 @@ function Form() {
         <div>
           <LeftContent
             heading="Open Research Tool"
-            img="https://localhost:5173/img/info_graphic_1.svg"
+            img={`${import.meta.env.VITE_LOCAL_URL}/img/info_graphic_1.svg`}
             subtext="Using this tool you can learn how to increase the openess of your research. As you fill out the forms on the right, our system will take all of your input and provide advise on how best you can increase it's openess. Please be honest and include as much information as possible so that we can provide you with an accurate assessment."
           />
         </div>
@@ -527,8 +464,6 @@ function Form() {
         },
       };
 
-      console.log(data);
-
       await axios
         .post("http://localhost:1337/api/submissions", data, config)
         .then((res) => {
@@ -546,60 +481,25 @@ function Form() {
     }
   };
 
-  // fetches the orcid data for an orcid id and puts into formData in the following format { projectName, projectID }. Need the projectID to get further information after the user has authenticated.
-  // const fetchOrcidData = async () => {
-  //   try {
-  //     const data = await fetchResearcherFunding();
-  //     const processedData = processOrcidData(data);
-  //     setOrcidData(processedData);
-  //     const updatedFormData = {
-  //       ...formData,
-  //       orcidProjects: processedData,
-  //     };
-  //     setFormData(updatedFormData);
-  //     console.log(formData);
-  //     setLoaded(true);
-  //   } catch (error) {
-  //     console.error("Error fetching researcher works:", error);
-  //   }
-  // };
-
-  function flattenObject(obj, parentKey = "", result = {}) {
-    for (let key in obj) {
-      let newKey = `${parentKey}${parentKey ? "." : ""}${key}`;
-      if (
-        typeof obj[key] === "object" &&
-        obj[key] !== null &&
-        !Array.isArray(obj[key])
-      ) {
-        flattenObject(obj[key], newKey, result);
-      } else {
-        result[newKey] = obj[key];
-      }
-    }
-    return result;
-  }
-
   const fetchOrcidRecord = async () => {
     try {
       if (researcherInfo.orcidID) {
+        // Get the unformatted users data from orcid
         const data = await getUserOrcidInfo(navigate, researcherInfo.orcidID);
-        setUserOrcidRecord(data);
+        console.log("Users orcid data:", data);
+        // Flatten the data (format it)
         const flatData = flattenObject(data);
-        console.log("flatData", flatData);
+        console.log("Formatted orcid data:", flatData);
         const funding = await fetchResearcherFunding(
           navigate,
           researcherInfo.orcidID
         );
-        console.log(formData.Projects);
-        const updatedFormData = {
-          ...formData,
-          orcidProjects: funding,
-          Projects: [...formData.Projects, ...funding],
-        };
-        setFormData(updatedFormData);
-        console.log(formData);
-        console.log("funding", funding);
+        formData.orcidProjects = funding;
+        const newFormData = await sortOrcidData(
+          formData,
+          flatData["activities-summary.works.group"]
+        );
+        setFormData(newFormData);
       }
     } catch (error) {
       console.error("Error fetching user orcid record.");
@@ -630,7 +530,7 @@ function Form() {
             <div className="content-left-wrapper">
               <a href="/" id="logo">
                 <img
-                  src="https://localhost:5173/img/ncl_logo.png"
+                  src={`${import.meta.env.VITE_LOCAL_URL}/img/ncl_logo.png`}
                   alt=""
                   width="48"
                   height="56"
@@ -665,7 +565,7 @@ function Form() {
                 {/*<!-- /middle-wizard -->*/}
                 <div id="bottom-wizard">
                   {/*<!-- This button is just for the development stage-->*/}
-                  <button
+                  {/* <button
                     type="button"
                     name="skip"
                     className={`skip backward
@@ -676,7 +576,7 @@ function Form() {
                     }}
                   >
                     Skip
-                  </button>
+                  </button> */}
                   <button
                     type="button"
                     name="backward"

@@ -5,12 +5,14 @@ import TextInput from "../formElements/TextInput";
 import DropDown from "../formElements/DropDown";
 import ModalButtons from "../formElements/ModalButtons";
 import BooleanInput from "../formElements/BooleanInput";
+import sectionTypes from "../../util/data/sectionTypes";
 
 function Dataset({
   formData,
   setFormData,
   handleCancel,
   handleSubmit,
+  handleSave,
   errors,
 }) {
   return (
@@ -21,27 +23,27 @@ function Dataset({
       <TextInput
         name="dataTitle"
         placeholder="Data Title"
-        value={formData.dataTitle}
+        value={formData.title}
         onChange={(event) => {
-          setFormData({ ...formData, dataTitle: event.target.value });
+          setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
       />
       <UrlInput
         name="dataURL"
         placeholder="Data URL"
-        value={formData.dataURL}
+        value={formData.url}
         onChange={(event) => {
-          setFormData({ ...formData, dataURL: event.target.value });
+          setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
       />
       <TextInput
         name="dataDOI"
         placeholder="Data DOI"
-        value={formData.dataDOI}
+        value={formData.doi}
         onChange={(event) => {
-          setFormData({ ...formData, dataDOI: event.target.value });
+          setFormData({ ...formData, doi: event.target.value });
         }}
         error={errors.DOI}
       />
@@ -55,12 +57,26 @@ function Dataset({
         }}
         error={errors.format}
       />
+      {sectionTypes.Dataset.length !== 0 && (
+        <DropDown
+          name="dataset-type"
+          placeholder={formData.type ? formData.type : "Type"}
+          options={sectionTypes.Dataset.map((i) => {
+            return { value: i };
+          })}
+          value={formData.type}
+          onChange={(event) => {
+            setFormData({ ...formData, type: event.target.value });
+          }}
+          id="dataset-type"
+        />
+      )}
       <TextInput
         name="dataLicense"
         placeholder="Data License"
-        value={formData.dataLicense}
+        value={formData.license}
         onChange={(event) => {
-          setFormData({ ...formData, dataLicense: event.target.value });
+          setFormData({ ...formData, license: event.target.value });
         }}
         error={errors.license}
       />
@@ -69,58 +85,62 @@ function Dataset({
         label="Does it include the necessary metadata?"
         a="Yes"
         b="No"
-        value={formData.dataMetadata}
+        value={formData.metaData}
         onChange={(event) => {
           setFormData({
             ...formData,
-            dataMetadata: event.target.value,
+            metaData: event.target.value,
           });
         }}
-        error={errors.dataMetadata}
+        error={errors.metaData}
       />
       <BooleanInput
         name="dataFair"
         label="Have efforts been made to maximize F.A.I.R. principles?"
         a="Yes"
         b="No"
-        value={formData.dataFair}
+        value={formData.fair}
         onChange={(event) => {
           setFormData({
             ...formData,
-            dataFair: event.target.value,
+            fair: event.target.value,
           });
         }}
-        error={errors.dataFair}
+        error={errors.fair}
       />
       <BooleanInput
         name="dataRelease"
         label="Was it released no later than the publication of the first paper that uses it?"
         a="Yes"
         b="No"
-        value={formData.dataRelease}
+        value={formData.release}
         onChange={(event) => {
           setFormData({
             ...formData,
-            dataRelease: event.target.value,
+            release: event.target.value,
           });
         }}
-        error={errors.dataRelease}
+        error={errors.release}
       />
       <BooleanInput
         name="dataConf"
         label="Is independant confirmation of results possible with this data?"
         a="Yes"
         b="No"
-        value={formData.dataConf}
+        value={formData.conf}
         onChange={(event) => {
           setFormData({
             ...formData,
-            dataConf: event.target.value,
+            conf: event.target.value,
           });
         }}
-        error={errors.dataConf}
+        error={errors.conf}
       />
-      <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      {formData.orcid ? (
+        <ModalButtons handleSave={handleSave} handleCancel={handleCancel} />
+      ) : (
+        <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      )}
     </>
   );
 }

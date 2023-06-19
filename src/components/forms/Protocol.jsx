@@ -3,12 +3,15 @@ import React from "react";
 import TextInput from "../formElements/TextInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
+import DropDown from "../formElements/DropDown";
+import sectionTypes from "../../util/data/sectionTypes";
 
 function Protocol({
   formData,
   setFormData,
   handleCancel,
   handleSubmit,
+  handleSave,
   errors,
 }) {
   return (
@@ -19,33 +22,51 @@ function Protocol({
       <TextInput
         name="protocolTitle"
         placeholder="Protocol Title"
-        value={formData.protocolTitle}
+        value={formData.title}
         onChange={(event) => {
-          setFormData({ ...formData, protocolTitle: event.target.value });
+          setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
       />
       <TextInput
         name="protocolURL"
         placeholder="Protocol URL"
-        value={formData.protocolURL}
+        value={formData.url}
         onChange={(event) => {
-          setFormData({ ...formData, protocolURL: event.target.value });
+          setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
       />
+      {sectionTypes.Protocol.length !== 0 && (
+        <DropDown
+          name="protocol-type"
+          placeholder={formData.type ? formData.type : "Type"}
+          options={sectionTypes.Protocol.map((i) => {
+            return { value: i };
+          })}
+          value={formData.type}
+          onChange={(event) => {
+            setFormData({ ...formData, type: event.target.value });
+          }}
+          id="protocol-type"
+        />
+      )}
       <BooleanInput
         name="protocolSharing"
         label="Does it facilitate sharing, editing, forking, and further development?"
         a="Yes"
         b="No"
-        value={formData.protocolSharing}
+        value={formData.sharing}
         onChange={(event) => {
-          setFormData({ ...formData, protocolSharing: event.target.value });
+          setFormData({ ...formData, sharing: event.target.value });
         }}
-        error={errors.protocolSharing}
+        error={errors.sharing}
       />
-      <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      {formData.orcid ? (
+        <ModalButtons handleSave={handleSave} handleCancel={handleCancel} />
+      ) : (
+        <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      )}
     </>
   );
 }

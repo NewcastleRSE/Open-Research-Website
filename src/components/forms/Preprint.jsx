@@ -4,12 +4,15 @@ import UrlInput from "../formElements/UrlInput";
 import TextInput from "../formElements/TextInput";
 import BooleanInput from "../formElements/BooleanInput";
 import ModalButtons from "../formElements/ModalButtons";
+import DropDown from "../formElements/DropDown";
+import sectionTypes from "../../util/data/sectionTypes";
 
 function Preprint({
   formData,
   setFormData,
   handleSubmit,
   handleCancel,
+  handleSave,
   errors,
 }) {
   return (
@@ -20,50 +23,68 @@ function Preprint({
       <TextInput
         name="preprintTitle"
         placeholder="Preprint Title"
-        value={formData.preprintTitle}
+        value={formData.title}
         onChange={(event) => {
-          setFormData({ ...formData, preprintTitle: event.target.value });
+          setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
       />
       <UrlInput
         name="preprintURL"
         placeholder="Preprint URL"
-        value={formData.preprintURL}
+        value={formData.url}
         onChange={(event) => {
-          setFormData({ ...formData, preprintURL: event.target.value });
+          setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
       />
       <TextInput
         name="preprintDOI"
         placeholder="Preprint DOI"
-        value={formData.preprintDOI}
+        value={formData.doi}
         onChange={(event) => {
-          setFormData({ ...formData, preprintDOI: event.target.value });
+          setFormData({ ...formData, doi: event.target.value });
         }}
         error={errors.DOI}
       />
       <TextInput
         name="preprintLicense"
         placeholder="Preprint License"
-        value={formData.preprintLicense}
+        value={formData.license}
         onChange={(event) => {
-          setFormData({ ...formData, preprintLicense: event.target.value });
+          setFormData({ ...formData, license: event.target.value });
         }}
       />
+      {sectionTypes.Preprint.length !== 0 && (
+        <DropDown
+          name="preprint-type"
+          placeholder={formData.type ? formData.type : "Type"}
+          options={sectionTypes.Preprint.map((i) => {
+            return { value: i };
+          })}
+          value={formData.type}
+          onChange={(event) => {
+            setFormData({ ...formData, type: event.target.value });
+          }}
+          id="preprint-type"
+        />
+      )}
       <BooleanInput
         name="preprintRelease"
         label="Was the preprint released at the time of first submission to a journal?"
         a="Yes"
         b="No"
-        value={formData.preprintRelease}
+        value={formData.release}
         onChange={(event) => {
-          setFormData({ ...formData, preprintRelease: event.target.value });
+          setFormData({ ...formData, release: event.target.value });
         }}
-        error={errors.preprintRelease}
+        error={errors.release}
       />
-      <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      {formData.orcid ? (
+        <ModalButtons handleSave={handleSave} handleCancel={handleCancel} />
+      ) : (
+        <ModalButtons handleSubmit={handleSubmit} handleCancel={handleCancel} />
+      )}
     </>
   );
 }
