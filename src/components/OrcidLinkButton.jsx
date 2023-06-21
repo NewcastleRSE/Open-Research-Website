@@ -4,7 +4,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const OrcidLinkButton = ({ onOrcidLinked }) => {
+const OrcidLinkButton = ({ onOrcidLinked, text }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const OrcidLinkButton = ({ onOrcidLinked }) => {
 
   return (
     <button onClick={linkOrcid} className={"forward"}>
-      Link Orcid Account
+      {text ? text : "Link Orcid Account"}
     </button>
   );
 };

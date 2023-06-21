@@ -45,7 +45,8 @@ function Form() {
   const [researcherInfo, setResearcherInfo] = useState(blankResearchInfo);
   const [formData, setFormData] = useState(blankFormData);
   const [formBuilder, setFormBuilder] = useState(blankFormBuilder);
-
+  console.log("researcher info", researcherInfo);
+  console.log("form data", formData);
   // Maps through formBuilderComponents and formBuilder file and displays the correct Component if that components value is true in formBuilder. These values are made true (checked) in the FormBuilder component whenever the output box is clicked on the Output Types page.
   let form = Object.entries(formBuilder)
     .filter(([, value]) => value)
@@ -67,6 +68,7 @@ function Form() {
     <LandingPage
       formData={researcherInfo}
       setFormData={setResearcherInfo}
+      setPage={setPage}
       errors={errors}
     />,
     // Page 1
@@ -108,11 +110,7 @@ function Form() {
     form.length == 0 ? (
       <LeftContent />
     ) : (
-      <FormDataDisplay
-        key={JSON.stringify(formData)}
-        formData={formData}
-        formBuilder={formBuilder}
-      />
+      <FormDataDisplay key={JSON.stringify(formData)} formData={formData} />
     );
 
   const handleNext = (e) => {
@@ -317,7 +315,7 @@ function Form() {
                     type="button"
                     name="backward"
                     className={`backward ${display && "background"}`}
-                    disabled={page === 0 || submitted}
+                    disabled={page < 2 || submitted}
                     onClick={() => {
                       setPage((currentPage) => currentPage - 1);
                     }}
@@ -328,7 +326,9 @@ function Form() {
                     type="button"
                     name="forward"
                     className={`forward ${display && "background"}`}
-                    disabled={page === pagesBeforeOutput + form.length}
+                    disabled={
+                      page === pagesBeforeOutput + form.length || page == 0
+                    }
                     onClick={(e) => handleNext(e)}
                   >
                     Next

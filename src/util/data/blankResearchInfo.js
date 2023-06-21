@@ -6,4 +6,6 @@ export default {
   careerStage: "",
   orcidID: "",
   orcidLinked: "",
+  localID: "",
+  email: "",
 };

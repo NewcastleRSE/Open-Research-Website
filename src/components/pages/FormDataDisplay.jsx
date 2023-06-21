@@ -16,7 +16,7 @@ import {
   DisplayProtocolInfo,
 } from "../dataDisplay/DisplayData";
 
-const FormDataDisplay = ({ formData, formBuilder }) => {
+const FormDataDisplay = ({ formData }) => {
   const [expandedSections, setExpandedSections] = useState([
     "Researcher",
     "Project",

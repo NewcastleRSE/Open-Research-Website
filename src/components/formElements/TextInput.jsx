@@ -13,6 +13,8 @@ const TextInput = (props) => {
         className={`form-control ${props.error ? "red-outline" : ""}`}
         placeholder={props.placeholder}
         onChange={props.onChange}
+        readOnly={props.readOnly}
+        style={{ cursor: props.readOnly ? "default" : "text" }}
       />
     </div>
   );

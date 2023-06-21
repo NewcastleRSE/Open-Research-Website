@@ -9,12 +9,6 @@ import DropDownOther from "../formElements/DropDownOther";
 import TextInput from "../formElements/TextInput";
 
 function ResearcherInfo({ formData, setFormData, errors }) {
-  // sets the orcidID in the formData to the orcid ID that was authenticated.
-  const handleOrcidLinked = (orcid) => {
-    // should hopefully populate more of the data with the user's information that is gathered from orcid
-    const updatedFormData = { ...formData, orcidID: orcid, orcidLinked: true };
-    setFormData(updatedFormData);
-  };
   const [orcidID, setOrcidID] = useState(localStorage.getItem("orcidID") || "");
 
   useEffect(() => {
@@ -23,16 +17,6 @@ function ResearcherInfo({ formData, setFormData, errors }) {
       setFormData(storedFormData);
     }
   }, []);
-
-  useEffect(() => {
-    if (orcidID && orcidID !== "undefined") {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        orcidID: orcidID,
-        orcidLinked: true,
-      }));
-    }
-  }, [orcidID]);
 
   const handleChange = (name, value) => {
     const updatedFormData = { ...formData, [name]: value };
@@ -96,23 +80,24 @@ function ResearcherInfo({ formData, setFormData, errors }) {
         error={errors.careerStage}
         id="careerStage"
       />
-      <TextInput
-        name="orcidID"
-        placeholder={formData.orcidID ? formData.orcidID : "Orcid ID"}
-        value={formData.orcidID}
-        onChange={(event) => handleChange("orcidID", event.target.value)}
-        error={errors.orcidID}
-        id="orcidId"
-      />
-      {(formData.orcidID && !localStorage.getItem("orcidID")) ||
-        (formData.orcidID && localStorage.getItem("orcidID") == "undefined") ||
-        (formData.orcidID !== localStorage.getItem("orcidID") && (
-          <OrcidLinkButton onOrcidLinked={handleOrcidLinked} />
-        ))}
-      {localStorage.getItem("orcidID") !== "undefined" &&
-        localStorage.getItem("orcidID") == formData.orcidID && (
-          <p>Orcid Account Successfully Linked.</p>
-        )}
+      {orcidID.length > 1 && (
+        <TextInput
+          name="orcidID"
+          placeholder={orcidID}
+          value={orcidID}
+          id="orcidId"
+          readOnly
+        />
+      )}
+      {formData.localID.length > 0 && (
+        <TextInput
+          name="localID"
+          placeholder={`Local ID: ${formData.localID}`}
+          value={`Local ID: ${formData.localID}`}
+          id="localID"
+          readOnly
+        />
+      )}
     </div>
   );
 }

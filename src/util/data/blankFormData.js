@@ -8,6 +8,8 @@ export default {
     otherSchool: "",
     careerStage: "",
     orcidID: "",
+    localID: "",
+    email: "",
   },
 
   Project: {
