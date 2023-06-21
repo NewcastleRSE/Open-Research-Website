@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import OrcidLinkButton from "../OrcidLinkButton";
 import TextInput from "../formElements/TextInput";
+import blankResearchInfo from "../../util/data/blankResearchInfo";
 import { v4 as uuidv4 } from "uuid";
 
 const LandingPage = ({ setPage, formData, setFormData, errors }) => {
   const [orcidID, setOrcidID] = useState(localStorage.getItem("orcidID") || "");
-  const [userID, setUserID] = useState("");
+  const [userID, setUserID] = useState(
+    JSON.parse(localStorage.getItem("formData"))?.localID || ""
+  );
+
   const [step, setStep] = useState(1);
 
   // sets the orcidID in the formData to the orcid ID that was authenticated.
@@ -17,10 +21,20 @@ const LandingPage = ({ setPage, formData, setFormData, errors }) => {
   };
 
   const handleChange = (name, value) => {
+    if (name === "localID") {
+      setUserID(value);
+    }
     const updatedFormData = { ...formData, [name]: value };
-    setFormData(updatedFormData);
     localStorage.setItem("formData", JSON.stringify(updatedFormData));
+    setFormData(updatedFormData);
   };
+
+  useEffect(() => {
+    const storedFormData = JSON.parse(localStorage.getItem("formData"));
+    if (storedFormData) {
+      setFormData(storedFormData);
+    }
+  }, []);
 
   const handleForgotID = (e) => {
     e.preventDefault();
@@ -33,39 +47,51 @@ const LandingPage = ({ setPage, formData, setFormData, errors }) => {
     setPage(1);
   };
 
+  // if the user has an orcidID in their local storage or step 6 then go to the researcherInfo page. Reset all of the formData if the user decides to login with a new ID. However, it will save the formData if the user just continues with their old id.
   useEffect(() => {
-    if (orcidID) {
+    if (orcidID || step === 6) {
+      const id = uuidv4();
+      const newFormData = { ...blankResearchInfo, localID: id };
+      setFormData(newFormData);
+      localStorage.setItem("formData", JSON.stringify(newFormData));
       setPage(1);
     }
-  }, [orcidID]);
+  }, [orcidID, step]);
 
   const renderButtons = (
     forwardStep,
     backwardStep,
     forwardText,
-    backwardText
-  ) => (
-    <div className="LandingPage__Btns">
-      <button
-        className="forward"
-        onClick={(e) => {
-          e.preventDefault();
-          setStep(forwardStep);
-        }}
-      >
-        {forwardText}
-      </button>
-      <button
-        className="backward"
-        onClick={(e) => {
-          e.preventDefault();
-          setStep(backwardStep);
-        }}
-      >
-        {backwardText}
-      </button>
-    </div>
-  );
+    backwardText,
+    orcidText
+  ) => {
+    return (
+      <div className="LandingPage__Btns">
+        <button
+          className="backward"
+          onClick={(e) => {
+            e.preventDefault();
+            setStep(backwardStep);
+          }}
+        >
+          {backwardText}
+        </button>
+        <button
+          className="forward"
+          onClick={(e) => {
+            e.preventDefault();
+            setStep(forwardStep);
+          }}
+        >
+          {forwardText}
+        </button>
+
+        {orcidText && (
+          <OrcidLinkButton onOrcidLinked={handleOrcidLinked} text={orcidText} />
+        )}
+      </div>
+    );
+  };
 
   const renderStep1 = () => (
     <div>
@@ -77,14 +103,11 @@ const LandingPage = ({ setPage, formData, setFormData, errors }) => {
 
   const renderStep2 = () => (
     <div>
-      <p>Would you like to login with ORCID or use your own ID?</p>
-      <div>
-        <OrcidLinkButton
-          onOrcidLinked={handleOrcidLinked}
-          text="Login with Orcid"
-        />
-      </div>
-      {renderButtons(4, 1, "Login with User ID", "Back")}
+      <p>
+        Would you like to login with ORCID or use your ID from your last
+        session?
+      </p>
+      {renderButtons(4, 1, "ID Login", "Back", "Orcid Login")}
     </div>
   );
 
@@ -96,12 +119,7 @@ const LandingPage = ({ setPage, formData, setFormData, errors }) => {
         works and funding. Then you can simply select which ones you want to
         check for openness.
       </p>
-
-      <OrcidLinkButton
-        onOrcidLinked={handleOrcidLinked}
-        text="Login with Orcid"
-      />
-      {renderButtons(5, 1, "No, continue", "Back")}
+      {renderButtons(6, 1, "No, continue...", "Back", "Yes")}
     </div>
   );
 
@@ -110,7 +128,7 @@ const LandingPage = ({ setPage, formData, setFormData, errors }) => {
       <p>Please input your UserID</p>
       <TextInput
         name="userID"
-        placeholder={"User ID"}
+        placeholder={userID || "User ID"}
         value={formData.localID}
         onChange={(event) => handleChange("localID", event.target.value)}
         error={errors.localID}
@@ -126,16 +144,17 @@ const LandingPage = ({ setPage, formData, setFormData, errors }) => {
         >
           Back
         </button>
-        <button
-          className="forward"
-          onClick={(e) => {
-            e.preventDefault();
-            setStep(5);
-          }}
-        >
-          Forgot ID
-        </button>
-        {formData.localID && (
+        {!formData.localID ? (
+          <button
+            className="forward"
+            onClick={(e) => {
+              e.preventDefault();
+              setStep(5);
+            }}
+          >
+            Forgot ID
+          </button>
+        ) : (
           <button className="forward" onClick={(e) => handleLogin(e)}>
             Login
           </button>
@@ -148,10 +167,10 @@ const LandingPage = ({ setPage, formData, setFormData, errors }) => {
     <div>
       <p>Please input your email</p>
       <TextInput
-        name="email"
-        placeholder={"Email Address"}
-        value={formData.email}
-        onChange={(event) => handleChange("email", event.target.value)}
+        name="userID"
+        placeholder={"User ID"}
+        value={userID}
+        onChange={(event) => handleChange("localID", event.target.value)}
         error={errors.localID}
         id="userID"
       />
