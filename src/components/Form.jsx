@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import blankFormData from "../util/data/blankFormData";
 import blankFormBuilder from "../util/data/blankFormBuilder";
 import blankResearchInfo from "../util/data/blankResearchInfo";
+import formBuilderComponents from "../util/data/formBuilderComponents";
 
 // Util
 import getUserOrcidInfo from "../util/fetchingOrcidData/getUserOrcidInfo";
@@ -17,21 +18,6 @@ import flattenObject from "../util/helperFunctions/flattenObject";
 import fetchResearcherFunding from "../util/fetchingOrcidData/fetchResearcherFunding";
 
 // Components
-import {
-  Articles,
-  Monographs,
-  Datasets,
-  Codes,
-  Materials,
-  Protocols,
-  DigitalScholarships,
-  Preprints,
-  PeerReviews,
-  PreRegs,
-  RegReports,
-  Theses,
-} from "./pages/DataSection";
-
 import Projects from "./pages/Projects";
 import SuccessModal from "./SuccessModal";
 import FormDataDisplay from "./pages/FormDataDisplay";
@@ -40,358 +26,113 @@ import LeftContent from "./pages/LeftContent";
 import Summary from "./pages/Summary";
 import FormBuilder from "./pages/FormBuilder";
 import StepCounter from "./StepCounter";
+import LandingPage from "./pages/LandingPage";
 
 // Validation
 import validateResearcher from "../validationRules/ResearcherVR";
 import validateBuilder from "../validationRules/BuilderVR";
 
 function Form() {
+  const pagesBeforeOutput = 4; // Change this if adding or removing a page before the OutputTypes page as it controls the conditional rendering of the buttons.
   const [page, setPage] = useState(0);
   const [display, setDisplay] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [errors, setErrors] = useState({});
-  const [orcidData, setOrcidData] = useState({});
   const [selectedProjectIndex, setSelectedProjectIndex] = useState();
-  const [loaded, setLoaded] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [displayModal, setDisplayModal] = useState(false);
   const navigate = useNavigate();
-
   // Form Data
   const [researcherInfo, setResearcherInfo] = useState(blankResearchInfo);
   const [formData, setFormData] = useState(blankFormData);
   const [formBuilder, setFormBuilder] = useState(blankFormBuilder);
 
-  const [displayModal, setDisplayModal] = useState(false);
-
-  let leftStack = [];
-
-  const formBuilderFunc = () => {
-    const form = [];
-
-    if (formBuilder.article) {
-      form.push(
-        <Articles
-          formData={formData}
-          setFormData={setFormData}
-          display={display}
-          setDisplay={setDisplay}
-        />
-      );
-      leftStack.push(
-        <LeftContent
-          heading="Articles"
-          img={`${
-            import.meta.env.VITE_LOCAL_URL
-          }/Team_Presentation_Monochromatic.svg`}
-          subtext="A research article is a journal article in which the authors report on the research they did. Research articles are always primary sources. Whether or not a research article is peer reviewed depends on the journal that publishes it."
-        />
-      );
-    }
-
-    if (formBuilder.monograph) {
-      form.push(
-        <Monographs
-          formData={formData}
-          setFormData={setFormData}
-          display={display}
-          setDisplay={setDisplay}
-        />
-      );
-      leftStack.push(
-        <LeftContent
-          heading="Monographs"
-          subtext="A monograph is a special type of book written on a single specialized topic, devoted mainly for research works; could pose some unsolved problems and may provide detailed explanation of some research papers."
-        />
-      );
-    }
-
-    if (formBuilder.dataset) {
-      form.push(
-        <Datasets
-          formData={formData}
-          setFormData={setFormData}
-          display={display}
-          setDisplay={setDisplay}
-        />
-      );
-      leftStack.push(
-        <LeftContent
-          heading="Data"
-          subtext="A dataset is any logically meaningful collection or grouping of similar or related data you have used in your research, as a matter of record or directly related to your research"
-        />
-      );
-    }
-
-    if (formBuilder.code) {
-      form.push(
-        <Codes
-          formData={formData}
-          setFormData={setFormData}
-          display={display}
-          setDisplay={setDisplay}
-        />
-      );
-      leftStack.push(
-        <LeftContent
-          heading="Code"
-          subtext="Code is any qualitative data analysis strategy you have used in which some aspect of the data is assigned a descriptive label that allows the researcher to identify related content across the data."
-        />
-      );
-    }
-
-    if (formBuilder.researchMaterial) {
-      form.push(
-        <Materials
-          formData={formData}
-          setFormData={setFormData}
-          display={display}
-          setDisplay={setDisplay}
-        />
-      );
-      leftStack.push(
-        <LeftContent
-          heading="Research Material"
-          subtext="Research materials are any documents, records, software, information, data and other materials or work product in any tangible form created or developed during the course of, or in association with, your research activity."
-        />
-      );
-    }
-
-    if (formBuilder.protocol) {
-      form.push(
-        <Protocols
-          formData={formData}
-          setFormData={setFormData}
-          display={display}
-          setDisplay={setDisplay}
-        />
-      );
-      leftStack.push(
-        <LeftContent
-          heading="Protocols"
-          subtext="A research protocol is a document that describes the background, rationale, objectives, design, methodology, statistical considerations, and organization of a clinical research project."
-        />
-      );
-    }
-
-    if (formBuilder.digitalScholarship) {
-      form.push(
-        <DigitalScholarships
-          formData={formData}
-          setFormData={setFormData}
-          display={display}
-          setDisplay={setDisplay}
-        />
-      );
-      leftStack.push(
-        <LeftContent
-          heading="Digital Scholarships"
-          subtext="Digital scholarship can encompass both scholarly communication using digital media and research on digital media. An important aspect of digital scholarship is the effort to establish digital media and social media as credible, professional and legitimate means of research and communication."
-        />
-      );
-    }
-
-    if (formBuilder.preprints) {
-      form.push(
-        <Preprints
-          formData={formData}
-          setFormData={setFormData}
-          display={display}
-          setDisplay={setDisplay}
-        />
-      );
-      leftStack.push(
-        <LeftContent
-          heading="Preprints"
-          subtext="Preprints are preliminary versions of scientific manuscripts that researchers share by posting to online platforms known as preprint servers before peer-review and publication in an academic journal."
-        />
-      );
-    }
-
-    if (formBuilder.openPeerReview) {
-      form.push(
-        <PeerReviews
-          formData={formData}
-          setFormData={setFormData}
-          display={display}
-          setDisplay={setDisplay}
-        />
-      );
-      leftStack.push(
-        <LeftContent
-          heading="Open Peer Reviews"
-          subtext="Any scholarly review mechanism providing disclosure of author and referee identities to one another at any point during the peer review or publication process."
-        />
-      );
-    }
-
-    if (formBuilder.analysisPlan) {
-      form.push(
-        <PreRegs
-          formData={formData}
-          setFormData={setFormData}
-          display={display}
-          setDisplay={setDisplay}
-        />
-      );
-      leftStack.push(
-        <LeftContent
-          heading="Pre-registration Analysis Plans"
-          subtext="Preregistration refers to the specification of a study's hypotheses, methodology, and statistical analyses before inspecting the research data. Preregistration takes typically the form of a document that is made publicly available on a timestamped repository or website."
-        />
-      );
-    }
-
-    if (formBuilder.registeredReport) {
-      form.push(
-        <RegReports
-          formData={formData}
-          setFormData={setFormData}
-          display={display}
-          setDisplay={setDisplay}
-        />
-      );
-      leftStack.push(
-        <LeftContent
-          heading="Registered Report"
-          subtext="Registered Reports are a format of empirical article where a study proposal is reviewed before the research is undertaken. Pre-registered proposals that meet high scientific standards are then provisionally accepted before the outcomes are known, independently of the results."
-        />
-      );
-    }
-
-    if (formBuilder.dissertation) {
-      form.push(
-        <Theses
-          formData={formData}
-          setFormData={setFormData}
-          display={display}
-          setDisplay={setDisplay}
-        />
-      );
-      leftStack.push(
-        <LeftContent
-          heading="Theses and Dissertation"
-          subtext="A thesis is a compilation of research that proves you are knowledgeable about the information learn throughout your graduate program. A dissertation is your opportunity during a doctorate program to contribute new knowledge, theories or practices to your field."
-        />
-      );
-    }
-    return form;
-  };
-
-  let form = formBuilderFunc();
-
-  const displayPage = (currPage) => {
-    if (form.length > currPage) {
+  // Maps through formBuilderComponents and formBuilder file and displays the correct Component if that components value is true in formBuilder. These values are made true (checked) in the FormBuilder component whenever the output box is clicked on the Output Types page.
+  let form = Object.entries(formBuilder)
+    .filter(([, value]) => value)
+    .map(([key]) => {
+      let Component = formBuilderComponents[key];
       return (
-        <div>
-          <StepCounter page={page - 3} form={form} />
-          {form[currPage]}
-        </div>
+        <Component
+          formData={formData}
+          setFormData={setFormData}
+          display={display}
+          setDisplay={setDisplay}
+        />
       );
-    } else {
-      return <Summary formData={formData} />;
-    }
-  };
+    });
 
-  const PageDisplay = () => {
-    switch (page) {
-      case 0: {
-        return (
-          <div>
-            <ResearcherInfo
-              formData={researcherInfo}
-              setFormData={setResearcherInfo}
-              errors={errors}
-              orcidData={orcidData}
-              setOrcidData={setOrcidData}
-            />
-          </div>
-        );
-      }
-      case 1: {
-        return (
-          <div>
-            <Projects
-              formData={formData}
-              setFormData={setFormData}
-              display={display}
-              setDisplay={setDisplay}
-              selectedProject={selectedProject}
-              setSelectedProject={setSelectedProject}
-              selectedProjectIndex={selectedProjectIndex}
-              setSelectedProjectIndex={setSelectedProjectIndex}
-              loaded={loaded}
-              setLoaded={setLoaded}
-            />
-          </div>
-        );
-      }
-      case 2: {
-        return (
-          <div>
-            <FormBuilder
-              formBuilder={formBuilder}
-              setFormBuilder={setFormBuilder}
-              formData={formData}
-              error={errors}
-            />
-          </div>
-        );
-      }
-      case 3:
-        return displayPage(0);
-      case 4:
-        return displayPage(1);
-      case 5:
-        return displayPage(2);
-      case 6:
-        return displayPage(3);
-      case 7:
-        return displayPage(4);
-      case 8:
-        return displayPage(5);
-      case 9:
-        return displayPage(6);
-      case 10:
-        return displayPage(7);
-      case 11:
-        return displayPage(8);
-      case 12:
-        return displayPage(9);
-      case 13:
-        return displayPage(10);
-      case 14:
-        return displayPage(11);
-      case 15:
-        return <Summary formData={formData} />;
-      default:
-        return <div>Default Case</div>;
-    }
-  };
+  // This is an array of all possible pages.
+  const pages = [
+    // Page 0
+    <LandingPage
+      formData={researcherInfo}
+      setFormData={setResearcherInfo}
+      errors={errors}
+    />,
+    // Page 1
+    <ResearcherInfo
+      formData={researcherInfo}
+      setFormData={setResearcherInfo}
+      errors={errors}
+    />,
+    // Page 2
+    <Projects
+      formData={formData}
+      setFormData={setFormData}
+      display={display}
+      setDisplay={setDisplay}
+      selectedProject={selectedProject}
+      setSelectedProject={setSelectedProject}
+      selectedProjectIndex={selectedProjectIndex}
+      setSelectedProjectIndex={setSelectedProjectIndex}
+    />,
+    // Page 3 (Outputs)
+    <FormBuilder
+      formBuilder={formBuilder}
+      setFormBuilder={setFormBuilder}
+      formData={formData}
+      error={errors}
+    />,
+    // Page 4 and above, depending on how many outputs were chosen
+    ...form.map((component, _) => component),
+    // Page 4 + form.length (how many ouputs)
+    <Summary formData={formData} />,
+    <div>Default Case</div>,
+  ];
 
-  const LeftDisplay = () => {
-    if (page == 0) {
-      return (
-        <div>
-          <LeftContent
-            heading="Open Research Tool"
-            img={`${import.meta.env.VITE_LOCAL_URL}/img/info_graphic_1.svg`}
-            subtext="Using this tool you can learn how to increase the openess of your research. As you fill out the forms on the right, our system will take all of your input and provide advise on how best you can increase it's openess. Please be honest and include as much information as possible so that we can provide you with an accurate assessment."
-          />
-        </div>
-      );
-    } else {
-      return (
-        // need to keep the key to force re-renders when the formData changes
-        <FormDataDisplay key={JSON.stringify(formData)} formData={formData} />
-      );
-    }
-  };
+  const PageDisplay = () => pages[page] || pages[pages.length - 1];
+
+  const LeftDisplay = () =>
+    page < 2 ? (
+      <LeftContent
+        heading="Open Research Tool"
+        img={`${import.meta.env.VITE_LOCAL_URL}/img/info_graphic_1.svg`}
+        subtext="Using this tool you can learn how to increase the openess of your research. As you fill out the forms on the right, our system will take all of your input and provide advise on how best you can increase it's openess. Please be honest and include as much information as possible so that we can provide you with an accurate assessment."
+      />
+    ) : (
+      <FormDataDisplay key={JSON.stringify(formData)} formData={formData} />
+    );
 
   const handleNext = (e) => {
     e.preventDefault();
 
     switch (page) {
       case 0: {
+        // ensure user is valid or new before moving to next page
+        // let newErrors = validateUser();
+        // setErrors(newErrors)
+        // if (Object.keys(newErrors).length === 0) {
+        //   formData.Researcher = researcherInfo;
+
+        //   setErrors({});
+        // }
+        setPage((currentPage) => currentPage + 1);
+
+        break;
+      }
+      case 1: {
+        // validate researcher before moving to next page
         let newErrors = validateResearcher(researcherInfo);
         setErrors(newErrors);
 
@@ -403,7 +144,7 @@ function Form() {
         }
         break;
       }
-      case 1: {
+      case 2: {
         // validate project
         if (selectedProject) {
           setPage((currentPage) => currentPage + 1);
@@ -414,10 +155,11 @@ function Form() {
 
         break;
       }
-      case 2: {
+      case 3: {
         let newErrors = validateBuilder(formBuilder);
+        console.log(formBuilder);
         setErrors(newErrors);
-
+        console.log(errors);
         if (Object.keys(newErrors).length === 0) {
           setErrors({});
           setPage((currentPage) => currentPage + 1);
@@ -434,7 +176,7 @@ function Form() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitted(true);
-    setPage(15);
+    setPage(pagesBeforeOutput + form.length);
   };
 
   const handleSave = async (e) => {
@@ -522,6 +264,12 @@ function Form() {
     }
   }, [localStorage.getItem("orcidID")]);
 
+  useEffect(() => {
+    if (page === form.length + pagesBeforeOutput) {
+      setSubmitted(true);
+    }
+  }, [form.length]);
+
   return (
     <div>
       <div className="container-fluid full-height">
@@ -564,19 +312,6 @@ function Form() {
                 <div id="middle-wizard">{PageDisplay()}</div>
                 {/*<!-- /middle-wizard -->*/}
                 <div id="bottom-wizard">
-                  {/*<!-- This button is just for the development stage-->*/}
-                  {/* <button
-                    type="button"
-                    name="skip"
-                    className={`skip backward
-                      ${display && "background"}`}
-                    disabled={(page === form.length + 2) | submitted}
-                    onClick={() => {
-                      setPage((currentPage) => currentPage + 1);
-                    }}
-                  >
-                    Skip
-                  </button> */}
                   <button
                     type="button"
                     name="backward"
@@ -592,7 +327,7 @@ function Form() {
                     type="button"
                     name="forward"
                     className={`forward ${display && "background"}`}
-                    disabled={page === form.length + 2 || submitted}
+                    disabled={page === pagesBeforeOutput + form.length}
                     onClick={(e) => handleNext(e)}
                   >
                     Next
@@ -601,7 +336,9 @@ function Form() {
                     type="submit"
                     name="process"
                     className={`backward ${display && "background"}`}
-                    disabled={!(page === form.length + 2) || submitted}
+                    disabled={
+                      !(page === form.length + pagesBeforeOutput) || submitted
+                    }
                     onClick={(e) => handleSubmit(e)}
                   >
                     Submit

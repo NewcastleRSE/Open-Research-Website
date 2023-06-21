@@ -7,7 +7,7 @@ export default {
   DigitalScholarships: ["license", "embargo"],
   Materials: ["reproduction", "release"],
   Monographs: ["doi", "license", "embargo"],
-  PeerReviews: ["revResponse"],
+  PeerReviews: ["response"],
   Preprints: ["doi", "license", "release"],
   PreRegAnalyses: ["distinction"],
   Protocols: ["sharing"],

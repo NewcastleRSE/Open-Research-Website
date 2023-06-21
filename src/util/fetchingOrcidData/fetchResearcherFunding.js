@@ -2,20 +2,22 @@ import axios from "axios";
 import flattenObject from "../helperFunctions/flattenObject";
 import { v4 as uuidv4 } from "uuid";
 
+// Fetches the researchers funding or projects as they are called in this project. Helper functions are below.
 async function fetchResearcherFunding(navigate, orcid) {
   try {
     const response = await axios.get(
       `https://pub.orcid.org/v3.0/${orcid}/record`
     );
-    console.log("getting info");
+    // Flatten the data as the original JSON received is deep and complex.
     const userRecord = flattenObject(response.data);
-    console.log("userrecord", userRecord);
+    // This contains all of the fundings
     const funding = userRecord["activities-summary.fundings.group"];
+    // Runs formatting on the funding to ensure the object is easier to use.
     const formattedFunding = formatFundingData(funding);
+    // Map through and add a uuidv4 to each project.
     formattedFunding.map((i) => (i.id = uuidv4()));
-    console.log(formattedFunding);
+    // Need the navigate for CORS.
     navigate("/");
-    console.log("formattedFunding", formattedFunding);
     return formattedFunding;
   } catch (error) {
     console.error("Error getting user info:", error);

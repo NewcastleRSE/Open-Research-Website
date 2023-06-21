@@ -8,21 +8,14 @@ import DropDown from "../formElements/DropDown";
 import DropDownOther from "../formElements/DropDownOther";
 import TextInput from "../formElements/TextInput";
 
-function ResearcherInfo({
-  formData,
-  setFormData,
-  errors,
-  setOrcidData,
-  orcidData,
-}) {
+function ResearcherInfo({ formData, setFormData, errors }) {
   // sets the orcidID in the formData to the orcid ID that was authenticated.
-  const handleOrcidLinked = (accessToken, orcid) => {
+  const handleOrcidLinked = (orcid) => {
     // should hopefully populate more of the data with the user's information that is gathered from orcid
     const updatedFormData = { ...formData, orcidID: orcid, orcidLinked: true };
     setFormData(updatedFormData);
   };
   const [orcidID, setOrcidID] = useState(localStorage.getItem("orcidID") || "");
-  const navigate = useNavigate();
 
   useEffect(() => {
     const storedFormData = JSON.parse(localStorage.getItem("formData"));

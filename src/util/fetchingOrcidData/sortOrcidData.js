@@ -1,9 +1,8 @@
-import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import sectionTypes from "../data/sectionTypes";
 
 // this function will take some formData and the users works and then return a formData object with the updated works.
 const sortOrcidData = async (formData, works) => {
+  console.log(works);
   let updatedFormData = sortData(works, formData);
   return updatedFormData;
 };

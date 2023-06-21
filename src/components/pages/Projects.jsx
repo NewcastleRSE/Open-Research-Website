@@ -12,8 +12,6 @@ function ProjectInfo({
   setDisplay,
   selectedProject,
   setSelectedProject,
-  loaded,
-  setLoaded,
 }) {
   // projects is a combination of the orcid projects and the normal projects
   const [projects, setProjects] = useState([]);

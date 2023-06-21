@@ -57,11 +57,11 @@ function PeerReview({
         label="Does the peer review include the authors response?"
         a="Yes"
         b="No"
-        value={formData.revResponse}
+        value={formData.response}
         onChange={(event) => {
-          setFormData({ ...formData, revResponse: event.target.value });
+          setFormData({ ...formData, response: event.target.value });
         }}
-        error={errors.revResponse}
+        error={errors.response}
       />
       {formData.orcid ? (
         <ModalButtons handleSave={handleSave} handleCancel={handleCancel} />
