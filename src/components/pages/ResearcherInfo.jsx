@@ -1,7 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import OrcidLinkButton from "../OrcidLinkButton";
-import getUserOrcidInfo from "../../util/fetchingOrcidData/getUserOrcidInfo";
 import React from "react";
 
 import DropDown from "../formElements/DropDown";
@@ -10,7 +7,7 @@ import TextInput from "../formElements/TextInput";
 
 function ResearcherInfo({ formData, setFormData, errors }) {
   const [orcidID, setOrcidID] = useState(localStorage.getItem("orcidID") || "");
-
+  const [userID, setUserID] = useState(localStorage.getItem("userID") || "");
   useEffect(() => {
     const storedFormData = JSON.parse(localStorage.getItem("formData"));
     if (storedFormData) {
@@ -22,6 +19,12 @@ function ResearcherInfo({ formData, setFormData, errors }) {
     const updatedFormData = { ...formData, [name]: value };
     setFormData(updatedFormData);
     localStorage.setItem("formData", JSON.stringify(updatedFormData));
+  };
+
+  const unlinkOrcid = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("orcidID");
+    setOrcidID(null);
   };
 
   return (
@@ -80,23 +83,28 @@ function ResearcherInfo({ formData, setFormData, errors }) {
         error={errors.careerStage}
         id="careerStage"
       />
-      {orcidID.length > 1 && (
+      {orcidID && (
         <TextInput
-          name="orcidID"
-          placeholder={orcidID}
+          name="OrcidID"
+          placeholder={"Identification"}
           value={orcidID}
-          id="orcidId"
+          id="OrcidID"
           readOnly
         />
       )}
-      {formData.localID.length > 0 && (
+      {userID && !orcidID && (
         <TextInput
-          name="localID"
-          placeholder={`Local ID: ${formData.localID}`}
-          value={`Local ID: ${formData.localID}`}
-          id="localID"
+          name="ID"
+          placeholder={"ID"}
+          value={`User ID: ${userID}`}
+          id="ID"
           readOnly
         />
+      )}
+      {orcidID && (
+        <button className="forward" onClick={(e) => unlinkOrcid(e)}>
+          Unlink Orcid
+        </button>
       )}
     </div>
   );

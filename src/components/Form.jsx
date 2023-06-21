@@ -45,8 +45,8 @@ function Form() {
   const [researcherInfo, setResearcherInfo] = useState(blankResearchInfo);
   const [formData, setFormData] = useState(blankFormData);
   const [formBuilder, setFormBuilder] = useState(blankFormBuilder);
-  console.log("researcher info", researcherInfo);
-  console.log("form data", formData);
+  const [orcidID, setOrcidID] = useState(localStorage.getItem("orcidID") || "");
+  const [userID, setUserID] = useState(localStorage.getItem("userID") || "");
   // Maps through formBuilderComponents and formBuilder file and displays the correct Component if that components value is true in formBuilder. These values are made true (checked) in the FormBuilder component whenever the output box is clicked on the Output Types page.
   let form = Object.entries(formBuilder)
     .filter(([, value]) => value)
@@ -254,20 +254,10 @@ function Form() {
   }, [researcherInfo.orcidID]);
 
   useEffect(() => {
-    if (!localStorage.getItem("orcidID")) {
-      const updatedFormData = {
-        ...formData,
-        orcidLinked: false,
-      };
-      setFormData(updatedFormData);
+    if (orcidID) {
+      setPage(1);
     }
-  }, [localStorage.getItem("orcidID")]);
-
-  useEffect(() => {
-    if (page === form.length + pagesBeforeOutput) {
-      setSubmitted(true);
-    }
-  }, [form.length]);
+  }, [orcidID]);
 
   return (
     <div>
@@ -315,7 +305,7 @@ function Form() {
                     type="button"
                     name="backward"
                     className={`backward ${display && "background"}`}
-                    disabled={page < 2 || submitted}
+                    disabled={page < 1 || submitted}
                     onClick={() => {
                       setPage((currentPage) => currentPage - 1);
                     }}

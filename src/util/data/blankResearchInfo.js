@@ -4,8 +4,5 @@ export default {
   school: "",
   otherSchool: "",
   careerStage: "",
-  orcidID: "",
-  orcidLinked: "",
-  localID: "",
   email: "",
 };

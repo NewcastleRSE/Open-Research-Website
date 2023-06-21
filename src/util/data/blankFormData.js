@@ -7,8 +7,6 @@ export default {
     school: "",
     otherSchool: "",
     careerStage: "",
-    orcidID: "",
-    localID: "",
     email: "",
   },
 

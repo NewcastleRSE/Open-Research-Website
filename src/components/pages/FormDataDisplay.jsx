@@ -156,7 +156,6 @@ const FormDataDisplay = ({ formData }) => {
             Faculty: formData.Researcher.faculty,
             School: formData.Researcher.school,
             Stage: formData.Researcher.careerStage,
-            OrcidID: formData.Researcher.orcidID,
           },
         ])}
       {/** Project Form Display */}
