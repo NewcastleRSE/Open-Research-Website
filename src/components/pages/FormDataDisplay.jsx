@@ -16,7 +16,7 @@ import {
   DisplayProtocolInfo,
 } from "../dataDisplay/DisplayData";
 
-const FormDataDisplay = ({ formData }) => {
+const FormDataDisplay = ({ formData, formBuilder }) => {
   const [expandedSections, setExpandedSections] = useState([
     "Researcher",
     "Project",
@@ -33,7 +33,7 @@ const FormDataDisplay = ({ formData }) => {
     "Registered Reports",
     "Theses",
   ]);
-  console.log(formData);
+
   const sectionRefs = useRef({});
   useEffect(() => {}), [formData];
   const field = (label, value) => {
@@ -99,6 +99,9 @@ const FormDataDisplay = ({ formData }) => {
   const section = (sectionName, sectionData) => {
     const isExpanded = expandedSections.includes(sectionName);
 
+    // Filter for selected entries in this section
+    const selectedEntries = sectionData.filter((x) => x.selected === true);
+
     const handleClick = (sectionName) => {
       if (expandedSections.includes(sectionName)) {
         setExpandedSections(
@@ -110,7 +113,11 @@ const FormDataDisplay = ({ formData }) => {
     };
 
     return (
-      sectionData[0] && (
+      // Check for sectionData[0] existence and either the existence of selected entries or the section being "Researcher" or "Project". The formData should always display Researcher and Project but the rest can be conditionally rendered.
+      sectionData[0] &&
+      (selectedEntries.length > 0 ||
+        sectionName === "Researcher" ||
+        sectionName === "Project") && (
         <div
           className="Results__SubContainer"
           ref={(el) => (sectionRefs.current[sectionName] = el)}

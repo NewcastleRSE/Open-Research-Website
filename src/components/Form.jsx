@@ -25,7 +25,6 @@ import ResearcherInfo from "./pages/ResearcherInfo";
 import LeftContent from "./pages/LeftContent";
 import Summary from "./pages/Summary";
 import FormBuilder from "./pages/FormBuilder";
-import StepCounter from "./StepCounter";
 import LandingPage from "./pages/LandingPage";
 
 // Validation
@@ -101,17 +100,19 @@ function Form() {
     <div>Default Case</div>,
   ];
 
+  // Will display the page, but if the page is undefined for any reason it will display the page before, to stop it from breaking.
   const PageDisplay = () => pages[page] || pages[pages.length - 1];
 
+  // LeftContent will render until an output has been chosen, at this point the left hand side of the page will render the formData that has been filled out so far.
   const LeftDisplay = () =>
-    page < 2 ? (
-      <LeftContent
-        heading="Open Research Tool"
-        img={`${import.meta.env.VITE_LOCAL_URL}/img/info_graphic_1.svg`}
-        subtext="Using this tool you can learn how to increase the openess of your research. As you fill out the forms on the right, our system will take all of your input and provide advise on how best you can increase it's openess. Please be honest and include as much information as possible so that we can provide you with an accurate assessment."
-      />
+    form.length == 0 ? (
+      <LeftContent />
     ) : (
-      <FormDataDisplay key={JSON.stringify(formData)} formData={formData} />
+      <FormDataDisplay
+        key={JSON.stringify(formData)}
+        formData={formData}
+        formBuilder={formBuilder}
+      />
     );
 
   const handleNext = (e) => {

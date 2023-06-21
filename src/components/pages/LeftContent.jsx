@@ -1,30 +1,23 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 
-function LeftContent(props) {
-  let { id } = useParams();
-
-  // const displayUuid = () => {
-  //   if (id) {
-  //     return (
-  //       <>
-  //         <h3>Your UUID is:</h3>
-  //         <p>{id}</p>
-  //       </>
-  //     );
-  //   } else {
-  //     return null;
-  //   }
-  // };
-
+function LeftContent() {
   return (
     <div>
-      {/* {displayUuid()} */}
       <figure>
-        <img src={props.img} alt="" className="img-fluid" />
+        <img
+          src={`${import.meta.env.VITE_LOCAL_URL}/img/info_graphic_1.svg`}
+          alt=""
+          className="img-fluid"
+        />
       </figure>
-      <h2>{props.heading}</h2>
-      <p>{props.subtext}</p>
+      <h2>Open Research Tool</h2>
+      <p>
+        Using this tool you can learn how to increase the openess of your
+        research. As you fill out the forms on the right, our system will take
+        all of your input and provide advise on how best you can increase it's
+        openess. Please be honest and include as much information as possible so
+        that we can provide you with an accurate assessment.
+      </p>
       <a href="/about" className="btn_1 rounded">
         About Us
       </a>
