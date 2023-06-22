@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import registerUser from "../userFunctions/registerUser";
 
 // This function is called in App.js as a route for /callback as /callback is the redirect uri that the site gets sent to after the user has authenticated with the Orcid website.
 const OrcidCallback = () => {
@@ -19,17 +20,8 @@ const OrcidCallback = () => {
           // set local storage
           localStorage.setItem("orcidToken", data.accessToken);
           localStorage.setItem("orcidID", data.orcid);
-          // should receive this data but not currently
-          // // set expiration and refresh token
-          // const expiresIn = data.expires_in;
-          // const refreshToken = data.refresh_token;
-          // const expirationDate = new Date(
-          //   new Date().getTime() + expiresIn * 1000
-          // );
-          // localStorage.setItem("expiresIn", expiresIn);
-          // localStorage.setItem("refreshToken", refreshToken);
-          // localStorage.setItem("expirationDate", expirationDate.toISOString());
-
+          // register the user
+          registerUser(data.orcid, true, "test@gmail.com");
           // redirect the user to another page (e.g., a dashboard)
           console.log("Navigating to home page");
           navigate("/");

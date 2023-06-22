@@ -21,7 +21,6 @@ const OrcidLinkButton = ({ onOrcidLinked, text }) => {
     const REDIRECT_URI = import.meta.env.VITE_OAUTH_URL;
     const url = `https://orcid.org/oauth/authorize?client_id=${CLIENT_ID}&response_type=code&scope=/authenticate&redirect_uri=${REDIRECT_URI}`;
     window.location.href = url;
-    localStorage.removeItem("userID");
   };
 
   return (
