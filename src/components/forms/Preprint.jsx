@@ -28,6 +28,7 @@ function Preprint({
           setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
+        readOnly={formData.orcid}
       />
       <UrlInput
         name="preprintURL"
@@ -37,6 +38,7 @@ function Preprint({
           setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
+        readOnly={formData.orcid}
       />
       <TextInput
         name="preprintDOI"
@@ -67,6 +69,7 @@ function Preprint({
             setFormData({ ...formData, type: event.target.value });
           }}
           id="preprint-type"
+          disabled={formData.orcid}
         />
       )}
       <BooleanInput

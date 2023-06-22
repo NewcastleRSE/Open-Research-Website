@@ -27,6 +27,7 @@ function PreReg({
           setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
+        readOnly={formData.orcid}
       />
       <UrlInput
         name="preRegURL"
@@ -36,6 +37,7 @@ function PreReg({
           setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
+        readOnly={formData.orcid}
       />
       {sectionTypes.PreReg.length !== 0 && (
         <DropDown
@@ -49,6 +51,7 @@ function PreReg({
             setFormData({ ...formData, type: event.target.value });
           }}
           id="preReg-type"
+          disabled={formData.orcid}
         />
       )}
       <BooleanInput

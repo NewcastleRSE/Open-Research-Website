@@ -26,6 +26,7 @@ function Monograph({
           setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
+        readOnly={formData.orcid}
       />
       <UrlInput
         name="monographURL"
@@ -35,6 +36,7 @@ function Monograph({
           setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
+        readOnly={formData.orcid}
       />
       <TextInput
         name="monographDOI"
@@ -69,6 +71,7 @@ function Monograph({
             setFormData({ ...formData, type: event.target.value });
           }}
           id="monograph-type"
+          disabled={formData.orcid}
         />
       )}
       <BooleanInput

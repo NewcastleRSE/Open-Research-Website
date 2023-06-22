@@ -13,6 +13,7 @@ const UrlInput = (props) => {
         placeholder={props.placeholder}
         value={props.value}
         onChange={props.onChange}
+        readOnly={props.readOnly}
       />
     </div>
   );

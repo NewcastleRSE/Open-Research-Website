@@ -26,6 +26,7 @@ function Thesis({
           setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
+        readOnly={formData.orcid}
       />
       <UrlInput
         name="thesisURL"
@@ -35,6 +36,7 @@ function Thesis({
           setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
+        readOnly={formData.orcid}
       />
       <TextInput
         name="thesisDOI"
@@ -66,6 +68,7 @@ function Thesis({
             setFormData({ ...formData, type: event.target.value });
           }}
           id="thesis-type"
+          disabled={formData.orcid}
         />
       )}
       <BooleanInput

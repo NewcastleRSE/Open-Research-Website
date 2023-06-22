@@ -28,6 +28,7 @@ function Material({
           setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
+        readOnly={formData.orcid}
       />
       <UrlInput
         name="materialURL"
@@ -37,6 +38,7 @@ function Material({
           setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
+        readOnly={formData.orcid}
       />
       {sectionTypes.Material.length !== 0 && (
         <DropDown
@@ -50,6 +52,7 @@ function Material({
             setFormData({ ...formData, type: event.target.value });
           }}
           id="material-type"
+          disabled={formData.orcid}
         />
       )}
       <BooleanInput

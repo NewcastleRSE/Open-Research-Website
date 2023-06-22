@@ -26,6 +26,7 @@ const DropDown = (props) => {
           value={props.value}
           onChange={props.onChange}
           data-testid={props.id}
+          disabled={props.disabled}
         >
           <option value="" disabled>
             {props.placeholder}

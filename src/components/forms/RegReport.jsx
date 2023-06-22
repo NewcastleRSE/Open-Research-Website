@@ -26,6 +26,7 @@ function RegReport({
           setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
+        readOnly={formData.orcid}
       />
       <UrlInput
         name="regReportURL"
@@ -35,6 +36,7 @@ function RegReport({
           setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
+        readOnly={formData.orcid}
       />
       {sectionTypes.RegReport.length !== 0 && (
         <DropDown
@@ -48,6 +50,7 @@ function RegReport({
             setFormData({ ...formData, type: event.target.value });
           }}
           id="regReport-type"
+          disabled={formData.orcid}
         />
       )}
       <BooleanInput

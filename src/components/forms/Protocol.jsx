@@ -27,6 +27,7 @@ function Protocol({
           setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
+        readOnly={formData.orcid}
       />
       <TextInput
         name="protocolURL"
@@ -36,6 +37,7 @@ function Protocol({
           setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
+        readOnly={formData.orcid}
       />
       {sectionTypes.Protocol.length !== 0 && (
         <DropDown
@@ -49,6 +51,7 @@ function Protocol({
             setFormData({ ...formData, type: event.target.value });
           }}
           id="protocol-type"
+          disabled={formData.orcid}
         />
       )}
       <BooleanInput

@@ -27,6 +27,7 @@ const Article = ({
           setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
+        readOnly={formData.orcid}
       />
       <UrlInput
         name="articleURL"
@@ -36,6 +37,7 @@ const Article = ({
           setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
+        readOnly={formData.orcid}
       />
       <TextInput
         name="articleDOI"
@@ -58,6 +60,7 @@ const Article = ({
             setFormData({ ...formData, type: event.target.value });
           }}
           id="article-type"
+          disabled={formData.orcid}
         />
       )}
       <TextInput

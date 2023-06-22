@@ -224,17 +224,14 @@ function Form() {
 
   const fetchOrcidRecord = async () => {
     try {
-      if (researcherInfo.orcidID) {
+      if (orcidID) {
         // Get the unformatted users data from orcid
-        const data = await getUserOrcidInfo(navigate, researcherInfo.orcidID);
+        const data = await getUserOrcidInfo(navigate, orcidID);
         console.log("Users orcid data:", data);
         // Flatten the data (format it)
         const flatData = flattenObject(data);
         console.log("Formatted orcid data:", flatData);
-        const funding = await fetchResearcherFunding(
-          navigate,
-          researcherInfo.orcidID
-        );
+        const funding = await fetchResearcherFunding(navigate, orcidID);
         formData.orcidProjects = funding;
         const newFormData = await sortOrcidData(
           formData,
@@ -248,10 +245,10 @@ function Form() {
   };
 
   useEffect(() => {
-    if (researcherInfo.orcidID) {
+    if (orcidID) {
       fetchOrcidRecord();
     }
-  }, [researcherInfo.orcidID]);
+  }, [orcidID]);
 
   useEffect(() => {
     if (orcidID) {

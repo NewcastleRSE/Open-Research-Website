@@ -46,6 +46,7 @@ function CodeInfo({
           setFormData({ ...formData, title: event.target.value })
         }
         error={errors.title}
+        readOnly={formData.orcid}
       />
       <UrlInput
         name="codeURL"
@@ -55,6 +56,7 @@ function CodeInfo({
           setFormData({ ...formData, url: event.target.value })
         }
         error={errors.URL}
+        readOnly={formData.orcid}
       />
       <TextInput
         name="codeDOI"
@@ -77,6 +79,7 @@ function CodeInfo({
             setFormData({ ...formData, type: event.target.value });
           }}
           id="code-type"
+          disabled={formData.orcid}
         />
       )}
       <BooleanInput

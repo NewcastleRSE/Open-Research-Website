@@ -28,6 +28,7 @@ function PeerReview({
           setFormData({ ...formData, title: event.target.value });
         }}
         error={errors.title}
+        readOnly={formData.orcid}
       />
       <UrlInput
         name="peerRevURL"
@@ -37,6 +38,7 @@ function PeerReview({
           setFormData({ ...formData, url: event.target.value });
         }}
         error={errors.URL}
+        readOnly={formData.orcid}
       />
       {sectionTypes.PeerRev.length !== 0 && (
         <DropDown
@@ -50,6 +52,7 @@ function PeerReview({
             setFormData({ ...formData, type: event.target.value });
           }}
           id="peerRev-type"
+          disabled={formData.orcid}
         />
       )}
       <BooleanInput
