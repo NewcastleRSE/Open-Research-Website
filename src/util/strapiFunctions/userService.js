@@ -57,11 +57,13 @@ const userService = {
     }
   },
   getUser: async (identification) => {
+    console.log(identification);
     try {
-      const response = await axios.put(
+      const response = await axios.get(
         `${import.meta.env.VITE_STRAPI_URL}/users/${identification}`,
         {
           headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_ADMIN_TOKEN}`,
             "Content-Type": "application/json",
           },
         }

@@ -4,8 +4,10 @@ import React from "react";
 import DropDown from "../formElements/DropDown";
 import DropDownOther from "../formElements/DropDownOther";
 import TextInput from "../formElements/TextInput";
+import useUnsetToken from "../../util/userFunctions/useUnsetToken";
 
 function ResearcherInfo({ formData, setFormData, errors }) {
+  const unsetToken = useUnsetToken();
   const [orcidID, setOrcidID] = useState(localStorage.getItem("orcidID") || "");
   const [userID, setUserID] = useState(localStorage.getItem("userID") || "");
   useEffect(() => {
@@ -24,6 +26,8 @@ function ResearcherInfo({ formData, setFormData, errors }) {
   const unlinkOrcid = (e) => {
     e.preventDefault();
     localStorage.removeItem("orcidID");
+    localStorage.removeItem("userID");
+    unsetToken();
     setOrcidID(null);
   };
 
