@@ -30,6 +30,7 @@ import LandingPage from "./pages/LandingPage";
 // Validation
 import validateResearcher from "../validationRules/ResearcherVR";
 import validateBuilder from "../validationRules/BuilderVR";
+import validateUser from "../validationRules/UserVR";
 
 function Form() {
   const pagesBeforeOutput = 4; // Change this if adding or removing a page before the OutputTypes page as it controls the conditional rendering of the buttons.
@@ -70,6 +71,7 @@ function Form() {
       setFormData={setResearcherInfo}
       setPage={setPage}
       errors={errors}
+      setErrors={setErrors}
     />,
     // Page 1
     <ResearcherInfo
@@ -117,19 +119,6 @@ function Form() {
     e.preventDefault();
 
     switch (page) {
-      case 0: {
-        // ensure user is valid or new before moving to next page
-        // let newErrors = validateUser();
-        // setErrors(newErrors)
-        // if (Object.keys(newErrors).length === 0) {
-        //   formData.Researcher = researcherInfo;
-
-        //   setErrors({});
-        // }
-        setPage((currentPage) => currentPage + 1);
-
-        break;
-      }
       case 1: {
         // validate researcher before moving to next page
         let newErrors = validateResearcher(researcherInfo);

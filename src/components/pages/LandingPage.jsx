@@ -7,13 +7,15 @@ import { v4 as uuidv4 } from "uuid";
 import loginUser from "../../util/userFunctions/loginUser";
 import forgotID from "../../util/userFunctions/forgotID";
 import useSetToken from "../../util/userFunctions/useSetToken";
+import validateUser from "../../validationRules/UserVR";
 
-const LandingPage = ({ setPage, formData, setFormData, errors }) => {
+const LandingPage = ({ setPage, formData, setFormData, errors, setErrors }) => {
   const [userID, setUserID] = useState(localStorage.getItem("userID") || "");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(localStorage.getItem("email") || "");
   const [step, setStep] = useState(1);
   const setToken = useSetToken();
 
+  // handles changing formData and also state saved data such as userID and email
   const handleChange = (name, value) => {
     if (name === "userID") {
       setUserID(value);
@@ -23,11 +25,13 @@ const LandingPage = ({ setPage, formData, setFormData, errors }) => {
       setEmail(value);
       localStorage.setItem("email", value);
     }
+    // updates formData based on the name (key) and it's value (what was written in the text input)
     const updatedFormData = { ...formData, [name]: value };
     localStorage.setItem("formData", JSON.stringify(updatedFormData));
     setFormData(updatedFormData);
   };
 
+  // checks to see if there is stored formData and then
   useEffect(() => {
     const storedFormData = JSON.parse(localStorage.getItem("formData"));
     if (storedFormData) {
@@ -38,28 +42,56 @@ const LandingPage = ({ setPage, formData, setFormData, errors }) => {
   // get email sent
   const handleForgotID = (e) => {
     e.preventDefault();
-    forgotID(email);
+    let newErrors = checkErrors(email);
+    console.log(email);
+    // if there are no errors...
+    if (Object.keys(newErrors).length === 0) {
+      forgotID(email);
+    } else {
+      console.log("errors", newErrors);
+      setErrors(newErrors);
+    }
   };
 
+  // handles logging in a non orcid user
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const user = await loginUser(userID);
+      // update token with new user information
       setToken(user);
+      // setting the page to 1 will move the user to the researcher info page
       setPage(1);
     } catch (err) {
       console.error(err);
     }
   };
 
+  // handles registering a non orcid user
   const handleRegister = async (id, orcid) => {
-    try {
-      const user = await registerUser(id, email, orcid);
-      console.log(user);
-      setPage(1);
-    } catch (err) {
-      console.error(err);
+    let newErrors = checkErrors(email);
+    // if there are no errors...
+    if (Object.keys(newErrors).length === 0) {
+      try {
+        const user = await registerUser(id, email, orcid);
+        // update token with new user information
+        setToken(user);
+        // setting the page to 1 will move the user to the researcher info page
+        setPage(1);
+      } catch (err) {
+        console.error(err);
+      }
+    } else {
+      console.log("errors", newErrors);
+      setErrors(newErrors);
     }
+  };
+
+  // checks for errors using the validateUser function. Only has to check for presence of email and if the email is in the required format.
+  const checkErrors = (data) => {
+    let newErrors = validateUser(data);
+    setErrors(newErrors);
+    return newErrors;
   };
 
   // if the user has an orcidID in their local storage or step 6 then go to the researcherInfo page. Reset all of the formData if the user decides to login with a new ID. However, it will save the formData if the user just continues with their old id.
@@ -73,8 +105,12 @@ const LandingPage = ({ setPage, formData, setFormData, errors }) => {
       localStorage.setItem("userID", id);
       // Register the user
       handleRegister(id, false);
-      localStorage.setItem("formData", JSON.stringify(temp));
-      setPage(1);
+      if (!errors) {
+        localStorage.setItem("formData", JSON.stringify(temp));
+        setPage(1);
+      } else {
+        setStep(6);
+      }
     }
   }, [step]);
 
@@ -113,6 +149,7 @@ const LandingPage = ({ setPage, formData, setFormData, errors }) => {
     );
   };
 
+  // First "page"
   const renderStep1 = () => (
     <div>
       <p>Have you used this site before?</p>
@@ -120,6 +157,7 @@ const LandingPage = ({ setPage, formData, setFormData, errors }) => {
     </div>
   );
 
+  // If the user chose Yes, they have used the site then they can login with their ID or their Orcid account
   const renderStep2 = () => (
     <div>
       <p>
@@ -130,6 +168,7 @@ const LandingPage = ({ setPage, formData, setFormData, errors }) => {
     </div>
   );
 
+  // If they user chose No, they are a new member, we need to give them the option to login with Orcid, or carry on without logging in with Orcid.
   const renderStep3 = () => (
     <div>
       <p>Would you like to login with ORCID?</p>
@@ -142,6 +181,7 @@ const LandingPage = ({ setPage, formData, setFormData, errors }) => {
     </div>
   );
 
+  // If the user has used the site before and wants to log in with their ID.
   const renderStep4 = () => (
     <div>
       <p>Please input your UserID</p>
@@ -182,12 +222,13 @@ const LandingPage = ({ setPage, formData, setFormData, errors }) => {
     </div>
   );
 
+  // If the user wants to login with their local ID but they forgot their ID number then they can reset it here by entering their email
   const renderStep5 = () => (
     <div>
-      <p>Please input your email</p>
+      <p>Forgotten ID</p>
       <TextInput
         name="email"
-        placeholder={"email"}
+        placeholder={"Please input your email"}
         value={email}
         onChange={(event) => handleChange("email", event.target.value)}
         error={errors.email}
@@ -210,12 +251,17 @@ const LandingPage = ({ setPage, formData, setFormData, errors }) => {
     </div>
   );
 
+  // Here the user is a new user, and they don't want to use Orcid, so they need to enter their email address.
   const renderStep6 = () => (
     <div>
-      <p>Please input your email</p>
+      <p>Registration</p>
+      <p className="normal">
+        Your email is only required for if you forget your identification
+        number. No password or further data is required.
+      </p>
       <TextInput
         name="email"
-        placeholder={"Input email"}
+        placeholder={"Please input your email"}
         value={email}
         onChange={(event) => handleChange("email", event.target.value)}
         error={errors.email}
@@ -225,6 +271,7 @@ const LandingPage = ({ setPage, formData, setFormData, errors }) => {
     </div>
   );
 
+  // Controls each step and renders the appropriate "page"
   const renderStep = () => {
     switch (step) {
       case 1:

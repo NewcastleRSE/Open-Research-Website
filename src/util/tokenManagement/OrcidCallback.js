@@ -11,17 +11,22 @@ const OrcidCallback = () => {
   const setToken = useSetToken();
   const navigate = useNavigate();
 
+  // handles directing the system to either register an account or login to the users existing account.
   const handleUser = async (id) => {
+    // looks for the user on the system
     const user = await getSelf(id);
+    // if it finds the user it logs them in
     if (user) {
       console.log("Found user", user);
       handleLogin(id);
+      // if it cant find them it registers a new user
     } else {
       console.log("Cant find user");
       handleRegister(id);
     }
   };
 
+  // handles logging in as an orcid user
   const handleLogin = async (id) => {
     try {
       console.log("Logging in orcid user");
@@ -33,6 +38,7 @@ const OrcidCallback = () => {
     }
   };
 
+  // runs a get request to try and find the user on the system
   const getSelf = async (id) => {
     try {
       const user = await getUser(id);
@@ -42,8 +48,9 @@ const OrcidCallback = () => {
     }
   };
 
+  // handles registering an orcid account
   const handleRegister = async (id) => {
-    const email = "orcidemail@gmail.com";
+    const email = import.meta.env.VITE_EMAIL;
     const orcid = true;
     console.log("Registering new orcid user");
     try {
@@ -68,6 +75,7 @@ const OrcidCallback = () => {
           // set local storage
           localStorage.setItem("orcidToken", data.accessToken);
           localStorage.setItem("orcidID", data.orcid);
+          // the user has now linked their orcid account and the system will run handleUser, which will login the user if they've logged in with orcid before, or register then login the user if they are new.
           handleUser(data.orcid);
           // redirect the user to another page (e.g., a dashboard)
           console.log("Navigating to home page");

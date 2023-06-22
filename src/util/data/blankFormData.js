@@ -7,7 +7,6 @@ export default {
     school: "",
     otherSchool: "",
     careerStage: "",
-    email: "",
   },
 
   Project: {
