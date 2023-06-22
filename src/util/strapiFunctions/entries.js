@@ -1,38 +1,31 @@
 import axios from "axios";
+import { useCookies } from "react-cookie";
 
 // handles adding a restaurant to the database, takes a yelp id and a name.
-export default async function handler(req, res) {
-  if (req.method === "POST") {
-    const { id, name } = req.query;
+export default async function addEntry(entry, section) {
+  const [cookies] = useCookies();
+  const user = cookies.username;
 
-    console.log(id);
-    console.log(name);
-
-    try {
-      const response = await axios.post(
-        `${process.env.STRAPI_URL}/entries`,
-        {
-          data: {
-            restaurantID: id,
-            name,
-          },
+  try {
+    const response = await axios.post(
+      `${process.env.STRAPI_URL}/entries`,
+      {
+        data: {
+          entry,
+          section: section,
+          User: user,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      res.status(200).json(response.data);
-    } catch (error) {
-      console.error("Error in addRestaurant.js:", error);
-      console.error("Error response:", error.response);
-      console.error("Error response data:", error.response?.data);
-      res.status(500).json({
-        error: "An error occurred whilst adding a restaurant.",
-      });
-    }
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error response data:", error.response?.data);
+    throw new Error("An error occurred whilst adding an entry.");
   }
 }

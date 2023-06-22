@@ -40,17 +40,21 @@ const userService = {
     }
   },
   updateUser: async (identification, token, updatedData) => {
+    console.log("Updating user");
+
     try {
       const response = await axios.put(
-        `${import.meta.env.VITE_STRAPI_URL}/users/${identification}`,
+        `${import.meta.env.VITE_STRAPI_URL}/users/${identification}?populate=*`,
+
         updatedData,
+
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
           },
         }
       );
+      console.log(response.data);
       return response.data;
     } catch (error) {
       throw error;

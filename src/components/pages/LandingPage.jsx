@@ -20,15 +20,15 @@ const LandingPage = ({ setPage, formData, setFormData, errors, setErrors }) => {
     if (name === "userID") {
       setUserID(value);
       localStorage.setItem("userID", value);
-    }
-    if (name === "email") {
+    } else if (name === "email") {
       setEmail(value);
       localStorage.setItem("email", value);
+    } else {
+      // updates formData based on the name (key) and it's value (what was written in the text input)
+      const updatedFormData = { ...formData, [name]: value };
+      localStorage.setItem("formData", JSON.stringify(updatedFormData));
+      setFormData(updatedFormData);
     }
-    // updates formData based on the name (key) and it's value (what was written in the text input)
-    const updatedFormData = { ...formData, [name]: value };
-    localStorage.setItem("formData", JSON.stringify(updatedFormData));
-    setFormData(updatedFormData);
   };
 
   // checks to see if there is stored formData and then

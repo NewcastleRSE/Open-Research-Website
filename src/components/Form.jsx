@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import FormData from "form-data";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 // Data
 import blankFormData from "../util/data/blankFormData";
@@ -31,6 +32,7 @@ import LandingPage from "./pages/LandingPage";
 import validateResearcher from "../validationRules/ResearcherVR";
 import validateBuilder from "../validationRules/BuilderVR";
 import validateUser from "../validationRules/UserVR";
+import userService from "../util/strapiFunctions/userService";
 
 function Form() {
   const pagesBeforeOutput = 4; // Change this if adding or removing a page before the OutputTypes page as it controls the conditional rendering of the buttons.
@@ -48,6 +50,7 @@ function Form() {
   const [formBuilder, setFormBuilder] = useState(blankFormBuilder);
   const [orcidID, setOrcidID] = useState(localStorage.getItem("orcidID") || "");
   const [userID, setUserID] = useState(localStorage.getItem("userID") || "");
+  const [cookies] = useCookies();
   // Maps through formBuilderComponents and formBuilder file and displays the correct Component if that components value is true in formBuilder. These values are made true (checked) in the FormBuilder component whenever the output box is clicked on the Output Types page.
   let form = Object.entries(formBuilder)
     .filter(([, value]) => value)
@@ -109,7 +112,7 @@ function Form() {
 
   // LeftContent will render until an output has been chosen, at this point the left hand side of the page will render the formData that has been filled out so far.
   const LeftDisplay = () =>
-    form.length == 0 && page < 3 ? (
+    page < 4 ? (
       <LeftContent />
     ) : (
       <FormDataDisplay key={JSON.stringify(formData)} formData={formData} />
@@ -143,6 +146,7 @@ function Form() {
 
         break;
       }
+      // Add new page for submissions.
       case 3: {
         let newErrors = validateBuilder(formBuilder);
         console.log(formBuilder);
@@ -161,6 +165,22 @@ function Form() {
     }
   };
 
+  const saveEntries = async (formData) => {
+    // Exclude the 'Project' and 'Researcher' keys
+    const { Project, Researcher, ...entriesBySection } = formData;
+
+    // Loop over the entriesBySection object
+    for (const [section, entries] of Object.entries(entriesBySection)) {
+      // Check if entries is an array and non-empty
+      if (Array.isArray(entries) && entries.length > 0) {
+        // Loop over each entry in the current section
+        for (const entry of entries) {
+          // Call the addEntry function for the current entry
+          await addEntry(entry, section);
+        }
+      }
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitted(true);
@@ -168,11 +188,10 @@ function Form() {
   };
 
   const handleSave = async (e) => {
+    const jwt = cookies.jwt;
+    const id = cookies.id;
     e.preventDefault();
     try {
-      formData.uuid = uuidv4();
-      console.log("uuid", formData.uuid);
-
       if (formData.school === "other" && formData.otherSchool !== "") {
         formData.school = formData.otherSchool;
       }
@@ -185,25 +204,8 @@ function Form() {
         formData.funder = formData.otherFunder;
       }
 
-      let data = new FormData();
-      data.append("data", JSON.stringify(formData));
-
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-
-      await axios
-        .post("http://localhost:1337/api/submissions", data, config)
-        .then((res) => {
-          console.log(res);
-          setSaved(true);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
+      // await saveEntries(formData);
+      await userService.updateUser(id, jwt, formData.Researcher);
       setDisplayModal(!displayModal);
     } catch (err) {
       alert("error");
