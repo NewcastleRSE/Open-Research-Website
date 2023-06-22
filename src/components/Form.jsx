@@ -109,7 +109,7 @@ function Form() {
 
   // LeftContent will render until an output has been chosen, at this point the left hand side of the page will render the formData that has been filled out so far.
   const LeftDisplay = () =>
-    form.length == 0 ? (
+    form.length == 0 && page < 3 ? (
       <LeftContent />
     ) : (
       <FormDataDisplay key={JSON.stringify(formData)} formData={formData} />

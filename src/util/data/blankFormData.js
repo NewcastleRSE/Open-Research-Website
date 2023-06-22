@@ -29,6 +29,8 @@ export default {
       url: "www.test.com",
     },
   ],
+
+  Submissions: [],
   orcidProjects: [],
 
   Article: [],

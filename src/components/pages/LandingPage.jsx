@@ -75,9 +75,13 @@ const LandingPage = ({ setPage, formData, setFormData, errors, setErrors }) => {
       try {
         const user = await registerUser(id, email, orcid);
         // update token with new user information
-        setToken(user);
-        // setting the page to 1 will move the user to the researcher info page
-        setPage(1);
+        if (user) {
+          setToken(user);
+          // setting the page to 1 will move the user to the researcher info page
+          setPage(1);
+        } else {
+          setErrors({ email: "This email address has been taken." });
+        }
       } catch (err) {
         console.error(err);
       }
